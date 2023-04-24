@@ -10,10 +10,11 @@ import SwiftUI
 @main
 struct MC1GDApp: App {
     let persistenceController = PersistenceController.shared
-
+    @StateObject var viewModel = coreDataViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            InsightView()
+                .environmentObject(viewModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

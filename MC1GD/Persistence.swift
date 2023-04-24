@@ -14,10 +14,14 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+            let newItem = ItemEntity(context: viewContext)
+            newItem.itemId = UUID().uuidString
+            newItem.itemName = "Test1"
+            newItem.itemTag = "Wants"
+            newItem.itemAddedDate = Date()
         }
         do {
+            
             try viewContext.save()
         } catch {
             // Replace this implementation with code to handle the error appropriately.
