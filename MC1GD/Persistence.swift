@@ -18,7 +18,8 @@ struct PersistenceController {
             newItem.itemId = UUID().uuidString
             newItem.itemName = "Test1"
             newItem.itemTag = "Wants"
-            newItem.itemAddedDate = Date()
+            let dateString = String(Date().get(.year)) + String(Date().get(.month)) + String(Date().get(.day))
+            newItem.itemAddedDate = dateString
         }
         do {
             

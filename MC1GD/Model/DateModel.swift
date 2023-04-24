@@ -17,25 +17,20 @@ extension Date{
         let month = dateFormatter.string(from: date)
         return String(day) + " " + month
     }
-    func dateStepBackward () -> String {
-        let date = Date()
+    func formatDateFrom(for date : Date) -> String {
         let calendar = Calendar.current
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "LLLL"
         let day = calendar.component(.day, from: date)
         let month = dateFormatter.string(from: date)
-        guard day != 1 else {return ""}
-        return String(day - 1) + " " + month
+        return String(day) + " " + month
     }
-    func dateStepForward () -> String {
-        let date = Date()
-        let calendar = Calendar.current
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "LLLL"
-        let day = calendar.component(.day, from: date)
-        let month = dateFormatter.string(from: date)
-        guard day != 31 else {return ""}
-        return String(day + 1) + " " + month
+    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
+        return calendar.dateComponents(Set(components), from: self)
+    }
+
+    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
+        return calendar.component(component, from: self)
     }
 }
 

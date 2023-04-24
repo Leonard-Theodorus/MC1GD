@@ -23,11 +23,13 @@ class coreDataViewModel : ObservableObject{
         }
     }
     
-    func fetchItems(for date : Date, inCategory category : String = "Wants"){
+    func fetchItems(for date : Date){
         let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
-        let datePredicate = NSPredicate(format : "itemAddedDate == %@", date as CVarArg)
-        let categoryPredicate = NSPredicate(format: "itemCategory == %@", category)
-        request.predicate = NSCompoundPredicate(type: NSCompoundPredicate.LogicalType.and, subpredicates: [datePredicate, categoryPredicate])
+        let dateString = String(date.get(.year)) + String(date.get(.month)) + String(date.get(.day))
+        let datePredicate = NSPredicate(format : "itemAddedDate == %@", dateString)
+//        let categoryPredicate = NSPredicate(format: "itemCategory == %@", category)
+//        request.predicate = NSCompoundPredicate(type: NSCompoundPredicate.LogicalType.and, subpredicates: [datePredicate, categoryPredicate])
+        request.predicate = datePredicate
         withAnimation(Animation.default) {
             do{
                 userItems = try manager.container.viewContext.fetch(request)
@@ -52,9 +54,9 @@ class coreDataViewModel : ObservableObject{
         withAnimation(Animation.default) {
             let newItem = ItemEntity(context: manager.container.viewContext)
             let newItemImage = encodeImage(for: itemImage)
-            
+            let newItemDate = String(date.get(.year)) + String(date.get(.month)) + String(date.get(.day))
             newItem.itemId = UUID().uuidString
-            newItem.itemAddedDate = date
+            newItem.itemAddedDate = newItemDate
             newItem.itemPrice = price
             newItem.itemName = itemName
             newItem.itemDescription = itemDescription
@@ -92,6 +94,6 @@ class coreDataViewModel : ObservableObject{
         
     }
     init(){
-        fetchAllItem()
+        fetchItems(for: Date())
     }
 }
