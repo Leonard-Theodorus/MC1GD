@@ -12,11 +12,43 @@ struct InsightView: View {
     @EnvironmentObject var viewModel : coreDataViewModel
     @State private var todayDateComponent = Date()
     @State private var stringDate = ""
-    @State private var swipeLeft = false
-    @State private var swipeRight = false
+    @State private var showDatePicker = false
     var body: some View {
+        
         if viewModel.userItems.isEmpty{
+            HStack{
+                Button{
+                    withAnimation {
+                        showDatePicker.toggle()
+                    }
+                } label: {
+                    Text(Date().formatDateFrom(for: todayDateComponent))
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray)
+                        )
+                }
+                .background(
+                    DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+                        .datePickerStyle(.compact)
+                        .clipped()
+                        .background(Color.gray.cornerRadius(10))
+                        .opacity(showDatePicker ? 1 : 0)
+                        .offset(y: 50)
+                        .onChange(of: todayDateComponent, perform: { newValue in
+                            print(newValue)
+                            withAnimation {
+                                showDatePicker.toggle()
+                                viewModel.fetchItems(for: todayDateComponent)
+                            }
+                        })
+                )
+            }.onAppear{
+                stringDate = Date().formatDate()
+            }.padding(30)
             Text("There is no record yet")
+            
             AddItemButton()
         }
         else{
@@ -24,10 +56,10 @@ struct InsightView: View {
                 HStack{
                     Button{
                         withAnimation {
-                            swipeLeft.toggle()
+                            showDatePicker.toggle()
                         }
                     } label: {
-                        Text(stringDate)
+                        Text(Date().formatDateFrom(for: todayDateComponent))
                             .padding()
                             .padding(.horizontal)
                             .background(
@@ -40,31 +72,19 @@ struct InsightView: View {
                             .datePickerStyle(.compact)
                             .clipped()
                             .background(Color.gray.cornerRadius(10))
-                            .opacity(swipeLeft ? 1 : 0)
+                            .opacity(showDatePicker ? 1 : 0)
+                            .offset(y: 50)
+                            .zIndex(1)
                             .onChange(of: todayDateComponent, perform: { newValue in
+                                print(newValue)
                                 withAnimation {
-                                    swipeLeft.toggle()
+                                    showDatePicker.toggle()
+                                    viewModel.fetchItems(for: todayDateComponent)
                                 }
                             })
                     )
-//                    Button{
-//                        swipeLeft.toggle()
-//                        withAnimation {
-//                            todayDateComponent = Date.dateStepBackward(Date())()
-//                        }
-//                    } label: {
-//                        Image(systemName: "chevron.left")
-//                    }
-//                    Text(todayDateComponent).font(.title3)
-//                    Button{
-//                        swipeRight.toggle()
-//                        withAnimation {
-//                            todayDateComponent = Date.dateStepForward(Date())()
-//                        }
-//                    } label: {
-//                        Image(systemName: "chevron.right")
-//                    }
-                }.onAppear{
+                }.zIndex(2)
+                .onAppear{
                     stringDate = Date.formatDate(Date())()
                 }
                 //chart view
@@ -81,7 +101,8 @@ struct InsightView: View {
                             }
                             Spacer()
                             Text(item.itemPrice.formatted(.currency(code: "IDR")))
-                        }.padding()
+                        }
+                        .padding()
                             .swipeActions {
                                 Button{
                                     viewModel.deleteItem(for:  item.itemId!)
@@ -92,8 +113,6 @@ struct InsightView: View {
                             }
                         
                     }
-                    
-                    
                 }
                 AddItemButton()
                 

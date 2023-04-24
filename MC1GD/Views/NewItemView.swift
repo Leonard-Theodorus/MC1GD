@@ -67,6 +67,12 @@ struct NewItemView: View {
                             }
                         }
                     }
+                    Section{
+                        Text("Tanggal Dibeli")
+                        
+                        DatePicker("Tanggal" ,selection: $newItemDate, displayedComponents: .date)
+                        
+                    }
                     
                 }
             }.onTapGesture {
