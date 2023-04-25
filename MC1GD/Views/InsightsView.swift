@@ -13,6 +13,7 @@ struct InsightView: View {
     @State private var todayDateComponent = Date()
     @State private var stringDate = ""
     @State private var showDatePicker = false
+    @Binding var newItemDate : Date
     var body: some View {
         
         if viewModel.userItems.isEmpty{
@@ -44,7 +45,10 @@ struct InsightView: View {
                             }
                         })
                 )
-            }.onAppear{
+            }.onReceive(dateNotif, perform: { date in
+                todayDateComponent = date
+            })
+            .onAppear{
                 stringDate = Date().formatDate()
             }.padding(30)
             Text("There is no record yet")
@@ -156,7 +160,9 @@ struct InsightView: View {
                 //
                 //            }
                 
-            }
+            }.onReceive(dateNotif, perform: { date in
+                todayDateComponent = date
+            })
         }
         
         //        List(viewModel.userItems){item in
@@ -169,7 +175,7 @@ struct InsightView: View {
 
 struct InsightView_Previews: PreviewProvider {
     static var previews: some View {
-        InsightView().environmentObject(coreDataViewModel())
+        InsightView(newItemDate: .constant(Date())).environmentObject(coreDataViewModel())
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
