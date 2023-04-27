@@ -50,7 +50,7 @@ class coreDataViewModel : ObservableObject{
             }
         }
     }
-    func addNewItem(itemImage : UIImage, date: Date, price : Double, itemName : String, itemDescription : String, itemCategory : String, itemTag : String){
+    func addNewItem(itemImage : UIImage = UIImage(systemName: "trash")!, date: Date, price : Double, itemName : String, itemDescription : String, itemCategory : String, itemTag : String){
         withAnimation(Animation.default) {
             let newItem = ItemEntity(context: manager.container.viewContext)
             let newItemImage = encodeImage(for: itemImage)

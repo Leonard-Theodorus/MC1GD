@@ -36,6 +36,7 @@ struct NewItemView: View {
                             Text("Rp.")
                             Divider()
                             TextField("Harga Barang", value: $newItemPrice, format: .number).keyboardType(.numberPad).focused($isFocused)
+                        }
                    
                     }
                     Section{
@@ -101,7 +102,6 @@ struct NewItemView: View {
                     }
                     Section{
                         Text("Tanggal Dibeli")
-                        
                         DatePicker("" ,selection: $newItemDate, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
                         
                     }
@@ -120,7 +120,8 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
-                        viewModel.addNewItem(itemImage: newItemImage, date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: newItemTag)
+                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: newItemTag)
+                        dateNotif.send(newItemDate)
                         showSheet = false
                     }
                 }
