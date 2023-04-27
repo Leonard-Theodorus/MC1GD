@@ -12,15 +12,17 @@ struct NewItemView: View {
     @Binding var showSheet : Bool
     @State var newItemName = ""
     @State var newItemDate = Date()
-    @State var newItemPrice : Double = 0.0
+    @State var newItemPrice : Double = 0
     @State var newItemImage = UIImage()
     @State private var newItemCategory = ""
     @State var newItemTag : String = ""
     private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @EnvironmentObject var viewModel : coreDataViewModel
-    @FocusState var isFocused : Bool
+    @FocusState var isFocusedName : Bool
+    @FocusState var isFocusedPrice : Bool
     @State var isNeeds = false
     @State var isWants = false
+    @State var isZeroPrice: Bool = false
     
     var body: some View {
         NavigationView {
@@ -28,15 +30,31 @@ struct NewItemView: View {
                 //TODO: tambahin item category/tag/add guiding questionnya kesini//
                 Form {
                     Section{
-                        TextField("Nama Barang", text: $newItemName).focused($isFocused)
+                        TextField("Nama Barang", text: $newItemName)
+                            .focused($isFocusedName)
                     }
                     Section{
                         Text("Harga Barang")
                         HStack{
                             Text("Rp.")
                             Divider()
-                            TextField("Harga Barang", value: $newItemPrice, format: .number).keyboardType(.numberPad).focused($isFocused)
-                   
+                            TextField("Harga Barang", value: $newItemPrice, format: .number)
+                                .keyboardType(.numberPad)
+                                .focused($isFocusedPrice)
+                                .onReceive(Just(newItemPrice)){ newValue in
+                                    isZeroPrice = isFocusedPrice && newValue <= 0
+                                }
+                                .onChange(of: isFocusedPrice){ newValue in
+                                    if !newValue{
+                                        isZeroPrice = newItemPrice <= 0
+                                    }
+                                }
+                                .foregroundColor(newItemPrice <= 0 ? .gray : .black)
+                            if isZeroPrice {
+                                Text("Number cannot be 0")
+                                    .foregroundColor(.red)
+                            }
+                        }
                     }
                     Section{
                         HStack{
@@ -123,6 +141,7 @@ struct NewItemView: View {
                         viewModel.addNewItem(itemImage: newItemImage, date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: newItemTag)
                         showSheet = false
                     }
+                    .disabled(newItemPrice <= 0)
                 }
             }
         }
