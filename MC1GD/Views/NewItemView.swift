@@ -10,7 +10,7 @@ import Combine
 let dateNotif = PassthroughSubject<Date, Never>()
 struct NewItemView: View {
     @Binding var showSheet : Bool
-    @State var newItemName = ""
+    @StateObject var formVm = addItemFormViewModel()
     @State var newItemDate = Date()
     @State var newItemPrice : Double = 0.0
     @State var newItemImage = UIImage()
@@ -21,21 +21,35 @@ struct NewItemView: View {
     @FocusState var isFocused : Bool
     @State var isNeeds = false
     @State var isWants = false
-    
+//Progress:
+//- added form validation not empty, not begin or ends with whitespace in add item form.
+//- disabled auto correct on the add item form
     var body: some View {
         NavigationView {
             VStack{
                 //TODO: tambahin item category/tag/add guiding questionnya kesini//
                 Form {
                     Section{
-                        TextField("Nama Barang", text: $newItemName).focused($isFocused)
+                        TextField("Nama Barang", text: $formVm.itemName).autocorrectionDisabled(true)
+                            .focused($isFocused)
+                        if !formVm.textIsValid{
+                            Text("Tolong isi nama barang")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                            Text("Nama barang tidak diawali ataupun diakhiri dengan spasi")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
+                        else{
+                            Image(systemName: "checkmark").foregroundColor(.green)
+                        }
                     }
                     Section{
                         Text("Harga Barang")
                         HStack{
                             Text("Rp.")
                             Divider()
-                            TextField("Harga Barang", value: $newItemPrice, format: .number).keyboardType(.numberPad).focused($isFocused)
+                            TextField("", value: $newItemPrice, format: .number).keyboardType(.numberPad).focused($isFocused)
                         }
                    
                     }
@@ -98,10 +112,6 @@ struct NewItemView: View {
                             }
                         }
                     }
-                    
-                    Section{
-                        
-                    }
                     Section{
                         Text("Tanggal Dibeli")
                         DatePicker("" ,selection: $newItemDate, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
@@ -124,10 +134,10 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
-                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: newItemCategory, itemTag: newItemTag)
+                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: formVm.itemName, itemDescription: "Test", itemCategory: newItemCategory, itemTag: newItemTag)
                         dateNotif.send(newItemDate)
                         showSheet = false
-                    }
+                    }.disabled(!formVm.textIsValid)
                 }
             }
         }
