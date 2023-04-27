@@ -17,7 +17,7 @@ struct RootView: View {
             if selectedTab == .summary {
                 SummaryView()
             }else if selectedTab == .expense {
-//                ExpenseView()
+                ExpenseView()
             }
             
             Spacer()
