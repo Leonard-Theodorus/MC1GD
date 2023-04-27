@@ -13,7 +13,7 @@ struct MC1GDApp: App {
     @StateObject var viewModel = coreDataViewModel()
     var body: some Scene {
         WindowGroup {
-            ExpenseView(newItemDate: .constant(Date()))
+            RootView()
                 .environmentObject(viewModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

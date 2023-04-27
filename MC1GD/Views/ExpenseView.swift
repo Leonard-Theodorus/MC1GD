@@ -14,7 +14,7 @@ struct ExpenseView: View {
     @State private var todayDateComponent = Date()
     @State private var stringDate = ""
     @State private var showDatePicker = false
-    @Binding var newItemDate : Date
+//    @Binding var newItemDate : Date
     var body: some View {
         
         if viewModel.userItems.isEmpty{
@@ -174,7 +174,7 @@ struct ExpenseView: View {
 
 struct ExpenseView_Previews: PreviewProvider {
     static var previews: some View {
-        ExpenseView(newItemDate: .constant(Date())).environmentObject(coreDataViewModel())
+        ExpenseView()
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
