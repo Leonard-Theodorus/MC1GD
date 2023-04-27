@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D415A44B29FA0FB7004BC18E /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D415A44A29FA0FB7004BC18E /* SwiftUICharts */; };
 		D753EC1629F66C28007C3F31 /* MC1GDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC1529F66C28007C3F31 /* MC1GDApp.swift */; };
 		D753EC1A29F66C29007C3F31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D753EC1929F66C29007C3F31 /* Assets.xcassets */; };
 		D753EC1D29F66C29007C3F31 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D753EC1C29F66C29007C3F31 /* Preview Assets.xcassets */; };
@@ -24,8 +25,10 @@
 		D753EC5629F66E68007C3F31 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5529F66E68007C3F31 /* PieChart.swift */; };
 		D753EC5829F66E79007C3F31 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5729F66E79007C3F31 /* CurrencyFormatter.swift */; };
 		D753EC5A29F66E92007C3F31 /* DateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5929F66E92007C3F31 /* DateModel.swift */; };
+
 		D753EC5D29F66EB3007C3F31 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D753EC5C29F66EB3007C3F31 /* SwiftUICharts */; };
 		D7B81C1729F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D753EC5D29F66EB3007C3F31 /* SwiftUICharts in Frameworks */,
+				D415A44B29FA0FB7004BC18E /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +222,7 @@
 			);
 			name = MC1GD;
 			packageProductDependencies = (
-				D753EC5C29F66EB3007C3F31 /* SwiftUICharts */,
+				D415A44A29FA0FB7004BC18E /* SwiftUICharts */,
 			);
 			productName = MC1GD;
 			productReference = D753EC1229F66C28007C3F31 /* MC1GD.app */;
@@ -294,7 +297,7 @@
 			);
 			mainGroup = D753EC0929F66C28007C3F31;
 			packageReferences = (
-				D753EC5B29F66EB3007C3F31 /* XCRemoteSwiftPackageReference "ChartView" */,
+				D415A44929FA0FB7004BC18E /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
 			);
 			productRefGroup = D753EC1329F66C28007C3F31 /* Products */;
 			projectDirPath = "";
@@ -677,20 +680,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D753EC5B29F66EB3007C3F31 /* XCRemoteSwiftPackageReference "ChartView" */ = {
+		D415A44929FA0FB7004BC18E /* XCRemoteSwiftPackageReference "SwiftUICharts" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AppPear/ChartView";
+			repositoryURL = "https://github.com/willdale/SwiftUICharts.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D753EC5C29F66EB3007C3F31 /* SwiftUICharts */ = {
+		D415A44A29FA0FB7004BC18E /* SwiftUICharts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D753EC5B29F66EB3007C3F31 /* XCRemoteSwiftPackageReference "ChartView" */;
+			package = D415A44929FA0FB7004BC18E /* XCRemoteSwiftPackageReference "SwiftUICharts" */;
 			productName = SwiftUICharts;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -19,6 +19,9 @@ struct NewItemView: View {
     private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @EnvironmentObject var viewModel : coreDataViewModel
     @FocusState var isFocused : Bool
+    @State var isNeeds = false
+    @State var isWants = false
+    
     var body: some View {
         NavigationView {
             VStack{
@@ -33,6 +36,55 @@ struct NewItemView: View {
                             Text("Rp.")
                             Divider()
                             TextField("Harga Barang", value: $newItemPrice, format: .number).keyboardType(.numberPad).focused($isFocused)
+                   
+                    }
+                    Section{
+                        HStack{
+                            Button{
+                                if isWants != true{
+                                    self.isNeeds.toggle()
+                                    self.newItemTag = "Kebutuhan"
+                                }else{
+                                    self.isWants.toggle()
+                                    self.isNeeds.toggle()
+                                    self.newItemTag = "Kebutuhan"
+                                }
+                            } label: {
+                                Text("Kebutuhan")
+                                
+                                .font(.body)
+                                .bold()
+                                .padding(2)
+
+                            }
+                            .buttonStyle(.bordered)
+                            .foregroundColor(.white)
+                            .background(self.isNeeds ? Color(.gray): Color(.blue))
+                            .cornerRadius(15)
+                            .hoverEffect(.lift)
+                            
+                            
+                            Button{
+                                if isNeeds != true {
+                                    self.isWants.toggle()
+                                    self.newItemTag = "Keinginan"
+                                }else{
+                                    self.isNeeds.toggle()
+                                    self.isWants.toggle()
+                                    self.newItemTag = "Keinginan"
+                                }
+                            } label: {
+                                Text("Keinginan")
+                                .font(.body)
+                                .bold()
+                                .padding(2)
+                                            
+                            }
+                            .buttonStyle(.bordered)
+                            .foregroundColor(.white)
+                            .background(self.isWants ? Color(.gray): Color(.red))
+                            .cornerRadius(15)
+                            .hoverEffect(.lift)
                         }
                         
                     }
@@ -68,8 +120,7 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
-                        viewModel.addNewItem(itemImage: newItemImage, date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: "Wants")
-                        dateNotif.send(newItemDate)
+                        viewModel.addNewItem(itemImage: newItemImage, date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: newItemTag)
                         showSheet = false
                     }
                 }
