@@ -14,10 +14,14 @@ struct NewItemView: View {
     @State var newItemDate = Date()
     @State var newItemPrice : Double = 0.0
     @State var newItemImage = UIImage()
+    @State var newItemTag = ""
     @State var showImage = false
     @State var useCamera = false
     @EnvironmentObject var viewModel : coreDataViewModel
     @FocusState var isFocused : Bool
+    @State var isNeeds = false
+    @State var isWants = false
+    
     var body: some View {
         NavigationView {
             VStack{
@@ -30,8 +34,54 @@ struct NewItemView: View {
                         TextField("Harga Barang", value: $newItemPrice, format: .number).keyboardType(.numberPad).focused($isFocused)
                     }
                     Section{
-//                        Text("Tanggal")
-//                        DatePicker("Tanggal", selection: $newItemDate, in: Date()... ).datePickerStyle(.graphical)
+                        HStack{
+                            Button{
+                                if isWants != true{
+                                    self.isNeeds.toggle()
+                                    self.newItemTag = "Kebutuhan"
+                                }else{
+                                    self.isWants.toggle()
+                                    self.isNeeds.toggle()
+                                    self.newItemTag = "Kebutuhan"
+                                }
+                            } label: {
+                                Text("Kebutuhan")
+                                
+                                .font(.body)
+                                .bold()
+                                .padding(2)
+
+                            }
+                            .buttonStyle(.bordered)
+                            .foregroundColor(.white)
+                            .background(self.isNeeds ? Color(.gray): Color(.blue))
+                            .cornerRadius(15)
+                            .hoverEffect(.lift)
+                            
+                            
+                            Button{
+                                if isNeeds != true {
+                                    self.isWants.toggle()
+                                    self.newItemTag = "Keinginan"
+                                }else{
+                                    self.isNeeds.toggle()
+                                    self.isWants.toggle()
+                                    self.newItemTag = "Keinginan"
+                                }
+                            } label: {
+                                Text("Keinginan")
+                                .font(.body)
+                                .bold()
+                                .padding(2)
+                                            
+                            }
+                            .buttonStyle(.bordered)
+                            .foregroundColor(.white)
+                            .background(self.isWants ? Color(.gray): Color(.red))
+                            .cornerRadius(15)
+                            .hoverEffect(.lift)
+                        }
+                        
                     }
                     Section{
                         Text("Gambar Barang")
@@ -91,8 +141,7 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
-                        viewModel.addNewItem(itemImage: newItemImage, date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: "Wants")
-                        dateNotif.send(newItemDate)
+                        viewModel.addNewItem(itemImage: newItemImage, date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: newItemTag)
                         showSheet = false
                     }
                 }
