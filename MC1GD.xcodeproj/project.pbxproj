@@ -25,6 +25,7 @@
 		D753EC5829F66E79007C3F31 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5729F66E79007C3F31 /* CurrencyFormatter.swift */; };
 		D753EC5A29F66E92007C3F31 /* DateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5929F66E92007C3F31 /* DateModel.swift */; };
 		D753EC5D29F66EB3007C3F31 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D753EC5C29F66EB3007C3F31 /* SwiftUICharts */; };
+		D7B81C1729F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		D753EC5529F66E68007C3F31 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 		D753EC5729F66E79007C3F31 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		D753EC5929F66E92007C3F31 /* DateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateModel.swift; sourceTree = "<group>"; };
+		D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerAndCamera.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				D753EC4A29F66DDA007C3F31 /* AddItemButton.swift */,
+				D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				D753EC5629F66E68007C3F31 /* PieChart.swift in Sources */,
 				D753EC2229F66C29007C3F31 /* MC1GD.xcdatamodeld in Sources */,
 				D753EC4D29F66DEF007C3F31 /* InsightsView.swift in Sources */,
+				D7B81C1729F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift in Sources */,
 				D753EC5429F66E55007C3F31 /* ImagePicker.swift in Sources */,
 				D753EC1629F66C28007C3F31 /* MC1GDApp.swift in Sources */,
 				D753EC4F29F66DF4007C3F31 /* ExpenseView.swift in Sources */,

@@ -17,8 +17,6 @@ struct AddItemButton: View {
         .buttonStyle(.borderedProminent)
         .sheet(isPresented: $showSheet) {
             NewItemView(showSheet: $showSheet)
-        }.onDisappear{
-            
         }
     }
 }

@@ -14,59 +14,38 @@ struct NewItemView: View {
     @State var newItemDate = Date()
     @State var newItemPrice : Double = 0.0
     @State var newItemImage = UIImage()
-    @State var showImage = false
-    @State var useCamera = false
+    @State private var newItemCategory = ""
+    @State var newItemTag : String = ""
+    private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @EnvironmentObject var viewModel : coreDataViewModel
     @FocusState var isFocused : Bool
     var body: some View {
         NavigationView {
             VStack{
+                //TODO: tambahin item category/tag/add guiding questionnya kesini//
                 Form {
                     Section{
                         TextField("Nama Barang", text: $newItemName).focused($isFocused)
                     }
                     Section{
                         Text("Harga Barang")
-                        TextField("Harga Barang", value: $newItemPrice, format: .number).keyboardType(.numberPad).focused($isFocused)
-                    }
-                    Section{
-//                        Text("Tanggal")
-//                        DatePicker("Tanggal", selection: $newItemDate, in: Date()... ).datePickerStyle(.graphical)
-                    }
-                    Section{
-                        Text("Gambar Barang")
                         HStack{
-                            Image(uiImage: newItemImage)
-                                     .resizable()
-                                     .cornerRadius(50)
-                                     .padding(.all, 4)
-                                     .frame(width: 100, height: 100)
-                                     .background(Color.black.opacity(0.2))
-                                     .aspectRatio(contentMode: .fill)
-                                     .clipShape(Circle())
-                                     .padding(8)
-                            Button{
-                                showImage.toggle()
-                            } label: {
-                                Text("Pilih Gambar").onTapGesture {
-                                    showImage.toggle()
-                                }
-                                            
-                            }
-                            .sheet(isPresented: $showImage) {
-                                ImagePicker(selectedImage: $newItemImage)
-                            }
-                            Spacer()
-                            Button{
-                                useCamera.toggle()
-                            } label: {
-                                Text("Ambil Gambar").onTapGesture {
-                                    useCamera.toggle()
-                                }
-                            }.sheet(isPresented: $useCamera) {
-                                ImagePicker(sourceType: .camera,selectedImage: $newItemImage)
+                            Text("Rp.")
+                            Divider()
+                            TextField("Harga Barang", value: $newItemPrice, format: .number).keyboardType(.numberPad).focused($isFocused)
+                        }
+                        
+                    }
+                    Section{
+                        Picker("Kategori", selection: $newItemCategory) {
+                            ForEach(categories, id: \.self){ category in
+                                Text(category)
                             }
                         }
+                    }
+                    
+                    Section{
+                        
                     }
                     Section{
                         Text("Tanggal Dibeli")
@@ -76,8 +55,6 @@ struct NewItemView: View {
                     }
                     
                 }
-            }.onTapGesture {
-                isFocused = false
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
