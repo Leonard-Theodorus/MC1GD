@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-
+import Combine
+let dateNotif = PassthroughSubject<Date, Never>()
 struct NewItemView: View {
     @Binding var showSheet : Bool
     @State var newItemName = ""
@@ -70,7 +71,7 @@ struct NewItemView: View {
                     Section{
                         Text("Tanggal Dibeli")
                         
-                        DatePicker("Tanggal" ,selection: $newItemDate, displayedComponents: .date)
+                        DatePicker("" ,selection: $newItemDate, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
                         
                     }
                     
@@ -91,6 +92,7 @@ struct NewItemView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
                         viewModel.addNewItem(itemImage: newItemImage, date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: "Wants")
+                        dateNotif.send(newItemDate)
                         showSheet = false
                     }
                 }
