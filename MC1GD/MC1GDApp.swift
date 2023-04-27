@@ -13,7 +13,7 @@ struct MC1GDApp: App {
     @StateObject var viewModel = coreDataViewModel()
     var body: some Scene {
         WindowGroup {
-            InsightView(newItemDate: .constant(Date()))
+            ExpenseView(newItemDate: .constant(Date()))
                 .environmentObject(viewModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

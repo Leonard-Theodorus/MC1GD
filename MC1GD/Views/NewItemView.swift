@@ -14,7 +14,7 @@ struct NewItemView: View {
     @State var newItemDate = Date()
     @State var newItemPrice : Double = 0.0
     @State var newItemImage = UIImage()
-    @State private var newItemCategory = ""
+    @State var newItemCategory = ""
     @State var newItemTag : String = ""
     private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @EnvironmentObject var viewModel : coreDataViewModel
@@ -86,6 +86,8 @@ struct NewItemView: View {
                             .background(self.isWants ? Color(.gray): Color(.red))
                             .cornerRadius(15)
                             .hoverEffect(.lift)
+                            
+                            
                         }
                         
                     }
@@ -107,6 +109,8 @@ struct NewItemView: View {
                     }
                     
                 }
+            }.onAppear{
+                newItemCategory = categories.first!
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -120,7 +124,7 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
-                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: newItemTag)
+                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: newItemCategory, itemTag: newItemTag)
                         dateNotif.send(newItemDate)
                         showSheet = false
                     }
