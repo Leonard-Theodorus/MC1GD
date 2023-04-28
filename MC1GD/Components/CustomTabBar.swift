@@ -22,7 +22,7 @@ struct CustomTabBar: View {
             Button{
                 selectedTab = .summary
             }label: {
-                TabBarButton(buttonText: "Summary", imageName: "book.fill", isActive: selectedTab == .summary)
+                TabBarButton(buttonText: "Summary", imageName: "book", isActive: selectedTab == .summary)
             }
             .tint(Color("tab-bar-color"))
             
