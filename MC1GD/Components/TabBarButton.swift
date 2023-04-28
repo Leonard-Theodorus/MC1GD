@@ -17,7 +17,7 @@ struct TabBarButton: View {
             if isActive {
                 Rectangle()
                     .foregroundColor(.green)
-                    .frame(width: geo.size.width, height: 6)
+                    .frame(width: geo.size.width, height: 5)
             }
             VStack(alignment: .center, spacing: 2){
                 
