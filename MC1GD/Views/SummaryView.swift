@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct SummaryView: View {
+    @State private var todayDateComponent = Date()
+    @State private var showDatePicker = false
+    
+    @EnvironmentObject var viewModel : coreDataViewModel
+
     var body: some View {
         VStack(alignment: .center){
             Text("Ringkasan")
@@ -16,20 +21,37 @@ struct SummaryView: View {
                 .bold()
             
             Button{
-                //ganti date
+                withAnimation {
+                    showDatePicker.toggle()
+                }
             } label: {
-                Text("Bulanan")
-                    .foregroundColor(.black)
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 10)
-                    .background(.white)
-                    .shadow(radius: 10)
-                    .clipShape(Capsule())
-                    .shadow(color: Color.gray.opacity(0.5), radius: 10, x: 0, y: 5)
-                    
+                Text(Date().formatDateFrom(for: todayDateComponent))
+                    .padding()
+                    .padding(.horizontal)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray)
+                    )
             }
+            .background(
+                DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .clipped()
+                    .background(Color.gray.cornerRadius(10))
+                    .opacity(showDatePicker ? 1 : 0)
+                    .offset(y: 50)
+                    .zIndex(1)
+                    .onChange(of: todayDateComponent, perform: { newValue in
+                        print(newValue)
+                        withAnimation {
+                            showDatePicker.toggle()
+                            viewModel.fetchItems(for: todayDateComponent)
+                        }
+                    })
+            )
             
             
+            CategoryChart(todayDateComponent: $todayDateComponent)
             
         }
         

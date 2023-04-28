@@ -16,12 +16,14 @@ struct NewItemView: View {
     @State var newItemImage = UIImage()
     @State var newItemCategory = ""
     @State var newItemTag : String = ""
+    @State var newItemDesc : String = ""
     private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @EnvironmentObject var viewModel : coreDataViewModel
     @FocusState var isFocusedName : Bool
     @FocusState var isFocusedPrice : Bool
     @State var isNeeds = false
     @State var isWants = false
+    @State private var maxChars: Int = 50
     @State var isZeroPrice: Bool = false
     var body: some View {
         NavigationView {
@@ -139,6 +141,24 @@ struct NewItemView: View {
                             }
                         }
                     }
+                    
+                    Section{
+                        TextField("Catatan", text: $newItemDesc, axis: .vertical).focused($isFocused)
+                            .lineLimit(5, reservesSpace: true)
+                            .disableAutocorrection(true)
+                            .textFieldStyle(.roundedBorder)
+                            .onChange(of: newItemDesc) {newValue in
+                                if newValue.count > maxChars {
+                                    newItemDesc = String(newValue.prefix(maxChars))
+                                }
+                            }
+                        HStack{
+                            Spacer()
+                            Text("\($newItemDesc.wrappedValue.count)/50")
+                                .foregroundColor($newItemDesc.wrappedValue.count == maxChars ? .red : .gray)
+                        }
+                    }
+
                     Section{
                         Text("Tanggal Dibeli")
                         DatePicker("" ,selection: $newItemDate, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
@@ -161,7 +181,9 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
-                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: formVm.itemName, itemDescription: "Test", itemCategory: newItemCategory, itemTag: newItemTag)
+
+                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
+
                         dateNotif.send(newItemDate)
                         showSheet = false
                     }
