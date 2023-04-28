@@ -23,10 +23,6 @@ struct NewItemView: View {
     @State var isNeeds = false
     @State var isWants = false
     @State var isZeroPrice: Bool = false
-    
-//Progress:
-//- added form validation not empty, not begin or ends with whitespace in add item form.
-//- disabled auto correct on the add item form
     var body: some View {
         NavigationView {
             VStack{
@@ -44,7 +40,7 @@ struct NewItemView: View {
                                         Image(systemName: "delete.left").foregroundColor(.red)
                                     }
                                     .opacity(formVm.buttonDeleteOn ? 1.0 : 0.0)
-
+                                    
                                 }
                                 , alignment: .trailing
                             )
@@ -79,8 +75,8 @@ struct NewItemView: View {
                                 }
                                 .foregroundColor(newItemPrice <= 0 ? .gray : .black)
                             if isZeroPrice {
-                                Text("Number cannot be 0")
-                                    .foregroundColor(.red)
+                                Text("Harga tidak boleh 0")
+                                    .foregroundColor(.red).font(.caption)
                             }
                         }
                     }
@@ -98,10 +94,10 @@ struct NewItemView: View {
                             } label: {
                                 Text("Kebutuhan")
                                 
-                                .font(.body)
-                                .bold()
-                                .padding(2)
-
+                                    .font(.body)
+                                    .bold()
+                                    .padding(2)
+                                
                             }
                             .buttonStyle(.bordered)
                             .foregroundColor(.white)
@@ -121,10 +117,10 @@ struct NewItemView: View {
                                 }
                             } label: {
                                 Text("Keinginan")
-                                .font(.body)
-                                .bold()
-                                .padding(2)
-                                            
+                                    .font(.body)
+                                    .bold()
+                                    .padding(2)
+                                
                             }
                             .buttonStyle(.bordered)
                             .foregroundColor(.white)
@@ -161,7 +157,7 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Item Baru").font(.title3)
-                        
+                    
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
@@ -169,7 +165,7 @@ struct NewItemView: View {
                         dateNotif.send(newItemDate)
                         showSheet = false
                     }
-                    .disabled(!formVm.textIsValid && newItemPrice <= 0)
+                    .disabled(!formVm.textIsValid || newItemPrice <= 0)
                 }
             }
         }
