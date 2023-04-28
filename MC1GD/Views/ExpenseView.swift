@@ -91,7 +91,6 @@ struct ExpenseView: View {
                 .onAppear{
                     stringDate = Date.formatDate(Date())()
                 }
-                //chart view
                 List {
                     ForEach(viewModel.userItems) {item in
                         HStack{
@@ -102,6 +101,7 @@ struct ExpenseView: View {
                                 Text(item.itemName!).font(.largeTitle)
                                 Text(item.itemCategory!)
                                 Text(item.itemTag!)
+                                Text(item.itemDescription ?? "").font(.caption)
                             }
                             Spacer()
                             Text(item.itemPrice.formatted(.currency(code: "IDR")))
