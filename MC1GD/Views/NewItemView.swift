@@ -10,11 +10,11 @@ import Combine
 let dateNotif = PassthroughSubject<Date, Never>()
 struct NewItemView: View {
     @Binding var showSheet : Bool
-    @State var newItemName = ""
+    @StateObject var formVm = addItemFormViewModel()
     @State var newItemDate = Date()
     @State var newItemPrice : Double = 0
     @State var newItemImage = UIImage()
-    @State private var newItemCategory = ""
+    @State var newItemCategory = ""
     @State var newItemTag : String = ""
     private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @EnvironmentObject var viewModel : coreDataViewModel
@@ -24,14 +24,28 @@ struct NewItemView: View {
     @State var isWants = false
     @State var isZeroPrice: Bool = false
     
+//Progress:
+//- added form validation not empty, not begin or ends with whitespace in add item form.
+//- disabled auto correct on the add item form
     var body: some View {
         NavigationView {
             VStack{
                 //TODO: tambahin item category/tag/add guiding questionnya kesini//
                 Form {
                     Section{
-                        TextField("Nama Barang", text: $newItemName)
+                        TextField("Nama Barang", text: $formVm.itemName).autocorrectionDisabled(true)
                             .focused($isFocusedName)
+                        if !formVm.textIsValid{
+                            Text("Tolong isi nama barang")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                            Text("Nama barang tidak diawali ataupun diakhiri dengan spasi")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
+                        else{
+                            Image(systemName: "checkmark").foregroundColor(.green)
+                        }
                     }
                     Section{
                         Text("Harga Barang")
@@ -103,6 +117,8 @@ struct NewItemView: View {
                             .background(self.isWants ? Color(.gray): Color(.red))
                             .cornerRadius(15)
                             .hoverEffect(.lift)
+                            
+                            
                         }
                         
                     }
@@ -113,18 +129,15 @@ struct NewItemView: View {
                             }
                         }
                     }
-                    
-                    Section{
-                        
-                    }
                     Section{
                         Text("Tanggal Dibeli")
-                        
                         DatePicker("" ,selection: $newItemDate, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
                         
                     }
                     
                 }
+            }.onAppear{
+                newItemCategory = categories.first!
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -138,10 +151,11 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
-                        viewModel.addNewItem(itemImage: newItemImage, date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: "Test", itemCategory: "MISC", itemTag: newItemTag)
+                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: formVm.itemName, itemDescription: "Test", itemCategory: newItemCategory, itemTag: newItemTag)
+                        dateNotif.send(newItemDate)
                         showSheet = false
                     }
-                    .disabled(newItemPrice <= 0)
+                    .disabled(!formVm.textIsValid && newItemPrice <= 0)
                 }
             }
         }
