@@ -12,15 +12,18 @@ struct NewItemView: View {
     @Binding var showSheet : Bool
     @StateObject var formVm = addItemFormViewModel()
     @State var newItemDate = Date()
-    @State var newItemPrice : Double = 0.0
+    @State var newItemPrice : Double = 0
     @State var newItemImage = UIImage()
     @State var newItemCategory = ""
     @State var newItemTag : String = ""
     private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @EnvironmentObject var viewModel : coreDataViewModel
-    @FocusState var isFocused : Bool
+    @FocusState var isFocusedName : Bool
+    @FocusState var isFocusedPrice : Bool
     @State var isNeeds = false
     @State var isWants = false
+    @State var isZeroPrice: Bool = false
+    
 //Progress:
 //- added form validation not empty, not begin or ends with whitespace in add item form.
 //- disabled auto correct on the add item form
@@ -31,7 +34,6 @@ struct NewItemView: View {
                 Form {
                     Section{
                         TextField("Nama Barang", text: $formVm.itemName).autocorrectionDisabled(true)
-                            .focused($isFocused)
                             .overlay (
                                 ZStack{
                                     Button {
@@ -46,6 +48,7 @@ struct NewItemView: View {
                                 }
                                 , alignment: .trailing
                             )
+                            .focused($isFocusedName)
                         if !formVm.textIsValid{
                             Text("Tolong isi nama barang")
                                 .foregroundColor(.red)
@@ -63,9 +66,23 @@ struct NewItemView: View {
                         HStack{
                             Text("Rp.")
                             Divider()
-                            TextField("", value: $newItemPrice, format: .number).keyboardType(.numberPad).focused($isFocused)
+                            TextField("Harga Barang", value: $newItemPrice, format: .number)
+                                .keyboardType(.numberPad)
+                                .focused($isFocusedPrice)
+                                .onReceive(Just(newItemPrice)){ newValue in
+                                    isZeroPrice = isFocusedPrice && newValue <= 0
+                                }
+                                .onChange(of: isFocusedPrice){ newValue in
+                                    if !newValue{
+                                        isZeroPrice = newItemPrice <= 0
+                                    }
+                                }
+                                .foregroundColor(newItemPrice <= 0 ? .gray : .black)
+                            if isZeroPrice {
+                                Text("Number cannot be 0")
+                                    .foregroundColor(.red)
+                            }
                         }
-                   
                     }
                     Section{
                         HStack{
@@ -151,7 +168,8 @@ struct NewItemView: View {
                         viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: formVm.itemName, itemDescription: "Test", itemCategory: newItemCategory, itemTag: newItemTag)
                         dateNotif.send(newItemDate)
                         showSheet = false
-                    }.disabled(!formVm.textIsValid)
+                    }
+                    .disabled(!formVm.textIsValid && newItemPrice <= 0)
                 }
             }
         }

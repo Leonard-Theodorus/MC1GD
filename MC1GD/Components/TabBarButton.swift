@@ -20,6 +20,7 @@ struct TabBarButton: View {
                     .frame(width: geo.size.width, height: 5)
             }
             VStack(alignment: .center, spacing: 2){
+                
                 Image(systemName: imageName)
                     .resizable()
                     .scaledToFit()
