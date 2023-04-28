@@ -21,6 +21,7 @@ struct NewItemView: View {
     @EnvironmentObject var viewModel : coreDataViewModel
     @FocusState var isFocusedName : Bool
     @FocusState var isFocusedPrice : Bool
+    @FocusState var isFocusedDesc : Bool
     @State var isNeeds = false
     @State var isWants = false
     @State private var maxChars: Int = 50
@@ -143,12 +144,13 @@ struct NewItemView: View {
                     }
                     
                     Section{
-                        TextField("Catatan", text: $newItemDesc, axis: .vertical).focused($isFocused)
+                        TextField("Catatan", text: $newItemDesc, axis: .vertical)
+                            .focused($isFocusedDesc)
                             .lineLimit(5, reservesSpace: true)
                             .disableAutocorrection(true)
                             .textFieldStyle(.roundedBorder)
                             .onChange(of: newItemDesc) {newValue in
-                                if newValue.count > maxChars {
+                                if newValue.count >= maxChars {
                                     newItemDesc = String(newValue.prefix(maxChars))
                                 }
                             }
@@ -182,7 +184,7 @@ struct NewItemView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
 
-                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: newItemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
+                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
 
                         dateNotif.send(newItemDate)
                         showSheet = false
