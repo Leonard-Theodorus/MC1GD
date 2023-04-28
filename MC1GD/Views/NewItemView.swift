@@ -32,6 +32,20 @@ struct NewItemView: View {
                     Section{
                         TextField("Nama Barang", text: $formVm.itemName).autocorrectionDisabled(true)
                             .focused($isFocused)
+                            .overlay (
+                                ZStack{
+                                    Button {
+                                        withAnimation {
+                                            formVm.deleteText()
+                                        }
+                                    } label: {
+                                        Image(systemName: "delete.left").foregroundColor(.red)
+                                    }
+                                    .opacity(formVm.buttonDeleteOn ? 1.0 : 0.0)
+
+                                }
+                                , alignment: .trailing
+                            )
                         if !formVm.textIsValid{
                             Text("Tolong isi nama barang")
                                 .foregroundColor(.red)
