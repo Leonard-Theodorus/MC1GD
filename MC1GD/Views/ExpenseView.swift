@@ -11,7 +11,7 @@ struct ExpenseView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State private var showSheet = false
     @EnvironmentObject var viewModel : coreDataViewModel
-    @State private var todayDateComponent = Date()
+    @Binding var todayDateComponent : Date
     @State private var stringDate = ""
     @State private var showDatePicker = false
     var body: some View {
@@ -38,7 +38,6 @@ struct ExpenseView: View {
                         .opacity(showDatePicker ? 1 : 0)
                         .offset(y: 50)
                         .onChange(of: todayDateComponent, perform: { newValue in
-                            print(newValue)
                             withAnimation {
                                 showDatePicker.toggle()
                                 viewModel.fetchItems(for: todayDateComponent)
@@ -80,10 +79,9 @@ struct ExpenseView: View {
                             .offset(y: 50)
                             .zIndex(1)
                             .onChange(of: todayDateComponent, perform: { newValue in
-                                print(newValue)
                                 withAnimation {
                                     showDatePicker.toggle()
-                                    viewModel.fetchItems(for: todayDateComponent)
+                                    viewModel.fetchItems(for: newValue)
                                 }
                             })
                     )
@@ -160,7 +158,8 @@ struct ExpenseView: View {
                 //
                 //            }
                 
-            }.onReceive(dateNotif, perform: { date in
+            }
+            .onReceive(dateNotif, perform: { date in
                 todayDateComponent = date
             })
         }
@@ -173,7 +172,7 @@ struct ExpenseView: View {
 
 struct ExpenseView_Previews: PreviewProvider {
     static var previews: some View {
-        ExpenseView().environmentObject(coreDataViewModel())
+        ExpenseView(todayDateComponent: .constant(Date())).environmentObject(coreDataViewModel())
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

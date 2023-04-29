@@ -13,13 +13,9 @@ struct CategoryChart: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var viewModel : coreDataViewModel
     @Binding var todayDateComponent : Date
-    private let data : DoughnutChartData = selectedData()
+    @State var data : DoughnutChartData = selectedData()
     var body: some View {
-//        guard let data = data else {
-//            return EmptyView()
-//        }
         HStack{
-            
             DoughnutChart(chartData: data)
                 .headerBox(chartData: data)
                 .legends(chartData: data, columns: [GridItem(.flexible()), GridItem(.flexible())])
@@ -34,31 +30,21 @@ struct CategoryChart: View {
         .onAppear{
             withAnimation {
                 viewModel.fetchItems(for: todayDateComponent)
+                data = viewModel.getChartData(for: todayDateComponent)
             }
-//            self.data = selectedData()
         }
+        .onChange(of: todayDateComponent, perform: { newValue in
+            print(todayDateComponent)
+            withAnimation {
+                viewModel.fetchItems(for: todayDateComponent)
+                data = viewModel.getChartData(for: todayDateComponent)
+            }
+        })
         
     }
-/// hapus static -> dinamis , pindahin ke viewmodel
     static func selectedData() -> DoughnutChartData {
-//        var valueFNB = viewModel.calculateItemPriceCategory(for: todayDateComponent, category: categoryFNB)
-//        var valueTransport = viewModel.calculateItemPriceCategory(for: todayDateComponent, category: categoryTransport)
-//        var valueBarang = viewModel.calculateItemPriceCategory(for: todayDateComponent, category: categoryBarang)
-        let data = PieDataSet(
-            dataPoints: [
-                PieChartDataPoint(value: 12000, description: "Makanan & Minuman", colour: Color(.orange), label: .label(text: "Makanan & Minuman", colour: .black)),
-                PieChartDataPoint(
-                    value: 3000,
-                    description: "Transportasi",
-                    colour: .purple,
-                    label: .label(text: "Transportasi", colour: .black)),
-                PieChartDataPoint(
-                    value: 4000,
-                    description: "Barang",
-                    colour: .yellow,
-                    label: .label(text: "Barang", colour: .black))
-            ],
-            legendTitle: "Expenses")
+        let data = PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: "")
+            
         
         let metadata   = ChartMetadata(title: "Expenses", subtitle: "")
         
@@ -66,7 +52,8 @@ struct CategoryChart: View {
             infoBoxPlacement : .infoBox(isStatic: false),
             infoBoxBorderColour : Color.primary,
             infoBoxBorderStyle  : StrokeStyle(lineWidth: 1),
-            globalAnimation     : .easeOut(duration: 1))
+            globalAnimation     : .easeOut(duration: 1)
+        )
         
         return DoughnutChartData(
             dataSets       : data,

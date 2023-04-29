@@ -10,14 +10,15 @@ import SwiftUI
 struct RootView: View {
     
     @State var selectedTab : Tabs = .summary
+    @State private var todayDateComponent = Date()
     
     var body: some View {
         
         VStack{
             if selectedTab == .summary {
-                SummaryView()
+                SummaryView(todayDateComponent: $todayDateComponent)
             }else if selectedTab == .expense {
-                ExpenseView()
+                ExpenseView(todayDateComponent: $todayDateComponent)
             }
             
             Spacer()

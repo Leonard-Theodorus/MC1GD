@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct SummaryView: View {
-    @State private var todayDateComponent = Date()
-    @State private var showDatePicker = false
-    
+    @Binding var todayDateComponent : Date
+    @State private var showDate = false
     @EnvironmentObject var viewModel : coreDataViewModel
-
     var body: some View {
         VStack(alignment: .center){
             Text("Ringkasan")
@@ -22,7 +20,7 @@ struct SummaryView: View {
             
             Button{
                 withAnimation {
-                    showDatePicker.toggle()
+                    showDate.toggle()
                 }
             } label: {
                 Text(Date().formatDateFrom(for: todayDateComponent))
@@ -38,13 +36,12 @@ struct SummaryView: View {
                     .datePickerStyle(.compact)
                     .clipped()
                     .background(Color.gray.cornerRadius(10))
-                    .opacity(showDatePicker ? 1 : 0)
+                    .opacity(showDate ? 1 : 0)
                     .offset(y: 50)
                     .zIndex(1)
                     .onChange(of: todayDateComponent, perform: { newValue in
-                        print(newValue)
                         withAnimation {
-                            showDatePicker.toggle()
+                            showDate.toggle()
                             viewModel.fetchItems(for: todayDateComponent)
                         }
                     })
@@ -60,6 +57,6 @@ struct SummaryView: View {
 
 struct SummaryView_Previews: PreviewProvider {
     static var previews: some View {
-        SummaryView()
+        SummaryView(todayDateComponent: .constant(Date()))
     }
 }
