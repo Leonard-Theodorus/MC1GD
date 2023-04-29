@@ -14,9 +14,9 @@ import SwiftUICharts
 class coreDataViewModel : ObservableObject{
     let manager = PersistenceController.shared
     @Published var userItems : [ItemEntity] = []
-    @Published var categoryFNB = "Makanan dan Minuman"
-    @Published var categoryTransport = "Transportasi"
-    @Published var categoryBarang = "Barang"
+    let categoryFNB = category.FNB.rawValue
+    let categoryTransport = category.transport.rawValue
+    let categoryBarang = category.barang.rawValue
     func tryAppending(request : NSFetchRequest<ItemEntity>){
         withAnimation(Animation.default) {
             do{
@@ -60,14 +60,18 @@ class coreDataViewModel : ObservableObject{
     //        }
     //
     //    }
-    func calculateItemPriceCategory(for date : Date, category : String) -> Double{
-        var allPrice: Double = 0
-        for item in userItems {
-            if item.itemCategory == category {
-                allPrice += item.itemPrice
-            }
-        }
-        return allPrice
+    func calculateItemPriceCategory(category : String) -> Double{
+        let selectedCategory = userItems.filter({ $0.itemCategory == category })
+        let itemPrice = selectedCategory.map{ $0.itemPrice }
+        let totalPrice = itemPrice.reduce(0, +)
+        return totalPrice
+//        var allPrice: Double = 0
+//        for item in userItems {
+//            if item.itemCategory == category {
+//                allPrice += item.itemPrice
+//            }
+//        }
+//        return allPrice
     }
     
     
@@ -124,9 +128,44 @@ class coreDataViewModel : ObservableObject{
                 print(error.localizedDescription)
             }
         }
-        
     }
-    init(){
+    public func getChartData(for date: Date) -> DoughnutChartData{
+//        fetchItems(for: date)
+        let fnbPrice = calculateItemPriceCategory(category: categoryFNB)
+        let transportPrice = calculateItemPriceCategory(category: categoryTransport)
+        let barangPrice = calculateItemPriceCategory(category: categoryBarang)
+        let data = PieDataSet(
+            dataPoints: [
+                PieChartDataPoint(value: fnbPrice, description: "Makanan & Minuman", colour: Color(.orange), label: .label(text: "Makanan & Minuman", colour: .black)),
+                PieChartDataPoint(
+                    value: transportPrice,
+                    description: "Transportasi",
+                    colour: .purple,
+                    label: .label(text: "Transportasi", colour: .black)),
+                PieChartDataPoint(
+                    value: barangPrice,
+                    description: "Barang",
+                    colour: .yellow,
+                    label: .label(text: "Barang", colour: .black))
+            ],
+            legendTitle: "Expenses")
+        let metadata   = ChartMetadata(title: "Expenses", subtitle: "")
+        
+        let chartStyle = DoughnutChartStyle(
+            infoBoxPlacement : .infoBox(isStatic: false),
+            infoBoxBorderColour : Color.primary,
+            infoBoxBorderStyle  : StrokeStyle(lineWidth: 1),
+            globalAnimation     : .easeOut(duration: 1)
+        )
+        
+        return DoughnutChartData(
+            dataSets       : data,
+            metadata       : metadata,
+            chartStyle     : chartStyle,
+            noDataText     : Text("No Data")
+        )
+    }
+    public init(){
         fetchItems(for: Date())
     }
 }
