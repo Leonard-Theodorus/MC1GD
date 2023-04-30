@@ -14,19 +14,14 @@ struct TabBarButton: View {
     
     var body: some View {
         GeometryReader{ geo in
-            if isActive {
-                Rectangle()
-                    .foregroundColor(.green)
-                    .frame(width: geo.size.width, height: 5)
-            }
             VStack(alignment: .center, spacing: 2){
-                
                 Image(systemName: imageName)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 36, height: 36)
                 Text(buttonText)
             }
+            .opacity(isActive ? 1 : 0.4)
             .frame(width: geo.size.width, height: geo.size.height)
         }
     }
@@ -34,6 +29,6 @@ struct TabBarButton: View {
 
 struct TabBarButton_Previews: PreviewProvider {
     static var previews: some View {
-        TabBarButton(buttonText: "Summary", imageName: "book.fill", isActive: true)
+        TabBarButton(buttonText: "Summary", imageName: "creditcard.circle", isActive: true)
     }
 }

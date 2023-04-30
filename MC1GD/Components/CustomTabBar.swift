@@ -20,20 +20,27 @@ struct CustomTabBar: View {
         HStack(alignment: .center){
             
             Button{
-                selectedTab = .summary
-            }label: {
-                TabBarButton(buttonText: "Summary", imageName: "book", isActive: selectedTab == .summary)
-            }
-            .tint(Color("tab-bar-color"))
-            
-            Button{
                 selectedTab = .expense
             }label: {
-                TabBarButton(buttonText: "Expense", imageName: "wallet.pass", isActive: selectedTab == .expense)
+                TabBarButton(buttonText: "Pengeluaran", imageName: "creditcard.circle", isActive: selectedTab == .expense)
             }
-            .tint(Color("tab-bar-color"))
+            .tint(.white)
+            
+            Rectangle()
+                .foregroundColor(.white)
+                
+                .frame(width: 0.5)
+                .padding(.top,10)
+            Button{
+                selectedTab = .summary
+            }label: {
+                TabBarButton(buttonText: "Ringkasan", imageName: "list.bullet.clipboard.fill", isActive: selectedTab == .summary)
+                
+            }
+            .tint(.white)
         }
-        .frame(height: 120)
+        .frame(height: 90)
+        .background(Color("primary-purple"))
     }
     
 }
