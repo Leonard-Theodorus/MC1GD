@@ -16,11 +16,10 @@ struct RootView: View {
         
         VStack{
             if selectedTab == .summary {
-                SummaryView(todayDateComponent: $todayDateComponent)
+//                SummaryView(todayDateComponent: $todayDateComponent)
             }else if selectedTab == .expense {
-                ExpenseView(todayDateComponent: $todayDateComponent)
+//                ExpenseView(todayDateComponent: $todayDateComponent)
             }
-            
             Spacer()
             
             CustomTabBar(selectedTab: $selectedTab)
