@@ -9,12 +9,15 @@ import SwiftUI
 struct AddItemButton: View {
     @State var showSheet = false
     var body: some View {
-        Button("Add Item") {
+        Button {
             showSheet.toggle()
+        }label: {
+            Image(systemName: "plus")
+            .imageScale(.large)
+            .foregroundColor(Color("main-purple"))
         }
+        .padding()
         .controlSize(.large)
-        .tint(LinearGradient(gradient: Gradient(colors: [.green, .white]), startPoint: .leading, endPoint: .trailing))
-        .buttonStyle(.borderedProminent)
         .sheet(isPresented: $showSheet) {
             NewItemView(showSheet: $showSheet)
         }

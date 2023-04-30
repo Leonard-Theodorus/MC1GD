@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RootView: View {
     
-    @State var selectedTab : Tabs = .summary
+    @State var selectedTab : Tabs = .expense
     @State private var todayDateComponent = Date()
     
     var body: some View {

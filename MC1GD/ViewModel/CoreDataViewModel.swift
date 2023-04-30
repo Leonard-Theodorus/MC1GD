@@ -87,9 +87,20 @@ class coreDataViewModel : ObservableObject{
             }
         }
     }
-    func addNewItem(itemImage : UIImage = UIImage(systemName: "trash")!, date: Date, price : Double, itemName : String, itemDescription : String, itemCategory : String, itemTag : String){
+    func addNewItem(date: Date, price : Double, itemName : String, itemDescription : String, itemCategory : String, itemTag : String){
         withAnimation(Animation.default) {
             let newItem = ItemEntity(context: manager.container.viewContext)
+            var itemImage : UIImage = UIImage(systemName: "trash")!
+            switch itemCategory{
+            case categoryFNB:
+                itemImage = UIImage(systemName: "fork.knife")!
+            case categoryTransport:
+                itemImage = UIImage(systemName: "tram.fill")!
+            case categoryBarang:
+                itemImage = UIImage(systemName: "trash")!
+            default:
+                itemImage = UIImage(systemName: "fork.knife")!
+            }
             let newItemImage = encodeImage(for: itemImage)
             let newItemDate = String(date.get(.year)) + String(date.get(.month)) + String(date.get(.day))
             newItem.itemId = UUID().uuidString
@@ -129,6 +140,7 @@ class coreDataViewModel : ObservableObject{
             }
         }
     }
+    /// get data for category charts
     public func getChartData(for date: Date) -> DoughnutChartData{
 //        fetchItems(for: date)
         let fnbPrice = calculateItemPriceCategory(category: categoryFNB)
@@ -136,17 +148,18 @@ class coreDataViewModel : ObservableObject{
         let barangPrice = calculateItemPriceCategory(category: categoryBarang)
         let data = PieDataSet(
             dataPoints: [
-                PieChartDataPoint(value: fnbPrice, description: "Makanan & Minuman", colour: Color(.orange), label: .label(text: "Makanan & Minuman", colour: .black)),
+                PieChartDataPoint(
+                    value: fnbPrice,
+                    description: "Makanan & Minuman",
+                    colour: Color(.orange)),
                 PieChartDataPoint(
                     value: transportPrice,
                     description: "Transportasi",
-                    colour: .purple,
-                    label: .label(text: "Transportasi", colour: .black)),
+                    colour: .purple),
                 PieChartDataPoint(
                     value: barangPrice,
                     description: "Barang",
-                    colour: .yellow,
-                    label: .label(text: "Barang", colour: .black))
+                    colour: .yellow)
             ],
             legendTitle: "Expenses")
         let metadata   = ChartMetadata(title: "Expenses", subtitle: "")

@@ -18,6 +18,7 @@ struct ExpenseView: View {
         
         if viewModel.userItems.isEmpty{
             HStack{
+                Spacer()
                 Button{
                     withAnimation {
                         showDatePicker.toggle()
@@ -43,20 +44,22 @@ struct ExpenseView: View {
                                 viewModel.fetchItems(for: todayDateComponent)
                             }
                         })
-                )
+                ).padding(.trailing,70)
+                AddItemButton()
             }.onReceive(dateNotif, perform: { date in
                 todayDateComponent = date
             })
             .onAppear{
                 stringDate = Date().formatDate()
-            }.padding(30)
-            Text("There is no record yet")
+            }.padding()
+            Text("There is no record yet").padding(.top,30)
             
-            AddItemButton()
+//            AddItemButton()
         }
         else{
             VStack{
                 HStack{
+                    Spacer()
                     Button{
                         withAnimation {
                             showDatePicker.toggle()
@@ -84,16 +87,20 @@ struct ExpenseView: View {
                                     viewModel.fetchItems(for: newValue)
                                 }
                             })
-                    )
+                    ).padding(.trailing,60)
+                    AddItemButton()
                 }.zIndex(2)
                 .onAppear{
                     stringDate = Date.formatDate(Date())()
-                }
+                }.padding()
                 List {
                     ForEach(viewModel.userItems) {item in
                         HStack{
-                            Image(uiImage: UIImage(data: item.itemImage!)!).resizable().aspectRatio(contentMode: .fit)
-                                .clipShape(Circle()).frame(width: 50, height: 50)
+                            Image(uiImage: UIImage(data: item.itemImage!)!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(Rectangle())
+                                .frame(width: 50, height: 50)
                             Spacer()
                             VStack{
                                 Text(item.itemName!).font(.largeTitle)
@@ -116,7 +123,7 @@ struct ExpenseView: View {
                         
                     }
                 }
-                AddItemButton()
+//                AddItemButton()
                 
                 
                 //            HStack{
