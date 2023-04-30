@@ -14,23 +14,15 @@ import SwiftUICharts
 class coreDataViewModel : ObservableObject{
     let manager = PersistenceController.shared
     @Published var userItems : [ItemEntity] = []
+    @Published var itemForBarChart : [ItemEntity] = []
     let categoryFNB = category.FNB.rawValue
     let categoryTransport = category.transport.rawValue
     let categoryBarang = category.barang.rawValue
-    func tryAppending(request : NSFetchRequest<ItemEntity>){
-        withAnimation(Animation.default) {
-            do{
-                userItems = try manager.container.viewContext.fetch(request)
-            }
-            catch let error{
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
+    let dateFormatter = DateFormatter()
     func fetchItems(for date : Date){
         let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
-        let dateString = String(date.get(.year)) + String(date.get(.month)) + String(date.get(.day))
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let dateString = dateFormatter.string(from: date)
         let datePredicate = NSPredicate(format : "itemAddedDate == %@", dateString)
         //        let categoryPredicate = NSPredicate(format: "itemCategory == %@", category)
         //        request.predicate = NSCompoundPredicate(type: NSCompoundPredicate.LogicalType.and, subpredicates: [datePredicate, categoryPredicate])
@@ -43,6 +35,25 @@ class coreDataViewModel : ObservableObject{
                 print(error.localizedDescription)
             }
         }
+    }
+    func getLastSevenDaysData(startFrom date : Date) -> [barChartData]{
+        let validDates = date.getDatesForLastNDays(nDays: 7)
+        let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
+        let validDatePredicate = NSPredicate(format: "itemAddedDate IN %@", validDates)
+        request.predicate = validDatePredicate
+        withAnimation(Animation.default){
+            do{
+                itemForBarChart = try manager.container.viewContext.fetch(request)
+            }
+            catch let error{
+                print(error.localizedDescription)
+            }
+        }
+        var barChartData : [barChartData] = []
+        for item in itemForBarChart{
+            barChartData.append(.init(day: item.itemAddedDate ?? Date().formatDateFrom(for: Date()), expense: item.itemPrice, tag: item.itemTag ?? ""))
+        }
+        return barChartData
     }
     //    func calculateItemPricePerCategory(for date : Date, category : String) -> Double{
     //        let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
@@ -93,16 +104,17 @@ class coreDataViewModel : ObservableObject{
             var itemImage : UIImage = UIImage(systemName: "trash")!
             switch itemCategory{
             case categoryFNB:
-                itemImage = UIImage(systemName: "fork.knife")!
+                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.main_purple))
             case categoryTransport:
-                itemImage = UIImage(systemName: "tram.fill")!
+                itemImage = UIImage(systemName: "tram.fill")!.withTintColor(UIColor(Color.main_purple))
             case categoryBarang:
-                itemImage = UIImage(systemName: "trash")!
+                itemImage = UIImage(systemName: "trash")!.withTintColor(UIColor(Color.main_purple))
             default:
-                itemImage = UIImage(systemName: "fork.knife")!
+                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.main_purple))
             }
+            dateFormatter.dateFormat = "yyyyMMdd"
             let newItemImage = encodeImage(for: itemImage)
-            let newItemDate = String(date.get(.year)) + String(date.get(.month)) + String(date.get(.day))
+            let newItemDate = dateFormatter.string(from: date)
             newItem.itemId = UUID().uuidString
             newItem.itemAddedDate = newItemDate
             newItem.itemPrice = price

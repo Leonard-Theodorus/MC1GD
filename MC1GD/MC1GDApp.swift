@@ -16,9 +16,6 @@ struct MC1GDApp: App {
             RootView()
                 .environmentObject(viewModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-//            ExpenseView()
-//                .environmentObject(viewModel)
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
