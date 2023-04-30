@@ -47,9 +47,8 @@ struct SummaryView: View {
                     })
             )
             
-            
             CategoryChart(todayDateComponent: $todayDateComponent)
-            
+            NeedsWantsBarChart().frame(height: 180).padding()
         }
         
     }
@@ -58,5 +57,6 @@ struct SummaryView: View {
 struct SummaryView_Previews: PreviewProvider {
     static var previews: some View {
         SummaryView(todayDateComponent: .constant(Date()))
+            .environmentObject(coreDataViewModel())
     }
 }
