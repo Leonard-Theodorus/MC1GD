@@ -60,7 +60,7 @@ struct CategoryChart: View {
                 }
                 
             }
-            .frame(minWidth:351, maxHeight: 250)
+            .frame(maxWidth:351, maxHeight: 250)
             .background(Color(.white))
             .cornerRadius(20)
             .shadow(radius: 4, y:8)

@@ -19,22 +19,25 @@ struct NeedsWantsBarChart: View {
                 .foregroundColor(.primary)
                 .padding(.leading, 20)
             HStack(alignment: .center){
-                Chart(chartData, id: \.id){
+                Chart(chartData, id: \.date){
                     BarMark(
                         x: .value("Day", $0.date, unit: .day),
                         y: .value("Price", $0.expense)
                     )
-                    .foregroundStyle($0.tag == "Kebutuhan" ? Color.main_purple : Color.secondary_purple)
                     .foregroundStyle(by: .value("Tag", $0.tag))
+//                    .foregroundStyle($0.tag == "Kebutuhan" ? Color.primary_purple : Color.secondary_purple)
                 }
                 .chartLegend(content: {
                     HStack(alignment : .center) {
-                        Circle().fill(Color.main_purple).frame(width: 10, height: 10)
+                        Circle().fill(Color.primary_purple).frame(width: 10, height: 10)
                         Text("Kebutuhan").font(.caption).foregroundColor(.primary)
                         Circle().fill(Color.secondary_purple).frame(width: 10, height: 10)
                         Text("Keinginan").font(.caption).foregroundColor(.primary)
                     }
                 })
+                .chartForegroundStyleScale([
+                     "Kebutuhan": Color("primary-purple"), "Keinginan": Color("secondary-purple")
+                ])
                 .onAppear{
                     withAnimation {
                         chartData = viewModel.getLastSevenDaysData(startFrom: Date())
@@ -55,7 +58,11 @@ struct NeedsWantsBarChart: View {
                 .chartYAxis(.hidden)
                 
             }
-        }
+        }.frame(maxWidth:351, maxHeight: 350)
+            .padding()
+            .background(Color(.white))
+            .cornerRadius(20)
+            .shadow(radius: 4, y:8)
     }
     
 }

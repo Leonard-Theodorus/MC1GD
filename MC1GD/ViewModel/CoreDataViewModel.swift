@@ -89,7 +89,7 @@ class coreDataViewModel : ObservableObject{
         let fnbPrice = calculateItemPriceCategory(category: categoryFNB)
         let transportPrice = calculateItemPriceCategory(category: categoryTransport)
         let barangPrice = calculateItemPriceCategory(category: categoryBarang)
-        var allExpense = fnbPrice + transportPrice + barangPrice
+        let allExpense = fnbPrice + transportPrice + barangPrice
         return allExpense
     }
     
@@ -111,13 +111,13 @@ class coreDataViewModel : ObservableObject{
             var itemImage : UIImage = UIImage(systemName: "trash")!
             switch itemCategory{
             case categoryFNB:
-                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.main_purple))
+                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.primary_purple))
             case categoryTransport:
-                itemImage = UIImage(systemName: "tram.fill")!.withTintColor(UIColor(Color.main_purple))
+                itemImage = UIImage(systemName: "tram.fill")!.withTintColor(UIColor(Color.primary_purple))
             case categoryBarang:
-                itemImage = UIImage(systemName: "trash")!.withTintColor(UIColor(Color.main_purple))
+                itemImage = UIImage(systemName: "trash")!.withTintColor(UIColor(Color.primary_purple))
             default:
-                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.main_purple))
+                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.primary_purple))
             }
             dateFormatter.dateFormat = "yyyyMMdd"
             let newItemImage = encodeImage(for: itemImage)

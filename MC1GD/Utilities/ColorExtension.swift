@@ -8,6 +8,6 @@
 import Foundation
 import SwiftUI
 extension Color{
-    static let main_purple = Color("main-purple")
+    static let primary_purple = Color("primary-purple")
     static let secondary_purple = Color("secondary-purple")
 }
