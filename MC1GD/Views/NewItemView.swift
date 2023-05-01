@@ -26,7 +26,7 @@ struct NewItemView: View {
     @State var isWants = false
     @State private var maxChars: Int = 50
     @State var isZeroPrice: Bool = false
-    @State private var showDatePicker = false
+    @State var showQuestions = false
     var body: some View {
         NavigationView {
             VStack{
@@ -168,9 +168,14 @@ struct NewItemView: View {
                                 .cornerRadius(25)
                                 .hoverEffect(.lift)
                                 
+                                Button{
+                                showQuestions.toggle()
+                            } label: {
                                 Image(systemName: "questionmark.circle.fill")
-                                    .imageScale(.medium)
-                                    .foregroundColor(Color("primary-gray"))
+                            }
+                            .sheet(isPresented: $showQuestions) {
+                                QuestionsView()
+                            }
                                 
                                 
                             }
@@ -220,7 +225,7 @@ struct NewItemView: View {
                     }
                     .background(Color("primary-white"))
                     .padding(.vertical)
-                    // batas
+                    
                 }
                 .background(Color("primary-white"))
             }

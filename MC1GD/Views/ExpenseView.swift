@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ExpenseView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @State private var showSheet = false
     @EnvironmentObject var viewModel : coreDataViewModel
     @Binding var todayDateComponent : Date

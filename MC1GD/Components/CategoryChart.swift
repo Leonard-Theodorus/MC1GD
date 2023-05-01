@@ -10,13 +10,13 @@ import SwiftUICharts
 
 
 struct CategoryChart: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var viewModel : coreDataViewModel
     @Binding var todayDateComponent : Date
     @State var data : DoughnutChartData = selectedData()
     @State var allExpense : Double = 0
     var body: some View {
-        VStack (alignment:.center){
+
+        VStack(alignment: .center) {
             HStack{
                 DoughnutChart(chartData: data)
                     .headerBox(chartData: data)
@@ -71,6 +71,7 @@ struct CategoryChart: View {
                     allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
                 }
             }
+
             .onChange(of: todayDateComponent, perform: { newValue in
                 print(todayDateComponent)
                 withAnimation {
@@ -79,6 +80,7 @@ struct CategoryChart: View {
                     allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
                 }
         })
+
         }
         
     }
@@ -110,5 +112,6 @@ struct CategoryChart: View {
 struct CategoryChart_Previews: PreviewProvider {
     static var previews: some View {
         CategoryChart(todayDateComponent: .constant(Date()))
+            .environmentObject(coreDataViewModel())
     }
 }
