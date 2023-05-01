@@ -18,7 +18,8 @@ struct RootView: View {
             if selectedTab == .summary {
                 SummaryView(todayDateComponent: $todayDateComponent)
             }else if selectedTab == .expense {
-                ExpenseView(todayDateComponent: $todayDateComponent)
+//                ExpenseView(todayDateComponent: $todayDateComponent)
+                ExpenseViewTemp(todayDateComponent: $todayDateComponent)
             }
             Spacer()
             
