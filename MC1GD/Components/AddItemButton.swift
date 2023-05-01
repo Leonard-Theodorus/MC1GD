@@ -8,6 +8,7 @@
 import SwiftUI
 struct AddItemButton: View {
     @State var showSheet = false
+    @Binding var todayDateComponent : Date
     var body: some View {
         Button {
             showSheet.toggle()
@@ -19,7 +20,7 @@ struct AddItemButton: View {
         .padding()
         .controlSize(.large)
         .sheet(isPresented: $showSheet) {
-            NewItemView(showSheet: $showSheet)
+            NewItemView(showSheet: $showSheet, todayDateComponent: $todayDateComponent)
 //                .background(Color("primary-white"))
         }
     }
@@ -27,6 +28,6 @@ struct AddItemButton: View {
 
 struct AddItemButton_Previews: PreviewProvider {
     static var previews: some View {
-        AddItemButton(showSheet: false)
+        AddItemButton(showSheet: false, todayDateComponent: .constant(Date()))
     }
 }

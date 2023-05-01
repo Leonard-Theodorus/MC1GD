@@ -38,13 +38,16 @@ struct ExpenseView: View {
                         .opacity(showDatePicker ? 1 : 0)
                         .offset(y: 50)
                         .onChange(of: todayDateComponent, perform: { newValue in
-                            withAnimation {
-                                showDatePicker.toggle()
-                                viewModel.fetchItems(for: todayDateComponent)
+                            DispatchQueue.main.async {
+                                withAnimation {
+                                    showDatePicker.toggle()
+                                    viewModel.fetchItems(for: todayDateComponent)
+                                }
                             }
+                            
                         })
                 ).padding(.trailing,70)
-                AddItemButton()
+                AddItemButton(todayDateComponent: $todayDateComponent)
             }.onReceive(dateNotif, perform: { date in
                 todayDateComponent = date
             })
@@ -87,7 +90,7 @@ struct ExpenseView: View {
                                 }
                             })
                     ).padding(.trailing,60)
-                    AddItemButton()
+                    AddItemButton(todayDateComponent: $todayDateComponent)
                 }.zIndex(2)
                 .onAppear{
                     stringDate = Date.formatDate(Date())()

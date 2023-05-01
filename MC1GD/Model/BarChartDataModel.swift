@@ -17,6 +17,7 @@ struct barChartData : Identifiable{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         self.date = formatter.date(from: day) ?? Date.distantPast
+        
         self.expense = expense
         self.tag = tag
     }

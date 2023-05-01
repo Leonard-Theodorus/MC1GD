@@ -24,8 +24,9 @@ struct NeedsWantsBarChart: View {
                         x: .value("Day", $0.date, unit: .day),
                         y: .value("Price", $0.expense)
                     )
-                    .foregroundStyle(by: .value("Tag", $0.tag))
 //                    .foregroundStyle($0.tag == "Kebutuhan" ? Color.primary_purple : Color.secondary_purple)
+                    .foregroundStyle(by: .value("Tag", $0.tag))
+                    
                 }
                 .chartLegend(content: {
                     HStack(alignment : .center) {
@@ -39,15 +40,18 @@ struct NeedsWantsBarChart: View {
                      "Kebutuhan": Color("primary-purple"), "Keinginan": Color("secondary-purple")
                 ])
                 .onAppear{
-                    withAnimation {
-                        chartData = viewModel.getLastSevenDaysData(startFrom: Date())
-                        uniqueDates = chartData.map({$0.date})
-                        for date in uniqueDates{
-                            let correctDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
-                            chartDate.append(correctDate)
-                            
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            chartData = viewModel.getLastSevenDaysData(startFrom: Date())
+                            uniqueDates = chartData.map({$0.date})
+                            for date in uniqueDates{
+                                let correctDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+                                chartDate.append(correctDate)
+                                
+                            }
                         }
                     }
+                    
                     
                 }
                 .chartXAxis{
