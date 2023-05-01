@@ -108,7 +108,8 @@ struct ExpenseView: View {
                                 Text(item.itemDescription ?? "").font(.caption)
                             }
                             Spacer()
-                            Text(item.itemPrice.formatted(.currency(code: "IDR")))
+//                            Text(item.itemPrice.formatted(.currency(code: "IDR")))
+                            Text(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")
                         }
                         .padding()
                             .swipeActions {

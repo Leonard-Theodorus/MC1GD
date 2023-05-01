@@ -85,6 +85,13 @@ class coreDataViewModel : ObservableObject{
 //        return allPrice
     }
     
+    func calculateAllExpense(for date: Date) -> Double {
+        let fnbPrice = calculateItemPriceCategory(category: categoryFNB)
+        let transportPrice = calculateItemPriceCategory(category: categoryTransport)
+        let barangPrice = calculateItemPriceCategory(category: categoryBarang)
+        var allExpense = fnbPrice + transportPrice + barangPrice
+        return allExpense
+    }
     
     
     func fetchAllItem(){
@@ -162,22 +169,21 @@ class coreDataViewModel : ObservableObject{
             dataPoints: [
                 PieChartDataPoint(
                     value: fnbPrice,
-                    description: "Makanan & Minuman",
-                    colour: Color(.orange)),
+                    colour: Color("primary-orange")),
                 PieChartDataPoint(
                     value: transportPrice,
-                    description: "Transportasi",
-                    colour: .purple),
+                    colour: Color("primary-purple")),
                 PieChartDataPoint(
                     value: barangPrice,
-                    description: "Barang",
-                    colour: .yellow)
+                    colour: Color("primary-green"))
             ],
-            legendTitle: "Expenses")
-        let metadata   = ChartMetadata(title: "Expenses", subtitle: "")
+            legendTitle: "")
+        let metadata   = ChartMetadata(title: "", subtitle: "")
         
         let chartStyle = DoughnutChartStyle(
-            infoBoxPlacement : .infoBox(isStatic: false),
+            infoBoxPlacement : .floating,
+            infoBoxContentAlignment : .horizontal,
+            infoBoxDescriptionFont : .footnote,
             infoBoxBorderColour : Color.primary,
             infoBoxBorderStyle  : StrokeStyle(lineWidth: 1),
             globalAnimation     : .easeOut(duration: 1)

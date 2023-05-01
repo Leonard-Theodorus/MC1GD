@@ -2,7 +2,6 @@
 //  CurrencyFormatter.swift
 //  MC1
 //
-//  Created by Leonard Theodorus on 22/04/23.
 //
 
 import SwiftUI
@@ -15,3 +14,14 @@ import SwiftUI
 //
 //    }
 //}
+let currencyFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .currency
+    formatter.currencySymbol = "Rp"
+    formatter.maximumFractionDigits = 0
+    formatter.decimalSeparator = "."
+    formatter.groupingSeparator = ","
+    return formatter
+}()
+
+
