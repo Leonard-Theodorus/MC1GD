@@ -172,6 +172,7 @@ struct NewItemView: View {
                                 showQuestions.toggle()
                             } label: {
                                 Image(systemName: "questionmark.circle.fill")
+                                    .foregroundColor(Color("secondary-gray"))
                             }
                             .sheet(isPresented: $showQuestions) {
                                 QuestionsView()
@@ -179,7 +180,9 @@ struct NewItemView: View {
                                 
                                 
                             }
-                        }.padding(.vertical, 5)
+                        }
+                        .padding(.top, 15)
+                        .padding(.bottom, 5)
                         
                         //                        Divider()
                         
@@ -215,11 +218,7 @@ struct NewItemView: View {
                             Image(systemName: "calendar")
                                 .imageScale(.large)
                                 .foregroundColor(Color("secondary-gray"))
-                            DatePicker("" ,
-                                       selection: $newItemDate,
-                                       in: ...Date(),
-                                       displayedComponents: .date)
-                            .datePickerStyle(CompactDatePickerStyle())
+                            DatePicker("" ,selection: $newItemDate, in: ...Date(), displayedComponents: .date).datePickerStyle(.compact)
                         }
                     
                     }
