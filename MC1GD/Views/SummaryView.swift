@@ -42,10 +42,13 @@ struct SummaryView: View {
                         .offset(y: 50)
                         .zIndex(1)
                         .onChange(of: todayDateComponent, perform: { newValue in
-                            withAnimation {
-                                showDate.toggle()
-                                viewModel.fetchItems(for: todayDateComponent)
+                            DispatchQueue.main.async {
+                                withAnimation {
+                                    showDate.toggle()
+                                    viewModel.fetchItems(for: todayDateComponent)
+                                }
                             }
+                            
                         })
                 )
                 

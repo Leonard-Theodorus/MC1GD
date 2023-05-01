@@ -15,7 +15,6 @@ struct MC1GDApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(viewModel)
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

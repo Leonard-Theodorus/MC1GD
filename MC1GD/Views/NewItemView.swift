@@ -11,7 +11,6 @@ let dateNotif = PassthroughSubject<Date, Never>()
 struct NewItemView: View {
     @Binding var showSheet : Bool
     @StateObject var formVm = addItemFormViewModel()
-    @State var newItemDate = Date()
     @State var newItemPrice : Double = 0
     @State var newItemImage = UIImage()
     @State var newItemCategory = ""
@@ -27,6 +26,7 @@ struct NewItemView: View {
     @State private var maxChars: Int = 50
     @State var isZeroPrice: Bool = false
     @State var showQuestions = false
+    @Binding var todayDateComponent : Date
     var body: some View {
         NavigationView {
             VStack{
@@ -73,6 +73,8 @@ struct NewItemView: View {
                                         } label: {
                                             Image(systemName: "delete.left").foregroundColor(.red)
                                         }
+                                        .buttonStyle(.borderless)
+                                        .clipped()
                                         .opacity(formVm.buttonDeleteOn ? 1.0 : 0.0)
                                         
                                     }
@@ -95,13 +97,19 @@ struct NewItemView: View {
                         
                         // MARK: pilih itemCategory
                         HStack{
+                            
                             Image(systemName: "circle.fill")
                                 .imageScale(.large)
                                 .foregroundColor(Color("secondary-gray"))
-                            Picker("", selection: $newItemCategory) {
-                                ForEach(categories, id: \.self){ category in
-                                    Text(category)
+                            HStack {
+                                Picker("", selection: $newItemCategory) {
+                                    ForEach(categories, id: \.self){ category in
+                                        Text(category)
+                                    }
                                 }
+                                .pickerStyle(.menu)
+                                .tint(Color.primary)
+                                .clipped()
                             }
                         }.padding(.vertical, 5)
                         
@@ -169,14 +177,15 @@ struct NewItemView: View {
                                 .hoverEffect(.lift)
                                 
                                 Button{
-                                showQuestions.toggle()
-                            } label: {
-                                Image(systemName: "questionmark.circle.fill")
-                                    .foregroundColor(Color("secondary-gray"))
-                            }
-                            .sheet(isPresented: $showQuestions) {
-                                QuestionsView()
-                            }
+                                    showQuestions.toggle()
+                                } label: {
+                                    Image(systemName: "questionmark.circle.fill")
+                                        .foregroundColor(Color("secondary-gray"))
+                                }
+                                .buttonStyle(.borderless)
+                                .sheet(isPresented: $showQuestions) {
+                                    QuestionsView()
+                                }
                                 
                                 
                             }
@@ -218,20 +227,20 @@ struct NewItemView: View {
                             Image(systemName: "calendar")
                                 .imageScale(.large)
                                 .foregroundColor(Color("secondary-gray"))
-                            DatePicker("" ,selection: $newItemDate, in: ...Date(), displayedComponents: .date).datePickerStyle(.compact)
+                            DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.compact)
                         }
-                    
+                        
                     }
                     .background(Color("primary-white"))
                     .padding(.vertical)
                     
                 }
                 .background(Color("primary-white"))
+                .onAppear{
+                    newItemCategory = categories.first!
+                }
             }
-            .background(Color("primary-white"))
-            .onAppear{
-                newItemCategory = categories.first!
-            }
+           
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel"){
@@ -245,9 +254,9 @@ struct NewItemView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add Item"){
                         
-                        viewModel.addNewItem(date: newItemDate, price: newItemPrice, itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
+                        viewModel.addNewItem(date: todayDateComponent, price: newItemPrice, itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
                         
-                        dateNotif.send(newItemDate)
+                        dateNotif.send(todayDateComponent)
                         showSheet = false
                     }
                     .disabled(!formVm.textIsValid || newItemPrice <= 0 || newItemTag == "")
@@ -260,6 +269,6 @@ struct NewItemView: View {
 
 struct NewItemView_Previews: PreviewProvider {
     static var previews: some View {
-        NewItemView(showSheet: .constant(false))
+        NewItemView(showSheet: .constant(false), todayDateComponent: .constant(Date()))
     }
 }
