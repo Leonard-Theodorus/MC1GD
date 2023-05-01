@@ -12,43 +12,50 @@ struct SummaryView: View {
     @State private var showDate = false
     @EnvironmentObject var viewModel : coreDataViewModel
     var body: some View {
-        VStack(alignment: .center){
+        VStack(alignment: .leading){
             Text("Ringkasan")
-                .foregroundColor(.green)
+                .foregroundColor(.black)
                 .font(.title)
                 .bold()
+                .padding(.leading, 15)
             
-            Button{
-                withAnimation {
-                    showDate.toggle()
+            VStack (alignment: .center){
+                Button{
+                    withAnimation {
+                        showDate.toggle()
+                    }
+                } label: {
+                    Text(Date().formatDateFrom(for: todayDateComponent))
+                        .padding()
+                        .padding(.horizontal)
+                        .background(
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke(Color.gray)
+                        )
                 }
-            } label: {
-                Text(Date().formatDateFrom(for: todayDateComponent))
-                    .padding()
-                    .padding(.horizontal)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray)
-                    )
+                .background(
+                    DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+                        .datePickerStyle(.compact)
+                        .clipShape(Capsule())
+                        .background(Color.gray.cornerRadius(10))
+                        .opacity(showDate ? 1 : 0)
+                        .offset(y: 50)
+                        .zIndex(1)
+                        .onChange(of: todayDateComponent, perform: { newValue in
+                            withAnimation {
+                                showDate.toggle()
+                                viewModel.fetchItems(for: todayDateComponent)
+                            }
+                        })
+                )
+                
+                HStack{
+                    CategoryChart(todayDateComponent: $todayDateComponent)
+                    
+                }
+                .padding(.top,50)
+                
             }
-            .background(
-                DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-                    .datePickerStyle(.compact)
-                    .clipped()
-                    .background(Color.gray.cornerRadius(10))
-                    .opacity(showDate ? 1 : 0)
-                    .offset(y: 50)
-                    .zIndex(1)
-                    .onChange(of: todayDateComponent, perform: { newValue in
-                        withAnimation {
-                            showDate.toggle()
-                            viewModel.fetchItems(for: todayDateComponent)
-                        }
-                    })
-            )
-            
-            
-            CategoryChart(todayDateComponent: $todayDateComponent)
             
         }
         

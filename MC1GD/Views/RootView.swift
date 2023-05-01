@@ -16,9 +16,9 @@ struct RootView: View {
         
         VStack{
             if selectedTab == .summary {
-//                SummaryView(todayDateComponent: $todayDateComponent)
+                SummaryView(todayDateComponent: $todayDateComponent)
             }else if selectedTab == .expense {
-//                ExpenseView(todayDateComponent: $todayDateComponent)
+                ExpenseView(todayDateComponent: $todayDateComponent)
             }
             Spacer()
             
@@ -31,5 +31,6 @@ struct RootView: View {
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
         RootView()
+            .environmentObject(coreDataViewModel())
     }
 }

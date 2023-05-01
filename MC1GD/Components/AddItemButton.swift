@@ -14,12 +14,13 @@ struct AddItemButton: View {
         }label: {
             Image(systemName: "plus")
             .imageScale(.large)
-            .foregroundColor(Color("main-purple"))
+            .foregroundColor(Color("primary-purple"))
         }
         .padding()
         .controlSize(.large)
         .sheet(isPresented: $showSheet) {
             NewItemView(showSheet: $showSheet)
+//                .background(Color("primary-white"))
         }
     }
 }
