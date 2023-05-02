@@ -15,7 +15,7 @@ struct CategoryChart: View {
     @State var data : DoughnutChartData = selectedData()
     @State var allExpense : Double = 0
     var body: some View {
-
+        
         VStack(alignment: .center) {
             HStack{
                 DoughnutChart(chartData: data)
@@ -25,7 +25,7 @@ struct CategoryChart: View {
                     .frame(width: 180,
                            height: 200,
                            alignment: .center)
-//                    .touchOverlay(chartData: data)
+                //                    .touchOverlay(chartData: data)
                 VStack(alignment: .leading){
                     Text("Pengeluaran bulan ini")
                         .foregroundColor(.black)
@@ -71,7 +71,7 @@ struct CategoryChart: View {
                     allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
                 }
             }
-
+            
             .onChange(of: todayDateComponent, perform: { newValue in
                 print(todayDateComponent)
                 withAnimation {
@@ -79,15 +79,15 @@ struct CategoryChart: View {
                     data = viewModel.getChartData(for: todayDateComponent)
                     allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
                 }
-        })
-
+            })
+            
         }
         
     }
     
     static func selectedData() -> DoughnutChartData {
         let data = PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: "")
-            
+        
         let metadata   = ChartMetadata(title: "", subtitle: "")
         
         let chartStyle = DoughnutChartStyle(

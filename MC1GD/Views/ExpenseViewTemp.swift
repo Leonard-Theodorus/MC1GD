@@ -24,6 +24,7 @@ struct ExpenseViewTemp: View {
     
     var body: some View {
         VStack(alignment: .leading){
+            // MARK: title & addItemButton
             HStack(alignment: .center){
                 Text("Expense")
                     .font(.largeTitle)
@@ -31,6 +32,7 @@ struct ExpenseViewTemp: View {
                 Spacer()
                 AddItemButton(todayDateComponent: $todayDateComponent)
             }
+            // MARK: Hello Card
             VStack(alignment: .leading){
                 HStack{
                     Image(systemName: "sun.min.fill")
@@ -57,6 +59,8 @@ struct ExpenseViewTemp: View {
             .background(
                 LinearGradient(colors: [Color("secondary-purple"),Color("primary-purple")], startPoint: .topLeading, endPoint: .bottomTrailing))
             .cornerRadius(22)
+            
+            // MARK: Expense Card
             VStack{
                 HStack{
                     Text("Pengeluaran")
@@ -69,17 +73,21 @@ struct ExpenseViewTemp: View {
                         }
                     } label: {
                         Text(Date().formatDateFrom(for: todayDateComponent))
+                            .fontWeight(.semibold)
                             .padding()
                             .background(
-                                RoundedRectangle(cornerRadius: 10)
+                                RoundedRectangle(cornerRadius: 30)
                                     .stroke(Color.gray)
+                                    .background(Color("primary-purple").cornerRadius(30))
                             )
+                            .font(.footnote)
+                            .foregroundColor(.white)
+                        
                     }
                     .background(
                         DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
                             .datePickerStyle(.compact)
-                            .clipped()
-                            .background(Color.gray.cornerRadius(10))
+                            .clipShape(Capsule())
                             .opacity(showDatePicker ? 1 : 0)
                             .offset(y: 50)
                             .onChange(of: todayDateComponent, perform: { newValue in
@@ -87,6 +95,7 @@ struct ExpenseViewTemp: View {
                                     withAnimation {
                                         showDatePicker.toggle()
                                         viewModel.fetchItems(for: todayDateComponent)
+                                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
                                     }
                                 }
                                 
@@ -228,8 +237,10 @@ struct ExpenseViewTemp: View {
             .clipped()
             .shadow(color: Color.gray, radius: 4, x: -2, y: 2)
             .padding(.top,12)
+            
         }
         .padding(.horizontal,22)
+        
     }
 }
 
@@ -238,6 +249,6 @@ struct ExpenseViewTemp_Previews: PreviewProvider {
         ExpenseViewTemp(todayDateComponent: .constant(Date()))
             .environmentObject(coreDataViewModel())
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-            
+        
     }
 }

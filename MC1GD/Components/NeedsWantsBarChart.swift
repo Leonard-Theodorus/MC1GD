@@ -9,7 +9,12 @@ import SwiftUI
 import Charts
 struct NeedsWantsBarChart: View {
     @EnvironmentObject var viewModel : coreDataViewModel
-    @State var chartData : [barChartData] = []
+    @State var chartData : [barChartData] = [
+        .init(day: "20230502", expense: 2000, tag: "Keinginan"),
+        .init(day: "20230502", expense: 3000, tag: "Keinginan"),
+        .init(day: "20230502", expense: 4000, tag: "Kebutuhan")
+        
+    ]
     @State var uniqueDates : [Date] = []
     @State var chartDate : [Date] = []
     var body: some View {
@@ -19,12 +24,11 @@ struct NeedsWantsBarChart: View {
                 .foregroundColor(.primary)
                 .padding(.leading, 20)
             HStack(alignment: .center){
-                Chart(chartData, id: \.date){
+                Chart(chartData, id: \.id){
                     BarMark(
                         x: .value("Day", $0.date, unit: .day),
                         y: .value("Price", $0.expense)
                     )
-//                    .foregroundStyle($0.tag == "Kebutuhan" ? Color.primary_purple : Color.secondary_purple)
                     .foregroundStyle(by: .value("Tag", $0.tag))
                     
                 }
