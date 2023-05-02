@@ -120,11 +120,11 @@ class coreDataViewModel : ObservableObject{
             case categoryFNB:
                 itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.primary_purple))
             case categoryTransport:
-                itemImage = UIImage(systemName: "tram.fill")!.withTintColor(UIColor(Color.primary_purple))
+                itemImage = UIImage(systemName: "tram.fill")!.withTintColor(UIColor(Color.secondary_purple))
             case categoryBarang:
-                itemImage = UIImage(systemName: "trash")!.withTintColor(UIColor(Color.primary_purple))
+                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.tertiary_purple))
             default:
-                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.primary_purple))
+                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.primary_purple))
             }
             dateFormatter.dateFormat = "yyyyMMdd"
             let newItemImage = encodeImage(for: itemImage)
@@ -176,13 +176,13 @@ class coreDataViewModel : ObservableObject{
             dataPoints: [
                 PieChartDataPoint(
                     value: fnbPrice,
-                    colour: Color("primary-orange")),
+                    colour: Color.primary_purple),
                 PieChartDataPoint(
                     value: transportPrice,
-                    colour: Color("primary-purple")),
+                    colour: Color.secondary_purple),
                 PieChartDataPoint(
                     value: barangPrice,
-                    colour: Color("primary-green"))
+                    colour: Color.tertiary_purple)
             ],
             legendTitle: "")
         let metadata   = ChartMetadata(title: "", subtitle: "")

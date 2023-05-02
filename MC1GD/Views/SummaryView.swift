@@ -11,58 +11,118 @@ struct SummaryView: View {
     @Binding var todayDateComponent : Date
     @State private var showDate = false
     @EnvironmentObject var viewModel : coreDataViewModel
+    @State var showTips = false
     var body: some View {
         VStack(alignment: .leading){
-            Text("Ringkasan")
-                .foregroundColor(.black)
-                .font(.title)
-                .bold()
-                .padding(.leading, 15)
+            HStack(alignment: .center){
+                Text("Ringkasan")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    
+                Spacer()
+            }
+            .padding(.horizontal, 22)
+            .padding(.top,10)
+            .zIndex(1)
             
             VStack (alignment: .center){
-                Button{
-                    withAnimation {
-                        showDate.toggle()
-                    }
-                } label: {
-                    Text(Date().formatDateFrom(for: todayDateComponent))
-                        .padding()
-                        .padding(.horizontal)
-                        .background(
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(Color.gray)
-                        )
-                }
-                .background(
-                    DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-                        .datePickerStyle(.compact)
-                        .clipShape(Capsule())
-                        .background(Color.gray.cornerRadius(10))
-                        .opacity(showDate ? 1 : 0)
-                        .offset(y: 50)
-                        .zIndex(1)
-                        .onChange(of: todayDateComponent, perform: { newValue in
-                            DispatchQueue.main.async {
-                                withAnimation {
-                                    showDate.toggle()
-                                    viewModel.fetchItems(for: todayDateComponent)
-                                }
-                            }
-                            
-                        })
-                )
                 
-                HStack{
-                    CategoryChart(todayDateComponent: $todayDateComponent)
+                ZStack{
+                    Button{
+                        withAnimation {
+                            showDate.toggle()
+                        }
+                    }label: {
+                        Text(Date().formatDateFrom(for: todayDateComponent))
+                            .padding(.vertical,8)
+                            .padding(.horizontal,20)
+                            .foregroundColor(.black)
+                            .background(
+                                RoundedRectangle(cornerRadius: 30)
+                                    .stroke(lineWidth: 0)
+                                    .background(Color.white.cornerRadius(20))
+                                    .shadow(radius: 2)
+                            )
+                    }
+                    HStack{
+                        DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+                            .datePickerStyle(.graphical)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(lineWidth: 0)
+                                    .background(Color.white.cornerRadius(20))
+                                    .shadow(radius: 2)
+                                
+                            )
+                            .padding(10)
+                            .opacity(showDate ? 1 : 0)
+                            .offset(y:170)
+                            .frame(width: 280)
+                            .onChange(of: todayDateComponent, perform: { newValue in
+                                DispatchQueue.main.async {
+                                    withAnimation {
+                                        showDate.toggle()
+                                        viewModel.fetchItems(for: todayDateComponent)
+                                    }
+                                }
+                                
+                            })
+                        
+                    }.zIndex(4)
+                    //                            DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+                    //                                .datePickerStyle(.compact)
+                    //                                .onChange(of: todayDateComponent, perform: { newValue in
+                    //                                    DispatchQueue.main.async {
+                    //                                        withAnimation {
+                    //                                            showDate.toggle()
+                    //                                            viewModel.fetchItems(for: todayDateComponent)
+                    //                                        }
+                    //                                    }
+                    //
+                    //                                })
+                    //                                .frame(width: 50)
+                    
                     
                 }
-                .padding(.top,50)
+                .frame(height:55)
+                .zIndex(2)
+                .padding(-20)
                 
-                NeedsWantsBarChart().frame(height: 180).padding()
+                
+                
+                VStack{
+                    CategoryChart(todayDateComponent: $todayDateComponent)
+                    
+                    NeedsWantsBarChart().frame(width: 351,height: 200)
+                        .padding()
+                    Button{
+                        
+                    }label: {
+                        Text("Beberapa tips yang dapat Anda ikuti")
+                            .font(.footnote)
+                            .fontWeight(.bold)
+                            .padding(.vertical,8)
+                            .padding(.horizontal,20)
+                            .foregroundColor(.white)
+                            .background(
+                                RoundedRectangle(cornerRadius: 30)
+                                    .stroke(lineWidth: 0)
+                                    .background(Color.primary_purple.cornerRadius(20))
+                                    .shadow(radius: 2, y:2)
+                                    .frame(width:280)
+                            )
+                        
+                    }.zIndex(2)
+                }
+                .zIndex(1)
+                .onTapGesture {showDate = false}
+                
                 
             }
-
+            
         }
+        .padding(.horizontal,22)
+        //        .onTapGesture {showDate = false}
         
     }
 }

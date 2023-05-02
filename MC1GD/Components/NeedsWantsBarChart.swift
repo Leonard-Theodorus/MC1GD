@@ -20,7 +20,8 @@ struct NeedsWantsBarChart: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Rekap harianmu selama tujuh hari terakhir")
-                .font(.callout)
+                .font(.caption)
+                .fontWeight(.thin)
                 .foregroundColor(.primary)
                 .padding(.leading, 20)
             HStack(alignment: .center){

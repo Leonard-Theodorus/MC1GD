@@ -8,7 +8,7 @@
 import SwiftUI
 struct InsightView: View {
     var body: some View {
-        Text("Ringkasan")
+        Text("Tips")
     }
     
 }

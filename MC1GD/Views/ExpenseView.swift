@@ -32,7 +32,7 @@ struct ExpenseView: View {
                 }
                 .background(
                     DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-                        .datePickerStyle(.compact)
+                        .datePickerStyle(.graphical)
                         .clipped()
                         .background(Color.gray.cornerRadius(10))
                         .opacity(showDatePicker ? 1 : 0)

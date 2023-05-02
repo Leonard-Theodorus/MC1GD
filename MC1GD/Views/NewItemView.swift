@@ -29,229 +29,263 @@ struct NewItemView: View {
     @Binding var todayDateComponent : Date
     var body: some View {
         NavigationView {
-            VStack{
-                VStack{
-                    VStack(alignment: .leading){
-                        // MARK: input harga barang
-                        HStack{
-                            Text("Rp")
-                                .foregroundColor(Color("secondary-gray"))
-                            Divider()
-                            TextField("Harga Barang", value: $newItemPrice, format: .number)
-                                .keyboardType(.numberPad)
-                                .focused($isFocusedPrice)
-                                .onReceive(Just(newItemPrice)){ newValue in
-                                    isZeroPrice = isFocusedPrice && newValue <= 0
-                                }
-                                .onChange(of: isFocusedPrice){ newValue in
-                                    if !newValue{
-                                        isZeroPrice = newItemPrice <= 0
-                                    }
-                                }
-                                .foregroundColor(newItemPrice <= 0 ? .gray : .black)
-                                .font(.largeTitle)
-                            if isZeroPrice {
-                                Text("Harga tidak boleh 0")
-                                    .foregroundColor(.red).font(.caption)
+            VStack(alignment: .center){
+                VStack(alignment: .leading){
+                    // MARK: input harga barang
+                    HStack{
+                        Text("Rp")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal,10)
+                            .padding(.vertical,6)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.gray)
+                                    .background(Color("tertiary-gray").cornerRadius(10)))
+                            .foregroundColor(Color("primary-gray"))
+                            .frame(width: 40)
+                        Divider()
+                        TextField("Harga Barang", value: $newItemPrice, format: .number)
+                            .keyboardType(.numberPad)
+                            .focused($isFocusedPrice)
+                            .onReceive(Just(newItemPrice)){ newValue in
+                                isZeroPrice = isFocusedPrice && newValue <= 0
                             }
-                        }
-                        
-                        Divider()
-                        
-                        // MARK: input nama barang
-                        HStack{
-                            Text("Aa")
-                                .foregroundColor(Color("secondary-gray"))
-                            TextField("Nama Barang", text: $formVm.itemName).autocorrectionDisabled(true)
-                                .overlay (
-                                    ZStack{
-                                        Button {
-                                            withAnimation {
-                                                formVm.deleteText()
-                                            }
-                                        } label: {
-                                            Image(systemName: "delete.left").foregroundColor(.red)
-                                        }
-                                        .buttonStyle(.borderless)
-                                        .clipped()
-                                        .opacity(formVm.buttonDeleteOn ? 1.0 : 0.0)
-                                        
-                                    }
-                                    , alignment: .trailing
-                                )
-                                .focused($isFocusedName)
-                            
-                        }.padding(.vertical, 5)
-                        if !formVm.textIsValid{
-                            
-                            Text("Nama barang harus diisi, tidak diawali ataupun diakhiri dengan spasi.")
-                                .foregroundColor(.red)
-                                .font(.caption)
-                        }
-                        else{
-                            Image(systemName: "checkmark").foregroundColor(.green)
-                        }
-                        
-                        Divider()
-                        
-                        // MARK: pilih itemCategory
-                        HStack{
-                            
-                            Image(systemName: "circle.fill")
-                                .imageScale(.large)
-                                .foregroundColor(Color("secondary-gray"))
-                            HStack {
-                                Picker("", selection: $newItemCategory) {
-                                    ForEach(categories, id: \.self){ category in
-                                        Text(category)
-                                    }
+                            .onChange(of: isFocusedPrice){ newValue in
+                                if !newValue{
+                                    isZeroPrice = newItemPrice <= 0
                                 }
-                                .pickerStyle(.menu)
-                                .tint(Color.primary)
-                                .clipped()
                             }
-                        }.padding(.vertical, 5)
-                        
-                        Divider()
-                        
-                        // MARK:  pilih itemTag needs/wants
-                        VStack {
-                            HStack{
-                                Image(systemName: "tag")
-                                    .imageScale(.large)
-                                    .foregroundColor(Color("secondary-gray"))
-                                Button{
-                                    if isWants != true{
-                                        if isNeeds != true {
-                                            self.isNeeds.toggle()
-                                            self.newItemTag = "Kebutuhan"
-                                        }else{
-                                            self.isNeeds.toggle()
-                                            self.newItemTag = ""
+                            .foregroundColor(newItemPrice <= 0 ? .gray : .black)
+                            .font(.largeTitle)
+                        if isZeroPrice {
+                            Text("Harga tidak boleh 0")
+                                .foregroundColor(.red).font(.caption)
+                        }
+                    }
+                    .frame(height: 50)
+                    
+                    Divider()
+                    
+                    // MARK: input nama barang
+                    HStack{
+                        Text("Aa")
+                            .font(.headline)
+                            .foregroundColor(Color.primary_gray)
+                            .padding(.horizontal,15)
+                        TextField("Nama Barang", text: $formVm.itemName).autocorrectionDisabled(true)
+                            .overlay (
+                                ZStack{
+                                    Button {
+                                        withAnimation {
+                                            formVm.deleteText()
                                         }
-                                    }else{
-                                        self.isWants.toggle()
-                                        self.isNeeds.toggle()
-                                        self.newItemTag = "Kebutuhan"
+                                    } label: {
+                                        Image(systemName: "delete.left").foregroundColor(.red)
                                     }
-                                } label: {
-                                    Text("Kebutuhan")
-                                        .font(.caption)
-                                        .bold()
-                                        .padding(2)
+                                    .buttonStyle(.borderless)
+                                    .clipped()
+                                    .opacity(formVm.buttonDeleteOn ? 1.0 : 0.0)
                                     
                                 }
-                                .buttonStyle(.bordered)
-                                .foregroundColor(.white)
-                                .background(self.isNeeds ? Color(.gray): Color("primary-orange"))
-                                .cornerRadius(25)
-                                .hoverEffect(.lift)
-                                
-                                
-                                Button{
-                                    if isNeeds != true {
-                                        if isWants != true {
-                                            self.isWants.toggle()
-                                            self.newItemTag = "Keinginan"
-                                        }else{
-                                            self.isWants.toggle()
-                                            self.newItemTag = ""
-                                        }
-                                    }else{
-                                        self.isNeeds.toggle()
+                                , alignment: .trailing
+                            )
+                            .focused($isFocusedName)
+                        
+                    }.padding(.vertical, 5)
+                    if !formVm.textIsValid{
+                        
+                        Text("Nama barang harus diisi, tidak diawali ataupun diakhiri dengan spasi.")
+                            .foregroundColor(.red)
+                            .font(.caption)
+                            .padding(.leading,60)
+                    }
+                    else{
+                        Image(systemName: "checkmark").foregroundColor(.green)
+                            .padding(.horizontal,15)
+                    }
+                    
+                    Divider()
+                    
+                    // MARK: pilih itemCategory
+                    HStack{
+                        
+                        Image(systemName: "circle.fill")
+                            .imageScale(.large)
+                            .foregroundColor(Color.primary_gray)
+                            .padding(.horizontal,15)
+                        HStack {
+                            Picker("", selection: $newItemCategory) {
+                                ForEach(categories, id: \.self){ category in
+                                    Text(category)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .tint(Color.primary)
+                            .clipped()
+                        }
+                    }.padding(.vertical, 5)
+                    
+                    Divider()
+                    
+                    // MARK:  pilih itemTag needs/wants
+                    VStack {
+                        HStack{
+                            Image(systemName: "tag")
+                                .imageScale(.large)
+                                .foregroundColor(Color.primary_gray)
+                                .padding(.horizontal,15)
+                            Button{
+                                if isNeeds != true {
+                                    if isWants != true {
                                         self.isWants.toggle()
                                         self.newItemTag = "Keinginan"
+                                    }else{
+                                        self.isWants.toggle()
+                                        self.newItemTag = ""
                                     }
-                                } label: {
-                                    Text("Keinginan")
-                                        .font(.caption)
-                                        .bold()
-                                        .padding(2)
-                                    
+                                }else{
+                                    self.isNeeds.toggle()
+                                    self.isWants.toggle()
+                                    self.newItemTag = "Keinginan"
                                 }
-                                .buttonStyle(.bordered)
-                                .foregroundColor(.white)
-                                .background(self.isWants ? Color(.gray): Color(.red))
-                                .cornerRadius(25)
-                                .hoverEffect(.lift)
-                                
-                                Button{
-                                    showQuestions.toggle()
-                                } label: {
-                                    Image(systemName: "questionmark.circle.fill")
-                                        .foregroundColor(Color("secondary-gray"))
-                                }
-                                .buttonStyle(.borderless)
-                                .sheet(isPresented: $showQuestions) {
-                                    QuestionsView()
-                                }
-                                
-                                
-                            }
-                        }
-                        .padding(.top, 15)
-                        .padding(.bottom, 5)
-                        
-                        //                        Divider()
-                        
-                        // MARK:  input deskripsi item
-                        VStack {
-                            HStack(alignment: .top){
-                                Image(systemName: "text.alignleft")
-                                    .imageScale(.large)
-                                    .foregroundColor(Color("secondary-gray"))
-                                TextField("Deskripsi (50 Karakter)", text: $newItemDesc, axis: .vertical)
-                                    .focused($isFocusedDesc)
-                                    .lineLimit(5, reservesSpace: true)
-                                    .disableAutocorrection(true)
-                                    .textFieldStyle(.roundedBorder)
-                                    .onChange(of: newItemDesc) {newValue in
-                                        if newValue.count >= maxChars {
-                                            newItemDesc = String(newValue.prefix(maxChars))
-                                        }
-                                    }
-                            }
-                            HStack{
-                                Spacer()
-                                Text("\($newItemDesc.wrappedValue.count)/50")
+                            } label: {
+                                Text("Keinginan")
                                     .font(.caption)
-                                    .foregroundColor($newItemDesc.wrappedValue.count == maxChars ? .red : .gray)
+                                    .bold()
+                                    .padding(2)
+                                
                             }
-                        }.padding(.vertical, 10)
-                        
-                        //                        Divider()
-                        
-                        // MARK: select tanggal
-                        HStack{
-                            Image(systemName: "calendar")
-                                .imageScale(.large)
-                                .foregroundColor(Color("secondary-gray"))
-                            DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.compact)
+                            .buttonStyle(.bordered)
+                            .foregroundColor(.white)
+                            .background(Color.tag_pink)
+                            .cornerRadius(25)
+                            .shadow(radius: self.isWants ? 5:0)
+                            .hoverEffect(.lift)
+                            Button{
+                                if isWants != true{
+                                    if isNeeds != true {
+                                        self.isNeeds.toggle()
+                                        self.newItemTag = "Kebutuhan"
+                                    }else{
+                                        self.isNeeds.toggle()
+                                        self.newItemTag = ""
+                                    }
+                                }else{
+                                    self.isWants.toggle()
+                                    self.isNeeds.toggle()
+                                    self.newItemTag = "Kebutuhan"
+                                }
+                            } label: {
+                                Text("Kebutuhan")
+                                    .font(.caption)
+                                    .bold()
+                                    .padding(2)
+                                
+                            }
+                            .buttonStyle(.bordered)
+                            .foregroundColor(.white)
+                            .background(
+                                Color.tag_purple
+                            )
+                            .cornerRadius(25)
+                            .shadow(radius: self.isNeeds ? 5:0)
+                            .hoverEffect(.lift)
+                            
+                            
+                            
+                            
+                            Button{
+                                showQuestions.toggle()
+                            } label: {
+                                Image(systemName: "questionmark.circle.fill")
+                                    .foregroundColor(Color("secondary-gray"))
+                            }
+                            .buttonStyle(.borderless)
+                            .sheet(isPresented: $showQuestions) {
+                                QuestionsView(showQuestions: $showQuestions)
+                            }
+                            
+                            
                         }
-                        
                     }
-                    .background(Color("primary-white"))
-                    .padding(.vertical)
+                    .padding(.top, 15)
+                    .padding(.bottom, 5)
                     
-                }.padding()
-                .onAppear{
-                    newItemCategory = categories.first!
+                    
+                    // MARK:  input deskripsi item
+                    VStack {
+                        HStack(alignment: .top){
+                            Image(systemName: "text.alignleft")
+                                .imageScale(.large)
+                                .foregroundColor(Color.primary_gray)
+                                .padding(.horizontal,15)
+                            TextField("Deskripsi (50 Karakter)", text: $newItemDesc, axis: .vertical)
+                                .focused($isFocusedDesc)
+                                .lineLimit(5, reservesSpace: true)
+                                .disableAutocorrection(true)
+                                .textFieldStyle(.roundedBorder)
+                                .font(.body)
+                                .fontWeight(.thin)
+//                                .overlay(
+//                                    Text("Deskripsi (50 Karakter)")
+//                                        .font(.body)
+//                                        .italic()
+//                                        .foregroundColor(.gray)
+//                                        .opacity(newItemDesc.isEmpty ? 0.5 : 0)
+//                                )
+                                .onChange(of: newItemDesc) {newValue in
+                                    if newValue.count >= maxChars {
+                                        newItemDesc = String(newValue.prefix(maxChars))
+                                    }
+                                }
+                        }
+                        HStack{
+                            Spacer()
+                            Text("\($newItemDesc.wrappedValue.count)/50")
+                                .font(.caption)
+                                .foregroundColor($newItemDesc.wrappedValue.count == maxChars ? .red : .gray)
+                        }
+                    }.padding(.vertical, 10)
+                
+                    
+                    // MARK: select tanggal
+                    HStack{
+                        Image(systemName: "calendar")
+                            .imageScale(.large)
+                            .foregroundColor(Color("secondary-gray"))
+                            .padding(.horizontal,15)
+                        
+                        DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.compact)
+                        
+                    }.padding(.vertical, 5)
+                    
+                    
                 }
+                .padding(.horizontal,20)
+                .padding(.bottom, 50)
+                .padding(.top, -20)
+                
+                
+                Spacer()
+                
                 
             }
-           
+//            .padding(.bottom, 50)
+            .onAppear{
+                newItemCategory = categories.first!}
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel"){
+                    Button("Kembali"){
                         showSheet.toggle()
                     }
                 }
                 ToolbarItem(placement: .principal) {
-                    Text("Item Baru").font(.title3)
+                    Text("Tambah Pengeluaran").font(.title3)
                     
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add Item"){
+                    Button("Simpan"){
                         
                         viewModel.addNewItem(date: todayDateComponent, price: newItemPrice, itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
                         
