@@ -12,6 +12,11 @@ struct NeedsWantsBarChart: View {
     @State var chartData : [barChartData] = []
     @State var uniqueDates : [Date] = []
     @State var chartDate : [Date] = []
+    @Binding var needsPercentage : Double
+    @Binding var wantsPercentage : Double
+    @State var total : Double = 0
+    @State var needsTotal : Double = 0
+    @State var wantsTotal : Double = 0
     var body: some View {
         VStack(alignment: .leading) {
             Text("Rekap harianmu selama tujuh hari terakhir")
@@ -19,7 +24,7 @@ struct NeedsWantsBarChart: View {
                 .foregroundColor(.primary)
                 .padding(.leading, 20)
             HStack(alignment: .center){
-                Chart(chartData, id: \.date){
+                Chart(chartData, id: \.id){
                     BarMark(
                         x: .value("Day", $0.date, unit: .day),
                         y: .value("Price", $0.expense)
@@ -43,6 +48,17 @@ struct NeedsWantsBarChart: View {
                     DispatchQueue.main.async {
                         withAnimation {
                             chartData = viewModel.getLastSevenDaysData(startFrom: Date())
+                            for item in chartData{
+                                if item.tag == "Keinginan"{
+                                    wantsTotal += item.expense
+                                }
+                                else{
+                                    needsTotal += item.expense
+                                }
+                            }
+                            total = wantsTotal + needsTotal
+                            needsPercentage = needsTotal / total
+                            wantsPercentage = wantsTotal / total
                             uniqueDates = chartData.map({$0.date})
                             for date in uniqueDates{
                                 let correctDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
@@ -73,6 +89,6 @@ struct NeedsWantsBarChart: View {
 
 struct NeedsWantsBarChart_Previews: PreviewProvider {
     static var previews: some View {
-        NeedsWantsBarChart().environmentObject(coreDataViewModel())
+        NeedsWantsBarChart(needsPercentage: .constant(50), wantsPercentage: .constant(50)).environmentObject(coreDataViewModel())
     }
 }

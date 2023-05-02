@@ -37,6 +37,8 @@ class coreDataViewModel : ObservableObject{
         }
     }
     func getLastSevenDaysData(startFrom date : Date) -> [barChartData]{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
         let validDates = date.getDatesForLastNDays(nDays: 7)
         let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
         let validDatePredicate = NSPredicate(format: "itemAddedDate IN %@", validDates)
@@ -50,9 +52,26 @@ class coreDataViewModel : ObservableObject{
             }
         }
         var barChartData : [barChartData] = []
-        for item in itemForBarChart{
-            barChartData.append(.init(day: item.itemAddedDate ?? Date().formatDateFrom(for: Date()), expense: item.itemPrice, tag: item.itemTag ?? ""))
+        var uniqueDates : [String] = []
+        uniqueDates = itemForBarChart.map( {$0.itemAddedDate ?? "" } ).unique.sorted()
+        var needsTotalExpense : Double = 0
+        var wantsTotalExpense : Double = 0
+        for date in uniqueDates{
+            //Fungsi ini COSTLY AF, masi dipikirin cara untuk optimisasi
+            let transactionAtDate = itemForBarChart.filter({$0.itemAddedDate == date})
+            let needsTransaction = transactionAtDate.filter({$0.itemTag == "Keinginan"})
+            needsTotalExpense = needsTransaction.map({$0.itemPrice}).reduce(0, +)
+            let wantsTransaction = transactionAtDate.filter({$0.itemTag == "Kebutuhan"})
+            wantsTotalExpense = wantsTransaction.map({$0.itemPrice}).reduce(0, +)
+            barChartData.append(.init(day: date, expense: needsTotalExpense, tag: "Keinginan"))
+            barChartData.append(.init(day: date, expense: wantsTotalExpense, tag: "Kebutuhan"))
+            
         }
+//        for (index, date) in uniqueDates.enumerated(){
+//            let correctDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+//            uniqueDates[index] = correctDate
+//
+//        }
         return barChartData
     }
     //    func calculateItemPricePerCategory(for date : Date, category : String) -> Double{
