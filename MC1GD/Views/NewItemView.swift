@@ -30,8 +30,7 @@ struct NewItemView: View {
     var body: some View {
         NavigationView {
             VStack{
-                //TODO: tambahin item category/tag/add guiding questionnya kesini
-                Form {
+                VStack{
                     VStack(alignment: .leading){
                         // MARK: input harga barang
                         HStack{
@@ -234,11 +233,11 @@ struct NewItemView: View {
                     .background(Color("primary-white"))
                     .padding(.vertical)
                     
-                }
-                .background(Color("primary-white"))
+                }.padding()
                 .onAppear{
                     newItemCategory = categories.first!
                 }
+                
             }
            
             .toolbar{

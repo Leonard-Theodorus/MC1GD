@@ -55,6 +55,13 @@ class coreDataViewModel : ObservableObject{
         }
         return barChartData
     }
+    func getAllDataBarChart(for date : Date) -> [barChartData]{
+        var barChartData : [barChartData] = []
+        for item in userItems{
+            barChartData.append(.init(day: item.itemAddedDate ?? Date().formatDateFrom(for: Date()), expense: item.itemPrice, tag: item.itemTag ?? ""))
+        }
+        return barChartData
+    }
     //    func calculateItemPricePerCategory(for date : Date, category : String) -> Double{
     //        let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
     //        let dateString = String(date.get(.year)) + String(date.get(.month)) + String(date.get(.day))
