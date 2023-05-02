@@ -11,6 +11,8 @@ struct SummaryView: View {
     @Binding var todayDateComponent : Date
     @State private var showDate = false
     @EnvironmentObject var viewModel : coreDataViewModel
+    @State var needsPercentage : Double = 0
+    @State var wantsPercentage : Double = 0
     var body: some View {
         VStack(alignment: .leading){
             Text("Ringkasan")
@@ -51,6 +53,9 @@ struct SummaryView: View {
                             
                         })
                 )
+                HStack{
+                    HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
+                }.padding(.top, 20)
                 
                 HStack{
                     CategoryChart(todayDateComponent: $todayDateComponent)
@@ -58,7 +63,7 @@ struct SummaryView: View {
                 }
                 .padding(.top,50)
                 
-                NeedsWantsBarChart().frame(height: 180).padding()
+                NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).frame(height: 180).padding()
                 
             }
 
