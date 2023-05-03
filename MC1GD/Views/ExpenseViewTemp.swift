@@ -82,7 +82,31 @@ struct ExpenseViewTemp: View {
                             )
                             .font(.footnote)
                             .foregroundColor(.white)
-                        
+                        // MARK: ini coba langsung pake date picker, klo di ip14 harusnya udah oke, cuman warna fontnya masi gabisa diubah
+                        //                        DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+                        //                            .foregroundColor(.white)
+                        //                            .datePickerStyle(.compact)
+                        //                            .clipShape(Capsule())
+                        //                            .accentColor(Color.secondary_purple)
+                        //                            .background(
+                        //                                RoundedRectangle(cornerRadius: 20)
+                        //                                    .stroke(Color.gray)
+                        //                                    .background(Color.primary_purple).cornerRadius(20)
+                        //                                    .offset(x:35)
+                        //                                    .frame(width: 135)
+                        //                                    .foregroundColor(.white)
+                        //                            )
+                        //                            .cornerRadius(30)
+                        //                            .onChange(of: todayDateComponent, perform: { newValue in
+                        //                                DispatchQueue.main.async {
+                        //                                    withAnimation {
+                        //                                        showDatePicker.toggle()
+                        //                                        viewModel.fetchItems(for: todayDateComponent)
+                        //                                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                        //                                    }
+                        //                                }
+                        //
+                        //                            })
                     }
                     .background(
                         DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
