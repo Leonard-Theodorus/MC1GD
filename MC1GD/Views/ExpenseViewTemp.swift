@@ -39,7 +39,7 @@ struct ExpenseViewTemp: View {
                     Text("Hai,")
                         .font(.title2)
                         .fontWeight(.light)
-                    Text("Berwang!")
+                    Text(viewModel.getName())
                         .font(.title2)
                         .fontWeight(.semibold)
                     Spacer()

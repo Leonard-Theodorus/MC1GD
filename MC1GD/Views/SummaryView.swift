@@ -102,7 +102,7 @@ struct SummaryView: View {
                     }.padding(.top, 20)
                     CategoryChart(todayDateComponent: $todayDateComponent)
                     
-                    NeedsWantsBarChart().frame(width: 351,height: 200)
+                    NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).frame(width: 351,height: 200)
                         .padding()
                     Button{
                         
