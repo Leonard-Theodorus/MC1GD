@@ -38,6 +38,7 @@
 		D780C72129FEF6EA007BF480 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C72029FEF6EA007BF480 /* ArrayExtension.swift */; };
 		D780C72329FF0BE2007BF480 /* QuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C72229FF0BE2007BF480 /* QuestionsView.swift */; };
 		D7B81C1729F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */; };
+		D7C4AB3B2A014F6C00FD76BF /* HorizontalProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C4AB3A2A014F6C00FD76BF /* HorizontalProgressBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		D780C72029FEF6EA007BF480 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		D780C72229FF0BE2007BF480 /* QuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsView.swift; sourceTree = "<group>"; };
 		D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerAndCamera.swift; sourceTree = "<group>"; };
+		D7C4AB3A2A014F6C00FD76BF /* HorizontalProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalProgressBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */,
 				D4D4A7CC29FA5BEE008674F8 /* CategoryChart.swift */,
 				D780C71C29FEA1E8007BF480 /* NeedsWantsBarChart.swift */,
+				D7C4AB3A2A014F6C00FD76BF /* HorizontalProgressBar.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				D753EC4929F66DAC007C3F31 /* CoreDataViewModel.swift in Sources */,
 				D780C6DB29FD233D007BF480 /* CategoryEnum.swift in Sources */,
 				B12AC8C429F84DD500111013 /* CustomTabBar.swift in Sources */,
+				D7C4AB3B2A014F6C00FD76BF /* HorizontalProgressBar.swift in Sources */,
 				B13ED56629F8594E00491CFF /* TabBarButton.swift in Sources */,
 				D780C71D29FEA1E8007BF480 /* NeedsWantsBarChart.swift in Sources */,
 				D780C71F29FEA41F007BF480 /* BarChartDataModel.swift in Sources */,

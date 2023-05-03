@@ -12,6 +12,8 @@ struct SummaryView: View {
     @State private var showDate = false
     @EnvironmentObject var viewModel : coreDataViewModel
     @State var showTips = false
+    @State var needsPercentage : Double = 0
+    @State var wantsPercentage : Double = 0
     var body: some View {
         VStack(alignment: .leading){
             HStack(alignment: .center){
@@ -65,6 +67,7 @@ struct SummaryView: View {
                                         viewModel.fetchItems(for: todayDateComponent)
                                     }
                                 }
+
                                 
                             })
                         
@@ -89,8 +92,14 @@ struct SummaryView: View {
                 .padding(-20)
                 
                 
+
+                
+
                 
                 VStack{
+                    HStack{
+                        HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
+                    }.padding(.top, 20)
                     CategoryChart(todayDateComponent: $todayDateComponent)
                     
                     NeedsWantsBarChart().frame(width: 351,height: 200)
@@ -117,6 +126,7 @@ struct SummaryView: View {
                 .zIndex(1)
                 .onTapGesture {showDate = false}
                 
+
                 
             }
             
