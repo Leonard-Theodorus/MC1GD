@@ -76,6 +76,11 @@ struct NeedsWantsBarChart: View {
                     DispatchQueue.main.async {
                         withAnimation {
                             chartData = viewModel.getLastSevenDaysData(startFrom: todayDateComponent)
+                            guard chartData.count != 0 else{
+                                needsPercentage = 0
+                                wantsPercentage = 0
+                                return
+                            }
                             for item in chartData{
                                 if item.tag == "Keinginan"{
                                     wantsTotal += item.expense
@@ -95,6 +100,7 @@ struct NeedsWantsBarChart: View {
                                 chartDate.append(correctDate)
                                 
                             }
+                          
                         }
                     }
                     

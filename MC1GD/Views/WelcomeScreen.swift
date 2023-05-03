@@ -21,6 +21,7 @@ struct WelcomeScreen: View {
                 .cornerRadius(12)
                 .padding(.horizontal,37)
                 .foregroundColor(.black)
+                
             Button{
                 viewModel.addName(name: nicknameUser)
             }label: {

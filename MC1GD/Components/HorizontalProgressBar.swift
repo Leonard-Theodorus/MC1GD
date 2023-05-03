@@ -62,6 +62,9 @@ struct HorizontalProgressBar: View {
             .foregroundColor(.secondary_gray)
             .frame(width:351)
         }.frame(width:351)
+            .onAppear{
+                
+            }
         
         
         
