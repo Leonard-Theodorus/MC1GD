@@ -88,7 +88,15 @@ class coreDataViewModel : ObservableObject{
                 print(error.localizedDescription)
             }
         }
+        let containingDates = itemForBarChart.map({$0.itemAddedDate})
         var barChartData : [barChartData] = []
+        for validDate in validDates {
+            if !containingDates.contains(validDate){
+                barChartData.append(.init(day: validDate, expense: 0, tag: "Keinginan"))
+                barChartData.append(.init(day: validDate, expense: 0, tag: "Kebutuhan"))
+            }
+            
+        }
         var uniqueDates : [String] = []
         uniqueDates = itemForBarChart.map( {$0.itemAddedDate ?? "" } ).unique.sorted()
         var needsTotalExpense : Double = 0

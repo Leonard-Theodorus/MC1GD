@@ -259,6 +259,7 @@ struct NewItemView: View {
                             .padding(.horizontal,15)
                         
                         DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.compact)
+                            .accentColor(Color.primary_purple)
                         
                     }.padding(.vertical, 5)
                     
