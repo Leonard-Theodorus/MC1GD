@@ -102,7 +102,8 @@ struct SummaryView: View {
                     // MARK: Category Donut chart
                     CategoryChart(todayDateComponent: $todayDateComponent)
                     // MARK: Last7days bar chart
-                    NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).frame(width: 351,height: 200).padding()
+                    NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).frame(width: 351,height: 200)
+                    .padding()
                     
                     Button{
                         
