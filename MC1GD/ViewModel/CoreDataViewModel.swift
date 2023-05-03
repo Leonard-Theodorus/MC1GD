@@ -76,7 +76,7 @@ class coreDataViewModel : ObservableObject{
     func getLastSevenDaysData(startFrom date : Date) -> [barChartData]{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
-        let validDates = date.getDatesForLastNDays(nDays: 7)
+        let validDates = date.getDatesForLastNDays(startDate: date, nDays: 7)
         let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
         let validDatePredicate = NSPredicate(format: "itemAddedDate IN %@", validDates)
         request.predicate = validDatePredicate

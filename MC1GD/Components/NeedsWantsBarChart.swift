@@ -9,16 +9,12 @@ import SwiftUI
 import Charts
 struct NeedsWantsBarChart: View {
     @EnvironmentObject var viewModel : coreDataViewModel
-    @State var chartData : [barChartData] = [
-        .init(day: "20230502", expense: 2000, tag: "Keinginan"),
-        .init(day: "20230502", expense: 3000, tag: "Keinginan"),
-        .init(day: "20230502", expense: 4000, tag: "Kebutuhan")
-        
-    ]
+    @State var chartData : [barChartData] = []
     @State var uniqueDates : [Date] = []
     @State var chartDate : [Date] = []
     @Binding var needsPercentage : Double
     @Binding var wantsPercentage : Double
+    @Binding var todayDateComponent : Date
     @State var total : Double = 0
     @State var needsTotal : Double = 0
     @State var wantsTotal : Double = 0
@@ -50,10 +46,10 @@ struct NeedsWantsBarChart: View {
                     "Keinginan": Color.tag_pink,
                     "Kebutuhan": Color.tag_purple
                 ])
-                .onAppear{
+                .onChange(of: todayDateComponent, perform: { newValue in
                     DispatchQueue.main.async {
                         withAnimation {
-                            chartData = viewModel.getLastSevenDaysData(startFrom: Date())
+                            chartData = viewModel.getLastSevenDaysData(startFrom: todayDateComponent)
                             for item in chartData{
                                 if item.tag == "Keinginan"{
                                     wantsTotal += item.expense
@@ -65,6 +61,34 @@ struct NeedsWantsBarChart: View {
                             total = wantsTotal + needsTotal
                             needsPercentage = needsTotal / total
                             wantsPercentage = wantsTotal / total
+                            uniqueDates = []
+                            chartDate = []
+                            uniqueDates = chartData.map({$0.date})
+                            for date in uniqueDates{
+                                let correctDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+                                chartDate.append(correctDate)
+                                
+                            }
+                        }
+                    }
+                })
+                .onAppear{
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            chartData = viewModel.getLastSevenDaysData(startFrom: todayDateComponent)
+                            for item in chartData{
+                                if item.tag == "Keinginan"{
+                                    wantsTotal += item.expense
+                                }
+                                else{
+                                    needsTotal += item.expense
+                                }
+                            }
+                            total = wantsTotal + needsTotal
+                            needsPercentage = needsTotal / total
+                            wantsPercentage = wantsTotal / total
+                            uniqueDates = []
+                            chartDate = []
                             uniqueDates = chartData.map({$0.date})
                             for date in uniqueDates{
                                 let correctDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
@@ -95,6 +119,6 @@ struct NeedsWantsBarChart: View {
 
 struct NeedsWantsBarChart_Previews: PreviewProvider {
     static var previews: some View {
-        NeedsWantsBarChart(needsPercentage: .constant(50), wantsPercentage: .constant(50)).environmentObject(coreDataViewModel())
+        NeedsWantsBarChart(needsPercentage: .constant(50), wantsPercentage: .constant(50), todayDateComponent: .constant(Date())).environmentObject(coreDataViewModel())
     }
 }

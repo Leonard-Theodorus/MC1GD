@@ -38,9 +38,9 @@ extension Date{
     func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
         return calendar.component(component, from: self)
     }
-    func getDatesForLastNDays(nDays : Int) -> [String]{
+    func getDatesForLastNDays(startDate : Date ,nDays : Int) -> [String]{
         let cal = NSCalendar.current
-        var date = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+        var date = Calendar.current.date(byAdding: .day, value: 1, to: startDate)!
         var arrDates = [String]()
         for _ in 1 ... nDays{
             date = cal.date(byAdding: Calendar.Component.day, value: -1, to: date)!
