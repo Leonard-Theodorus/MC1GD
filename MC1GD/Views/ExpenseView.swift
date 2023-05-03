@@ -114,13 +114,14 @@ struct ExpenseView: View {
                             Text(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")
                         }
                         .padding()
-                        .swipeActions {
-                            Button{
-                                viewModel.deleteItem(for:  item.itemId!)
-                            } label: {
-                                Label("", systemImage: "trash")
-                            }.tint(.red)
-                        }
+                            .swipeActions {
+                                Button{
+                                    viewModel.deleteItem(for:  item.itemId!)
+                                } label: {
+                                    Label("", systemImage: "trash")
+                                }.tint(.red)
+                                
+                            }
                         
                     }
                 }

@@ -15,47 +15,10 @@ class coreDataViewModel : ObservableObject{
     let manager = PersistenceController.shared
     @Published var userItems : [ItemEntity] = []
     @Published var itemForBarChart : [ItemEntity] = []
-    @Published var userList: [UserEntity] = []
     let categoryFNB = category.FNB.rawValue
     let categoryTransport = category.transport.rawValue
     let categoryBarang = category.barang.rawValue
     let dateFormatter = DateFormatter()
-    
-    func fetchUser(){
-        let request = NSFetchRequest<UserEntity>(entityName: "UserEntity")
-        
-        withAnimation(Animation.default) {
-            do{
-                userList = try manager.container.viewContext.fetch(request)
-            }
-            catch let error{
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    func checkEmptyUsername() -> Bool{
-        return userList.isEmpty
-    }
-    
-    func getName() -> String{
-        return userList.first!.username ?? "error"
-    }
-    
-    func addName(name : String){
-        let newUser = UserEntity(context: manager.container.viewContext)
-        newUser.username = name
-        withAnimation(Animation.default) {
-            do{
-                try manager.container.viewContext.save()
-            }
-            catch{
-                print(error.localizedDescription)
-            }
-        }
-        fetchUser()
-    }
-    
     func fetchItems(for date : Date){
         let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
         dateFormatter.dateFormat = "yyyyMMdd"
