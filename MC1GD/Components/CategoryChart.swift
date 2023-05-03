@@ -14,6 +14,7 @@ struct CategoryChart: View {
     @Binding var todayDateComponent : Date
     @State var data : DoughnutChartData = selectedData()
     @State var allExpense : Double = 0
+    @State var cropedFNB = category.FNB.rawValue.prefix(7)
     var body: some View {
         
         VStack(alignment: .center) {
@@ -25,6 +26,7 @@ struct CategoryChart: View {
                     .frame(width: 120,
                            height: 200,
                            alignment: .center)
+                    .padding(.horizontal,10)
                 //                    .touchOverlay(chartData: data)
                 
                     VStack(alignment: .trailing){
@@ -35,38 +37,67 @@ struct CategoryChart: View {
                         Text(currencyFormatter.string(from: NSNumber(value: allExpense)) ?? "")
                             .foregroundColor(.primary_purple)
                             .font(.title)
-                        HStack{
-                            Image(systemName: "circle.fill")
-                                .imageScale(.medium)
-                                .foregroundColor(.primary_purple)
-                            Text("\(category.FNB.rawValue)")
-                                .foregroundColor(.black)
-                                .font(.caption2)
-                        }.padding(.vertical,2)
-                        HStack{
-                            Image(systemName: "circle.fill")
-                                .imageScale(.medium)
-                                .foregroundColor(.secondary_purple)
-                            Text("\(category.transport.rawValue)")
-                                .foregroundColor(.black)
-                                .font(.caption2)
-                        }.padding(.bottom,2)
-                        HStack{
-                            Image(systemName: "circle.fill")
-                                .imageScale(.medium)
-                                .foregroundColor(.tertiary_purple)
-                            Text("\(category.barang.rawValue)")
-                                .foregroundColor(.black)
-                                .font(.caption2)
+                            .fontWeight(.bold)
+                            .padding(.bottom,2)
+                        HStack(alignment:.top){
+                            HStack{
+                                Text(cropedFNB)
+                                    .foregroundColor(.black)
+                                    .font(.caption2)
+                                Image(systemName: "circle.fill")
+                                    .imageScale(.small)
+                                    .foregroundColor(.primary_purple)
+                                    .padding(.leading,-5)
+                            }
+                            VStack(alignment:.trailing){
+                                HStack{
+                                    Text("\(category.transport.rawValue)")
+                                        .foregroundColor(.black)
+                                        .font(.caption2)
+                                    Image(systemName: "circle.fill")
+                                        .imageScale(.small)
+                                        .foregroundColor(.secondary_purple)
+                                        .padding(.leading,-5)
+                                }.padding(.bottom,2)
+                                HStack{
+                                    Text("\(category.barang.rawValue)")
+                                        .foregroundColor(.black)
+                                        .font(.caption2)
+                                    Image(systemName: "circle.fill")
+                                        .imageScale(.small)
+                                        .foregroundColor(.tertiary_purple)
+                                        .padding(.leading,-5)
+                                }
+                            }
+                            .padding(.leading,-5)
                         }
-                    }.padding(.leading,20)
+                        .padding(.bottom,2)
+                        .padding(.leading,15)
+                        HStack{
+                            Image(systemName: "face.smiling.inverse")
+                                .imageScale(.small)
+                                .foregroundColor(.primary_purple)
+                                .frame(width: 39)
+                            Text("Jangan lupa untuk selalu mengisi kategori pengeluaran")
+                                .foregroundColor(.secondary_gray)
+                                .font(.caption2)
+                                .multilineTextAlignment(.trailing)
+                            
+                        }
+                        .frame(width: 150, height: 60)
+                        .padding(6)
+                        .background(Color.primary_white)
+                        .cornerRadius(20)
+                        
+                    }
                 
                 
             }
             .frame(maxWidth:351, maxHeight: 250)
+            .padding(.horizontal, 10)
             .background(Color(.white))
             .cornerRadius(20)
-            .shadow(radius: 4, y:8)
+            .shadow(radius: 4, y:2)
             .onAppear{
                 withAnimation {
                     viewModel.fetchItems(for: todayDateComponent)
@@ -84,7 +115,7 @@ struct CategoryChart: View {
                 }
             })
             
-        }.frame(maxWidth:351)
+        }.frame(width:351)
         
     }
     

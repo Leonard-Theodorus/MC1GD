@@ -21,6 +21,7 @@ struct HorizontalProgressBar: View {
                         .foregroundColor(.white)
                 }
                 .frame(width: abs((UIScreen.main.bounds.width * needsPercentage) - 40))
+                .frame(height:30)
                 .background(Color.tag_purple)
                 VStack(alignment : .trailing){
                     Text(String(Int(round(wantsPercentage * 100))) + "%")
@@ -28,6 +29,7 @@ struct HorizontalProgressBar: View {
                         .foregroundColor(.white)
                 }
                 .frame(width: abs((UIScreen.main.bounds.width * wantsPercentage) - 40))
+                .frame(height:30)
                 .background(Color.tag_pink)
                 
                 
@@ -35,19 +37,27 @@ struct HorizontalProgressBar: View {
             .mask{
                 RoundedRectangle(cornerRadius: 20)
             }
-            .shadow(radius: 4, y: 8)
+            .shadow(radius: 4, y: 2)
             HStack{
-                Text("Kebutuhan")
-                    .font(.caption)
-                    .padding(.leading, 50)
+                VStack(alignment: .trailing){
+                    Text("Kebutuhan")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .italic()
+                        .padding(.leading, 50)
+                }
                 Spacer()
-                Text("Keinginan")
-                    .font(.caption)
-                    .padding(.trailing, 50)
+                VStack(alignment: .leading){
+                    Text("Keinginan")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .italic()
+                        .padding(.trailing, 50)
+                }
             }
-            
-            .foregroundColor(.primary_gray)
-        }
+            .foregroundColor(.secondary_gray)
+            .frame(width:351)
+        }.frame(width:351)
         
         
         

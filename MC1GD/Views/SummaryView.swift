@@ -28,23 +28,26 @@ struct SummaryView: View {
             .zIndex(1)
             
             VStack (alignment: .center){
-                
+                // MARK: Customized date picker
                 ZStack{
                     Button{
                         withAnimation {
                             showDate.toggle()
                         }
                     }label: {
-                        Text(Date().formatDateFrom(for: todayDateComponent))
-                            .padding(.vertical,8)
-                            .padding(.horizontal,20)
-                            .foregroundColor(.black)
-                            .background(
-                                RoundedRectangle(cornerRadius: 30)
-                                    .stroke(lineWidth: 0)
-                                    .background(Color.white.cornerRadius(20))
-                                    .shadow(radius: 2)
-                            )
+//                        Text(Date().formatDateFrom(for: todayDateComponent))
+//                            .padding(.vertical,8)
+//                            .padding(.horizontal,20)
+//                            .foregroundColor(.black)
+//                            .background(
+//                                RoundedRectangle(cornerRadius: 20)
+//                                    .stroke(lineWidth: 0)
+//                                    .background(Color.white.cornerRadius(20))
+//                                    .shadow(radius: 2)
+//                            )
+                        Image(systemName: "calendar")
+                            .imageScale(.large)
+                            .foregroundColor(.primary_purple)
                     }
                     HStack{
                         DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
@@ -56,6 +59,7 @@ struct SummaryView: View {
                                     .shadow(radius: 2)
                                 
                             )
+                            .accentColor(Color.primary_purple)
                             .padding(10)
                             .opacity(showDate ? 1 : 0)
                             .offset(y:170)
@@ -92,23 +96,20 @@ struct SummaryView: View {
                 .padding(-20)
                 
                 
-
-                
-
-                
                 VStack{
-                    HStack{
-                        HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
-                    }.padding(.top, 20)
+                    // MARK: Progress bar
+                    HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).padding(.top, 20)
+                    // MARK: Category Donut chart
                     CategoryChart(todayDateComponent: $todayDateComponent)
-                    
+                    // MARK: Last7days bar chart
                     NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).frame(width: 351,height: 200)
-                        .padding()
+                    .padding()
+                    
                     Button{
                         
                     }label: {
                         Text("Beberapa tips yang dapat Anda ikuti")
-                            .font(.footnote)
+                            .font(.caption2)
                             .fontWeight(.bold)
                             .padding(.vertical,8)
                             .padding(.horizontal,20)

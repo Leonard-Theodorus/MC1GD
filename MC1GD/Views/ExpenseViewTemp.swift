@@ -21,12 +21,13 @@ struct ExpenseViewTemp: View {
     @State private var showDatePicker = false
     @State private var categoryShow : CategoryShow = .semua
     @State var allExpense : Double = 0
+    @State var datebutton : Double = 0
     
     var body: some View {
         VStack(alignment: .leading){
             // MARK: title & addItemButton
             HStack(alignment: .center){
-                Text("Expense")
+                Text("Pengeluaran")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 Spacer()
@@ -65,225 +66,284 @@ struct ExpenseViewTemp: View {
                 HStack{
                     Text("Pengeluaran")
                         .font(.headline)
-                        .foregroundColor(Color("primary-gray"))
-                    Spacer()
-                    Button{
-                        withAnimation {
-                            showDatePicker.toggle()
+                        .foregroundColor(Color.primary_purple)
+                        .frame(width: 100)
+                    // MARK: Customized date picker
+                    ZStack{
+                        Button{
+                            withAnimation {
+                                showDatePicker.toggle()
+                            }
+                        }label: {
+                            Text(Date().formatDateFrom(for: todayDateComponent))
+                                .font(.caption)
+                                .padding(.vertical,8)
+                                .padding(.horizontal,10)
+                                .foregroundColor(.white)
+                                .frame(width: 85)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 30)
+                                        .stroke(lineWidth: 0)
+                                        .background(Color.primary_purple.cornerRadius(20))
+                                        .shadow(radius: 2)
+                                )
                         }
-                    } label: {
-                        Text(Date().formatDateFrom(for: todayDateComponent))
-                            .fontWeight(.semibold)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 30)
-                                    .stroke(Color.gray)
-                                    .background(Color("primary-purple").cornerRadius(30))
-                            )
-                            .font(.footnote)
-                            .foregroundColor(.white)
-                        // MARK: ini coba langsung pake date picker, klo di ip14 harusnya udah oke, cuman warna fontnya masi gabisa diubah
-                        //                        DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-                        //                            .foregroundColor(.white)
-                        //                            .datePickerStyle(.compact)
-                        //                            .clipShape(Capsule())
-                        //                            .accentColor(Color.secondary_purple)
-                        //                            .background(
-                        //                                RoundedRectangle(cornerRadius: 20)
-                        //                                    .stroke(Color.gray)
-                        //                                    .background(Color.primary_purple).cornerRadius(20)
-                        //                                    .offset(x:35)
-                        //                                    .frame(width: 135)
-                        //                                    .foregroundColor(.white)
-                        //                            )
-                        //                            .cornerRadius(30)
-                        //                            .onChange(of: todayDateComponent, perform: { newValue in
-                        //                                DispatchQueue.main.async {
-                        //                                    withAnimation {
-                        //                                        showDatePicker.toggle()
-                        //                                        viewModel.fetchItems(for: todayDateComponent)
-                        //                                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                        .zIndex(3)
+                        .padding(.leading,60)
+                        .padding(.trailing,-60)
+                        
+                        HStack(alignment: .center){
+                            DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+                                .datePickerStyle(.graphical)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(lineWidth: 0)
+                                        .background(Color.white.cornerRadius(20))
+                                        .shadow(radius: 2)
+                                    
+                                )
+                                .accentColor(Color.primary_purple)
+                                .padding(10)
+                                .opacity(showDatePicker ? 1 : 0)
+                                .offset(y:160)
+                                .frame(width: 280)
+                                .onChange(of: todayDateComponent, perform: { newValue in
+                                    DispatchQueue.main.async {
+                                        withAnimation {
+                                            showDatePicker.toggle()
+                                            viewModel.fetchItems(for: todayDateComponent)
+                                        }
+                                    }
+                                    
+                                    
+                                })
+                            
+                        }
+                        .zIndex(5)
+                        .padding(.trailing,70)
+//                        .background(.gray)
+
+                        //                            DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+                        //                                .datePickerStyle(.compact)
+                        //                                .onChange(of: todayDateComponent, perform: { newValue in
+                        //                                    DispatchQueue.main.async {
+                        //                                        withAnimation {
+                        //                                            showDate.toggle()
+                        //                                            viewModel.fetchItems(for: todayDateComponent)
+                        //                                        }
                         //                                    }
-                        //                                }
                         //
-                        //                            })
+                        //                                })
+                        //                                .frame(width: 50)
+                        
+                        
                     }
-                    .background(
-                        DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-                            .datePickerStyle(.compact)
-                            .clipShape(Capsule())
-                            .opacity(showDatePicker ? 1 : 0)
-                            .offset(y: 50)
-                            .onChange(of: todayDateComponent, perform: { newValue in
-                                DispatchQueue.main.async {
-                                    withAnimation {
-                                        showDatePicker.toggle()
-                                        viewModel.fetchItems(for: todayDateComponent)
-                                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
-                                    }
-                                }
-                                
-                            })
-                    )
+                    .frame(height:55)
+                    .zIndex(3)
+                    .padding(.vertical,-30)
+                    .padding(.leading,-70)
+                    .padding(.trailing,-70)
+//                    Button{
+//                        withAnimation {
+//                            showDatePicker.toggle()
+//                        }
+//                    } label: {
+//                        Text(Date().formatDateFrom(for: todayDateComponent))
+//                            .fontWeight(.semibold)
+//                            .padding()
+//                            .background(
+//                                RoundedRectangle(cornerRadius: 30)
+//                                    .stroke(Color.gray)
+//                                    .background(Color("primary-purple").cornerRadius(30))
+//                            )
+//                            .font(.footnote)
+//                            .foregroundColor(.white)
+//
+//                    }
+//                    .background(
+//                        DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+//                            .datePickerStyle(.compact)
+//                            .clipShape(Capsule())
+//                            .opacity(showDatePicker ? 1 : 0)
+//                            .offset(y: 50)
+//                            .onChange(of: todayDateComponent, perform: { newValue in
+//                                DispatchQueue.main.async {
+//                                    withAnimation {
+//                                        showDatePicker.toggle()
+//                                        viewModel.fetchItems(for: todayDateComponent)
+//                                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+//                                    }
+//                                }
+//
+//                            })
+//                    )
                 }
-                .padding(.horizontal,8)
-                Picker("Category", selection: $categoryShow){
-                    Text("Semua").tag(CategoryShow.semua)
-                    Text("Keinginan").tag(CategoryShow.keinginan)
-                    Text("Kebutuhan").tag(CategoryShow.kebutuhan)
-                }
-                .pickerStyle(.segmented)
-                List {
-                    ForEach(viewModel.userItems){ item in
-                        if categoryShow == .keinginan && item.itemTag == "Keinginan" {
-                            VStack{
-                                HStack(alignment: .top){
-                                    Image(systemName: "fork.knife")
-                                        .resizable()
-                                        .padding(12)
-                                        .scaledToFit()
-                                        .frame(width: 54,height: 54)
-                                        .background(Color("primary-purple"))
-                                        .cornerRadius(10)
-                                        .foregroundColor(.white)
-                                    VStack(alignment: .leading){
-                                        Text(item.itemName!)
-                                            .font(.headline)
-                                        Text(item.itemTag!)
-                                            .font(.caption)
-                                            .padding(.horizontal,5)
-                                            .background(Color("primary-orange"))
+                .zIndex(2)
+                .frame(maxWidth: 351)
+                VStack{
+                    Picker("Category", selection: $categoryShow){
+                        Text("Semua").tag(CategoryShow.semua)
+                        Text("Keinginan").tag(CategoryShow.keinginan)
+                        Text("Kebutuhan").tag(CategoryShow.kebutuhan)
+                    }
+                    .zIndex(1)
+                    .pickerStyle(.segmented)
+                    
+                    List {
+                        ForEach(viewModel.userItems){ item in
+                            if categoryShow == .keinginan && item.itemTag == "Keinginan" {
+                                VStack{
+                                    HStack(alignment: .top){
+                                        Image(systemName: "fork.knife")
+                                            .resizable()
+                                            .padding(12)
+                                            .scaledToFit()
+                                            .frame(width: 54,height: 54)
+                                            .background(Color("primary-purple"))
+                                            .cornerRadius(10)
                                             .foregroundColor(.white)
-                                            .cornerRadius(3)
-                                        Text(item.itemDescription!)
-                                            .font(.caption2)
-                                            .foregroundColor(Color("primary-gray"))
-                                            .padding(.top,1)
-                                            .lineSpacing(4)
+                                        VStack(alignment: .leading){
+                                            Text(item.itemName!)
+                                                .font(.headline)
+                                            Text(item.itemTag!)
+                                                .font(.caption)
+                                                .padding(.horizontal,5)
+                                                .background(Color("primary-orange"))
+                                                .foregroundColor(.white)
+                                                .cornerRadius(3)
+                                            Text(item.itemDescription!)
+                                                .font(.caption2)
+                                                .foregroundColor(Color("primary-gray"))
+                                                .padding(.top,1)
+                                                .lineSpacing(4)
+                                        }
+                                        Spacer()
+                                        Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
+                                            .foregroundColor(Color("primary-red"))
+                                            .fontWeight(.bold)
                                     }
-                                    Spacer()
-                                    Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                        .foregroundColor(Color("primary-red"))
-                                        .fontWeight(.bold)
-                                }
-                                .padding(.horizontal,-1)
-                                .padding(.top)
-                                .swipeActions {
-                                    Button{
-                                        viewModel.deleteItem(for:  item.itemId!)
-                                    } label: {
-                                        Label("", systemImage: "trash")
-                                    }.tint(.red)
-                                }
-                                Rectangle()
-                                    .foregroundColor(Color("primary-gray"))
-                                    .frame(height: 1)
-                                    .padding(.vertical,2)
+                                    .padding(.horizontal,-1)
+                                    .padding(.top)
+                                    .swipeActions {
+                                        Button{
+                                            viewModel.deleteItem(for:  item.itemId!)
+                                        } label: {
+                                            Label("", systemImage: "trash")
+                                        }.tint(.red)
+                                    }
+                                    Rectangle()
+                                        .foregroundColor(Color("primary-gray"))
+                                        .frame(height: 1)
+                                        .padding(.vertical,2)
                                     
+                                }
+                                .listRowInsets(EdgeInsets())
+                                .listRowSeparator(.hidden)
                             }
-                            .listRowInsets(EdgeInsets())
-                            .listRowSeparator(.hidden)
-                        }
-                        else if categoryShow == .kebutuhan && item.itemTag == "Kebutuhan" {
-                            VStack{
-                                HStack(alignment: .top){
-                                    Image(systemName: "fork.knife")
-                                        .resizable()
-                                        .padding(12)
-                                        .scaledToFit()
-                                        .frame(width: 54,height: 54)
-                                        .background(Color("primary-purple"))
-                                        .cornerRadius(10)
-                                        .foregroundColor(.white)
-                                    VStack(alignment: .leading){
-                                        Text(item.itemName!)
-                                            .font(.headline)
-                                        Text(item.itemTag!)
-                                            .font(.caption)
-                                            .padding(.horizontal,5)
-                                            .background(Color("primary-orange"))
+                            else if categoryShow == .kebutuhan && item.itemTag == "Kebutuhan" {
+                                VStack{
+                                    HStack(alignment: .top){
+                                        Image(systemName: "fork.knife")
+                                            .resizable()
+                                            .padding(12)
+                                            .scaledToFit()
+                                            .frame(width: 54,height: 54)
+                                            .background(Color("primary-purple"))
+                                            .cornerRadius(10)
                                             .foregroundColor(.white)
-                                            .cornerRadius(3)
-                                        Text(item.itemDescription!)
-                                            .font(.caption2)
-                                            .foregroundColor(Color("primary-gray"))
-                                            .padding(.top,1)
-                                            .lineSpacing(4)
+                                        VStack(alignment: .leading){
+                                            Text(item.itemName!)
+                                                .font(.headline)
+                                            Text(item.itemTag!)
+                                                .font(.caption)
+                                                .padding(.horizontal,5)
+                                                .background(Color("primary-orange"))
+                                                .foregroundColor(.white)
+                                                .cornerRadius(3)
+                                            Text(item.itemDescription!)
+                                                .font(.caption2)
+                                                .foregroundColor(Color("primary-gray"))
+                                                .padding(.top,1)
+                                                .lineSpacing(4)
+                                        }
+                                        Spacer()
+                                        Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
+                                            .foregroundColor(Color("primary-red"))
+                                            .fontWeight(.bold)
                                     }
-                                    Spacer()
-                                    Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                        .foregroundColor(Color("primary-red"))
-                                        .fontWeight(.bold)
+                                    .padding(.horizontal,-1)
+                                    .padding(.top)
+                                    .swipeActions {
+                                        Button{
+                                            viewModel.deleteItem(for:  item.itemId!)
+                                        } label: {
+                                            Label("", systemImage: "trash")
+                                        }.tint(.red)
+                                    }
+                                    Rectangle()
+                                        .foregroundColor(Color("primary-gray"))
+                                        .frame(height: 1)
+                                        .padding(.vertical,2)
                                 }
-                                .padding(.horizontal,-1)
-                                .padding(.top)
-                                .swipeActions {
-                                    Button{
-                                        viewModel.deleteItem(for:  item.itemId!)
-                                    } label: {
-                                        Label("", systemImage: "trash")
-                                    }.tint(.red)
-                                }
-                                Rectangle()
-                                    .foregroundColor(Color("primary-gray"))
-                                    .frame(height: 1)
-                                    .padding(.vertical,2)
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets())
                             }
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets())
-                        }
-                        else if categoryShow == .semua {
-                            VStack{
-                                HStack(alignment: .top){
-                                    Image(systemName: "fork.knife")
-                                        .resizable()
-                                        .padding(12)
-                                        .scaledToFit()
-                                        .frame(width: 54,height: 54)
-                                        .background(Color("primary-purple"))
-                                        .cornerRadius(10)
-                                        .foregroundColor(.white)
-                                    VStack(alignment: .leading){
-                                        Text(item.itemName!)
-                                            .font(.headline)
-                                        Text(item.itemTag!)
-                                            .font(.caption)
-                                            .padding(.horizontal,5)
-                                            .background(Color("primary-orange"))
+                            else if categoryShow == .semua {
+                                VStack{
+                                    HStack(alignment: .top){
+                                        Image(systemName: "fork.knife")
+                                            .resizable()
+                                            .padding(12)
+                                            .scaledToFit()
+                                            .frame(width: 54,height: 54)
+                                            .background(Color("primary-purple"))
+                                            .cornerRadius(10)
                                             .foregroundColor(.white)
-                                            .cornerRadius(3)
-                                        Text(item.itemDescription!)
-                                            .font(.caption2)
-                                            .foregroundColor(Color("primary-gray"))
-                                            .padding(.top,1)
-                                            .lineSpacing(4)
+                                        VStack(alignment: .leading){
+                                            Text(item.itemName!)
+                                                .font(.headline)
+                                            Text(item.itemTag!)
+                                                .font(.caption)
+                                                .padding(.horizontal,5)
+                                                .background(Color("primary-orange"))
+                                                .foregroundColor(.white)
+                                                .cornerRadius(3)
+                                            Text(item.itemDescription!)
+                                                .font(.caption2)
+                                                .foregroundColor(Color("primary-gray"))
+                                                .padding(.top,1)
+                                                .lineSpacing(4)
+                                        }
+                                        Spacer()
+                                        Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
+                                            .foregroundColor(Color("primary-red"))
+                                            .fontWeight(.bold)
                                     }
-                                    Spacer()
-                                    Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                        .foregroundColor(Color("primary-red"))
-                                        .fontWeight(.bold)
-                                }
-                                .padding(.horizontal,-1)
-                                .padding(.top)
-                                .swipeActions {
-                                    Button{
-                                        viewModel.deleteItem(for:  item.itemId!)
-                                    } label: {
-                                        Label("", systemImage: "trash")
-                                    }.tint(.red)
-                                }
-                                Rectangle()
-                                    .foregroundColor(Color("primary-gray"))
-                                    .frame(height: 1)
-                                    .padding(.vertical,2)
+                                    .padding(.horizontal,-1)
+                                    .padding(.top)
+                                    .swipeActions {
+                                        Button{
+                                            viewModel.deleteItem(for:  item.itemId!)
+                                        } label: {
+                                            Label("", systemImage: "trash")
+                                        }.tint(.red)
+                                    }
+                                    Rectangle()
+                                        .foregroundColor(Color("primary-gray"))
+                                        .frame(height: 1)
+                                        .padding(.vertical,2)
                                     
+                                }
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets())
                             }
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets())
                         }
                     }
+                    .listStyle(.plain)
+                    .clipped()
+                    .zIndex(1)
                 }
-                .listStyle(.plain)
+                
                 
                 
                 
@@ -291,9 +351,9 @@ struct ExpenseViewTemp: View {
             }
             .padding()
             .background(.white)
-            .cornerRadius(35)
-            .clipped()
-            .shadow(color: Color.gray, radius: 4, x: -2, y: 2)
+            .frame(maxWidth: 351)
+            .cornerRadius(22)
+            .shadow(color: Color.gray, radius: 4, y: 2)
             .padding(.top,12)
             
         }
