@@ -83,6 +83,18 @@ struct NewItemView: View {
                                     } label: {
                                         Image(systemName: "delete.left").foregroundColor(.red)
                                     }
+                                    , alignment: .trailing
+                                )
+                                .focused($isFocusedName)
+                        }.padding(.vertical, 5)
+                        if !formVm.textIsValid{
+                            Text("Nama barang harus diisi, tidak diawali ataupun diakhiri dengan spasi.")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
+                        else{
+                            Image(systemName: "checkmark").foregroundColor(.green)
+                        }
                                     .buttonStyle(.borderless)
                                     .clipped()
                                     .opacity(formVm.buttonDeleteOn ? 1.0 : 0.0)
@@ -90,7 +102,6 @@ struct NewItemView: View {
                                 }
                                 , alignment: .trailing
                             )
-                            .focused($isFocusedName)
                         
                     }.padding(.vertical, 5)
                     if !formVm.textIsValid{
