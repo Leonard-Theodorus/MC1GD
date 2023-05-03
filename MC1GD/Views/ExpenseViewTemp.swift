@@ -39,7 +39,7 @@ struct ExpenseViewTemp: View {
                     Text("Hai,")
                         .font(.title2)
                         .fontWeight(.light)
-                    Text("Berwang!")
+                    Text(viewModel.getName())
                         .font(.title2)
                         .fontWeight(.semibold)
                     Spacer()
@@ -109,125 +109,175 @@ struct ExpenseViewTemp: View {
                     Text("Kebutuhan").tag(CategoryShow.kebutuhan)
                 }
                 .pickerStyle(.segmented)
-                ForEach(viewModel.userItems){ item in
-                    if categoryShow == .keinginan && item.itemTag == "Keinginan" {
-                        VStack{
-                            HStack(alignment: .top){
-                                Image(systemName: "fork.knife")
-                                    .resizable()
-                                    .padding(12)
-                                    .scaledToFit()
-                                    .frame(width: 54,height: 54)
-                                    .background(Color("primary-purple"))
-                                    .cornerRadius(10)
+                
+                List() {
+                    VStack{
+                        HStack(alignment: .top){
+                            Image(systemName: "fork.knife")
+                                .resizable()
+                                .padding(12)
+                                .scaledToFit()
+                                .frame(width: 54,height: 54)
+                                .background(Color("primary-purple"))
+                                .cornerRadius(10)
+                                .foregroundColor(.white)
+                            VStack(alignment: .leading){
+                                Text("item.itemName!")
+                                    .font(.headline)
+                                Text("item.itemTag!")
+                                    .font(.caption)
+                                    .padding(.horizontal,5)
+                                    .background(Color("primary-orange"))
                                     .foregroundColor(.white)
-                                VStack(alignment: .leading){
-                                    Text(item.itemName!)
-                                        .font(.headline)
-                                    Text(item.itemTag!)
-                                        .font(.caption)
-                                        .padding(.horizontal,5)
-                                        .background(Color("primary-orange"))
-                                        .foregroundColor(.white)
-                                        .cornerRadius(3)
-                                    Text(item.itemDescription!)
-                                        .font(.caption2)
-                                        .foregroundColor(Color("primary-gray"))
-                                        .padding(.top,1)
-                                        .lineSpacing(4)
-                                }
-                                Spacer()
-                                Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                    .foregroundColor(Color("primary-red"))
-                                    .fontWeight(.bold)
+                                    .cornerRadius(3)
+                                Text("item.itemDescription!")
+                                    .font(.caption2)
+                                    .foregroundColor(Color("primary-gray"))
+                                    .padding(.top,1)
+                                    .lineSpacing(4)
                             }
-                            .padding(.horizontal,-1)
-                            .padding(.top)
-                            Rectangle()
-                                .foregroundColor(Color("primary-gray"))
-                                .frame(height: 1)
-                                .padding(.vertical,2)
+                            Spacer()
+                            Text("- \(currencyFormatter.string(from: NSNumber(value: 40000 )) ?? "")")
+                                .foregroundColor(Color("primary-red"))
+                                .fontWeight(.bold)
                         }
-                    }else if categoryShow == .kebutuhan && item.itemTag == "Kebutuhan" {
-                        VStack{
-                            HStack(alignment: .top){
-                                Image(systemName: "fork.knife")
-                                    .resizable()
-                                    .padding(12)
-                                    .scaledToFit()
-                                    .frame(width: 54,height: 54)
-                                    .background(Color("primary-purple"))
-                                    .cornerRadius(10)
-                                    .foregroundColor(.white)
-                                VStack(alignment: .leading){
-                                    Text(item.itemName!)
-                                        .font(.headline)
-                                    Text(item.itemTag!)
-                                        .font(.caption)
-                                        .padding(.horizontal,5)
-                                        .background(Color("primary-orange"))
-                                        .foregroundColor(.white)
-                                        .cornerRadius(3)
-                                    Text(item.itemDescription!)
-                                        .font(.caption2)
-                                        .foregroundColor(Color("primary-gray"))
-                                        .padding(.top,1)
-                                        .lineSpacing(4)
-                                }
-                                Spacer()
-                                Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                    .foregroundColor(Color("primary-red"))
-                                    .fontWeight(.bold)
-                            }
-                            .padding(.horizontal,-1)
-                            .padding(.top)
-                            Rectangle()
-                                .foregroundColor(Color("primary-gray"))
-                                .frame(height: 1)
-                                .padding(.vertical,2)
-                        }
-                    }else if categoryShow == .semua {
-                        VStack{
-                            HStack(alignment: .top){
-                                Image(systemName: "fork.knife")
-                                    .resizable()
-                                    .padding(12)
-                                    .scaledToFit()
-                                    .frame(width: 54,height: 54)
-                                    .background(Color("primary-purple"))
-                                    .cornerRadius(10)
-                                    .foregroundColor(.white)
-                                VStack(alignment: .leading){
-                                    Text(item.itemName!)
-                                        .font(.headline)
-                                    Text(item.itemTag!)
-                                        .font(.caption)
-                                        .padding(.horizontal,5)
-                                        .background(Color("primary-orange"))
-                                        .foregroundColor(.white)
-                                        .cornerRadius(3)
-                                    Text(item.itemDescription!)
-                                        .font(.caption2)
-                                        .foregroundColor(Color("primary-gray"))
-                                        .padding(.top,1)
-                                        .lineSpacing(4)
-                                }
-                                Spacer()
-                                Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                    .foregroundColor(Color("primary-red"))
-                                    .fontWeight(.bold)
-                            }
-                            .padding(.horizontal,-1)
-                            .padding(.top)
-                            Rectangle()
-                                .foregroundColor(Color("primary-gray"))
-                                .frame(height: 1)
-                                .padding(.vertical,2)
-                        }
+                        .padding(.horizontal,-18)
+                        .padding(.top,2)
                     }
+                    .swipeActions {
+                        Button{
+                            
+                        } label: {
+                            Label("", systemImage: "trash")
+                        }.tint(.red)
+                    }
+                    
+//                    ForEach(viewModel.userItems){ item in
+//                        if categoryShow == .keinginan && item.itemTag == "Keinginan" {
+//                            VStack{
+//                                HStack(alignment: .top){
+//                                    Image(systemName: "fork.knife")
+//                                        .resizable()
+//                                        .padding(12)
+//                                        .scaledToFit()
+//                                        .frame(width: 54,height: 54)
+//                                        .background(Color("primary-purple"))
+//                                        .cornerRadius(10)
+//                                        .foregroundColor(.white)
+//                                    VStack(alignment: .leading){
+//                                        Text(item.itemName!)
+//                                            .font(.headline)
+//                                        Text(item.itemTag!)
+//                                            .font(.caption)
+//                                            .padding(.horizontal,5)
+//                                            .background(Color("primary-orange"))
+//                                            .foregroundColor(.white)
+//                                            .cornerRadius(3)
+//                                        Text(item.itemDescription!)
+//                                            .font(.caption2)
+//                                            .foregroundColor(Color("primary-gray"))
+//                                            .padding(.top,1)
+//                                            .lineSpacing(4)
+//                                    }
+//                                    Spacer()
+//                                    Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
+//                                        .foregroundColor(Color("primary-red"))
+//                                        .fontWeight(.bold)
+//                                }
+//                                .padding(.horizontal,-1)
+//                                .padding(.top)
+//                                Rectangle()
+//                                    .foregroundColor(Color("primary-gray"))
+//                                    .frame(height: 1)
+//                                    .padding(.vertical,2)
+//                            }
+//                        }else if categoryShow == .kebutuhan && item.itemTag == "Kebutuhan" {
+//                            VStack{
+//                                HStack(alignment: .top){
+//                                    Image(systemName: "fork.knife")
+//                                        .resizable()
+//                                        .padding(12)
+//                                        .scaledToFit()
+//                                        .frame(width: 54,height: 54)
+//                                        .background(Color("primary-purple"))
+//                                        .cornerRadius(10)
+//                                        .foregroundColor(.white)
+//                                    VStack(alignment: .leading){
+//                                        Text(item.itemName!)
+//                                            .font(.headline)
+//                                        Text(item.itemTag!)
+//                                            .font(.caption)
+//                                            .padding(.horizontal,5)
+//                                            .background(Color("primary-orange"))
+//                                            .foregroundColor(.white)
+//                                            .cornerRadius(3)
+//                                        Text(item.itemDescription!)
+//                                            .font(.caption2)
+//                                            .foregroundColor(Color("primary-gray"))
+//                                            .padding(.top,1)
+//                                            .lineSpacing(4)
+//                                    }
+//                                    Spacer()
+//                                    Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
+//                                        .foregroundColor(Color("primary-red"))
+//                                        .fontWeight(.bold)
+//                                }
+//                                .padding(.horizontal,-1)
+//                                .padding(.top)
+//                                Rectangle()
+//                                    .foregroundColor(Color("primary-gray"))
+//                                    .frame(height: 1)
+//                                    .padding(.vertical,2)
+//                            }
+//                        }else if categoryShow == .semua {
+//                            VStack{
+//                                HStack(alignment: .top){
+//                                    Image(systemName: "fork.knife")
+//                                        .resizable()
+//                                        .padding(12)
+//                                        .scaledToFit()
+//                                        .frame(width: 54,height: 54)
+//                                        .background(Color("primary-purple"))
+//                                        .cornerRadius(10)
+//                                        .foregroundColor(.white)
+//                                    VStack(alignment: .leading){
+//                                        Text(item.itemName!)
+//                                            .font(.headline)
+//                                        Text(item.itemTag!)
+//                                            .font(.caption)
+//                                            .padding(.horizontal,5)
+//                                            .background(Color("primary-orange"))
+//                                            .foregroundColor(.white)
+//                                            .cornerRadius(3)
+//                                        Text(item.itemDescription!)
+//                                            .font(.caption2)
+//                                            .foregroundColor(Color("primary-gray"))
+//                                            .padding(.top,1)
+//                                            .lineSpacing(4)
+//                                    }
+//                                    Spacer()
+//                                    Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
+//                                        .foregroundColor(Color("primary-red"))
+//                                        .fontWeight(.bold)
+//                                }
+//                                .padding(.horizontal,-1)
+//                                .padding(.top)
+//                                Rectangle()
+//                                    .foregroundColor(Color("primary-gray"))
+//                                    .frame(height: 1)
+//                                    .padding(.vertical,2)
+//                            }
+//                            .swipeActions {
+//                                Button{
+//                                    viewModel.deleteItem(for:  item.itemId!)
+//                                } label: {
+//                                    Label("", systemImage: "trash")
+//                                }.tint(.red)
+//                            }
+//                        }
+//                    }
                 }
-                
-                
+                .listStyle(PlainListStyle())
                 
                 Spacer()
             }

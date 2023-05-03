@@ -80,7 +80,6 @@ struct NewItemView: View {
                                     , alignment: .trailing
                                 )
                                 .focused($isFocusedName)
-                            
                         }.padding(.vertical, 5)
                         if !formVm.textIsValid{
                             
