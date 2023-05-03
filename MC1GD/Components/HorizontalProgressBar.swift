@@ -16,20 +16,36 @@ struct HorizontalProgressBar: View {
         VStack{
             HStack(spacing: 0){
                 VStack(alignment: .leading){
-                    Text(String(Int(round(needsPercentage * 100))) + "%")
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .foregroundColor(.white)
+                    if needsPercentage.isNaN{
+                        Text("0%")
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .foregroundColor(.white)
+                    }
+                    else{
+                        Text(String(Int(round(needsPercentage * 100))) + "%")
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .foregroundColor(.white)
+                    }
+                    
                 }
-                .frame(width: abs((UIScreen.main.bounds.width * needsPercentage) - 40))
+                .frame(width: needsPercentage.isNaN ? abs(UIScreen.main.bounds.width * 0.5) - 40 : abs((UIScreen.main.bounds.width * needsPercentage) - 40))
                 .frame(height:30)
                 .frame(maxWidth: 351)
                 .background(Color.tag_purple)
                 VStack(alignment : .trailing){
-                    Text(String(Int(round(wantsPercentage * 100))) + "%")
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .foregroundColor(.white)
+                    if wantsPercentage.isNaN{
+                        Text("0%")
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .foregroundColor(.white)
+                    }
+                    else{
+                        Text(String(Int(round(wantsPercentage * 100))) + "%")
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .foregroundColor(.white)
+                    }
+                    
                 }
-                .frame(width: abs((UIScreen.main.bounds.width * wantsPercentage) - 40))
+                .frame(width: needsPercentage.isNaN ? abs(UIScreen.main.bounds.width * 0.5) - 40 : abs((UIScreen.main.bounds.width * needsPercentage) - 40))
                 .frame(height:30)
                 .frame(maxWidth: 351)
                 .background(Color.tag_pink)
