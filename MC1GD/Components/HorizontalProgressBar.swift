@@ -21,14 +21,14 @@ struct HorizontalProgressBar: View {
                         .foregroundColor(.white)
                 }
                 .frame(width: abs((UIScreen.main.bounds.width * needsPercentage) - 40))
-                .background(Color.purple_tag)
+                .background(Color.tag_purple)
                 VStack(alignment : .trailing){
                     Text(String(Int(round(wantsPercentage * 100))) + "%")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.white)
                 }
                 .frame(width: abs((UIScreen.main.bounds.width * wantsPercentage) - 40))
-                .background(Color.pink_tag)
+                .background(Color.tag_pink)
                 
                 
             }
