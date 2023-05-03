@@ -98,7 +98,7 @@ struct SummaryView: View {
                 
                 VStack{
                     // MARK: Progress bar
-                    HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).padding(.top, 20)
+                    HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).frame(width: 351).padding(.top, 20)
                     // MARK: Category Donut chart
                     CategoryChart(todayDateComponent: $todayDateComponent)
                     // MARK: Last7days bar chart

@@ -171,26 +171,42 @@ class coreDataViewModel : ObservableObject{
     func addNewItem(date: Date, price : Double, itemName : String, itemDescription : String, itemCategory : String, itemTag : String){
         withAnimation(Animation.default) {
             let newItem = ItemEntity(context: manager.container.viewContext)
-            var itemImage : UIImage = UIImage(systemName: "trash")!
+//            // if itemImage Binary datatype
+//            var itemImage : UIImage = UIImage(systemName: "trash")!
+//            switch itemCategory{
+//            case categoryFNB:
+//                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.white))
+//            case categoryTransport:
+//                itemImage = UIImage(systemName: "tram.fill")!.withTintColor(UIColor(Color.white))
+//            case categoryBarang:
+//                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.white))
+//            default:
+//                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.white))
+//            }
+//            // ketika di encode background jadi putih
+//            let newItemImage = encodeImage(for: itemImage)
+            
+            var itemImage : String = "trash"
             switch itemCategory{
             case categoryFNB:
-                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.primary_purple))
+                itemImage = "fork.knife"
             case categoryTransport:
-                itemImage = UIImage(systemName: "tram.fill")!.withTintColor(UIColor(Color.secondary_purple))
+                itemImage = "tram.fill"
             case categoryBarang:
-                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.tertiary_purple))
+                itemImage = "bag"
             default:
-                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.primary_purple))
+                itemImage = "bag"
             }
+//            let newItemImage = itemImage
+            
             dateFormatter.dateFormat = "yyyyMMdd"
-            let newItemImage = encodeImage(for: itemImage)
             let newItemDate = dateFormatter.string(from: date)
             newItem.itemId = UUID().uuidString
             newItem.itemAddedDate = newItemDate
             newItem.itemPrice = price
             newItem.itemName = itemName
             newItem.itemDescription = itemDescription
-            newItem.itemImage = newItemImage
+            newItem.itemImage = itemImage
             newItem.itemCategory = itemCategory
             newItem.itemTag = itemTag
             //append

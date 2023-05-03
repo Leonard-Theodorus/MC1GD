@@ -75,19 +75,29 @@ struct CategoryChart: View {
                         .padding(.leading,15)
                         HStack{
                             Image(systemName: "face.smiling.inverse")
-                                .imageScale(.small)
+                                .imageScale(.large)
                                 .foregroundColor(.primary_purple)
                                 .frame(width: 39)
                             Text("Jangan lupa untuk selalu mengisi kategori pengeluaran")
                                 .foregroundColor(.secondary_gray)
-                                .font(.caption2)
+//                                .font(.caption2)
+                                .font(Font.custom("SF Pro", size: 10))
                                 .multilineTextAlignment(.trailing)
                             
                         }
                         .frame(width: 150, height: 60)
                         .padding(6)
                         .background(Color.primary_white)
-                        .cornerRadius(20)
+                        /// to define different corner radius
+                        .clipShape(
+                            RoundedCorner(
+                                radius: 8,
+                                corners: [.topLeft,.topRight, .bottomLeft]))
+                        .clipShape(
+                            RoundedCorner(
+                                radius: 20,
+                                corners: [ .bottomRight]))
+                        
                         
                     }
                 

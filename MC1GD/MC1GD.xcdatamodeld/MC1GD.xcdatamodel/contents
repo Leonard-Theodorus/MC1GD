@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22D68" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22E261" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ItemEntity" representedClassName="ItemEntity" syncable="YES" codeGenerationType="class">
         <attribute name="itemAddedDate" optional="YES" attributeType="String"/>
         <attribute name="itemCategory" optional="YES" attributeType="String"/>
         <attribute name="itemDescription" optional="YES" attributeType="String"/>
         <attribute name="itemId" optional="YES" attributeType="String"/>
-        <attribute name="itemImage" optional="YES" attributeType="Binary"/>
+        <attribute name="itemImage" optional="YES" attributeType="String"/>
         <attribute name="itemName" optional="YES" attributeType="String"/>
         <attribute name="itemPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="itemTag" optional="YES" attributeType="String"/>

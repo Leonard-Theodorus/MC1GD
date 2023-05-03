@@ -16,6 +16,7 @@
 		D465C76D2A017CDE00447757 /* TipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D465C76C2A017CDE00447757 /* TipsView.swift */; };
 		D4D4A7C929FA37BA008674F8 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D415A44A29FA0FB7004BC18E /* SwiftUICharts */; };
 		D4D4A7CD29FA5BEE008674F8 /* CategoryChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4A7CC29FA5BEE008674F8 /* CategoryChart.swift */; };
+		D4F9DCA92A026800002F51B5 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F9DCA82A026800002F51B5 /* RoundedCorner.swift */; };
 		D753EC1629F66C28007C3F31 /* MC1GDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC1529F66C28007C3F31 /* MC1GDApp.swift */; };
 		D753EC1A29F66C29007C3F31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D753EC1929F66C29007C3F31 /* Assets.xcassets */; };
 		D753EC1D29F66C29007C3F31 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D753EC1C29F66C29007C3F31 /* Preview Assets.xcassets */; };
@@ -68,6 +69,7 @@
 		B1DB48BF29FFC670003E8BEE /* ExpenseViewTemp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewTemp.swift; sourceTree = "<group>"; };
 		D465C76C2A017CDE00447757 /* TipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsView.swift; sourceTree = "<group>"; };
 		D4D4A7CC29FA5BEE008674F8 /* CategoryChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryChart.swift; sourceTree = "<group>"; };
+		D4F9DCA82A026800002F51B5 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		D753EC1229F66C28007C3F31 /* MC1GD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MC1GD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D753EC1529F66C28007C3F31 /* MC1GDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MC1GDApp.swift; sourceTree = "<group>"; };
 		D753EC1929F66C29007C3F31 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -216,9 +218,9 @@
 				D753EC4A29F66DDA007C3F31 /* AddItemButton.swift */,
 				B13ED56529F8594E00491CFF /* TabBarButton.swift */,
 				D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */,
+				D7C4AB3A2A014F6C00FD76BF /* HorizontalProgressBar.swift */,
 				D4D4A7CC29FA5BEE008674F8 /* CategoryChart.swift */,
 				D780C71C29FEA1E8007BF480 /* NeedsWantsBarChart.swift */,
-				D7C4AB3A2A014F6C00FD76BF /* HorizontalProgressBar.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -240,6 +242,7 @@
 				D780C6DA29FD233D007BF480 /* CategoryEnum.swift */,
 				D780C6DE29FE8411007BF480 /* ColorExtension.swift */,
 				D780C72029FEF6EA007BF480 /* ArrayExtension.swift */,
+				D4F9DCA82A026800002F51B5 /* RoundedCorner.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				D465C76D2A017CDE00447757 /* TipsView.swift in Sources */,
 				B1DB48C029FFC670003E8BEE /* ExpenseViewTemp.swift in Sources */,
 				D7B81C1729F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift in Sources */,
+				D4F9DCA92A026800002F51B5 /* RoundedCorner.swift in Sources */,
 				D753EC5429F66E55007C3F31 /* ImagePicker.swift in Sources */,
 				D780C6D729FA584F007BF480 /* AddItemFromViewModel.swift in Sources */,
 				D753EC1629F66C28007C3F31 /* MC1GDApp.swift in Sources */,
