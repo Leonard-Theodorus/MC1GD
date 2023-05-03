@@ -13,7 +13,7 @@ struct MC1GDApp: App {
     @StateObject var viewModel = coreDataViewModel()
     var body: some Scene {
         WindowGroup {
-            RootView()
+            RootView(data : viewModel.chartDummyData())
                 .environmentObject(viewModel)
         }
     }

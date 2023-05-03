@@ -93,6 +93,11 @@ class coreDataViewModel : ObservableObject{
         uniqueDates = itemForBarChart.map( {$0.itemAddedDate ?? "" } ).unique.sorted()
         var needsTotalExpense : Double = 0
         var wantsTotalExpense : Double = 0
+//        if itemForBarChart.isEmpty{
+//            let nilItem = barChartData
+//            return barChartData[.init]
+//        }
+        
         for date in uniqueDates{
             //Fungsi ini COSTLY AF, masi dipikirin cara untuk optimisasi
             let transactionAtDate = itemForBarChart.filter({$0.itemAddedDate == date})
@@ -238,6 +243,28 @@ class coreDataViewModel : ObservableObject{
             }
         }
     }
+    public func chartDummyData() -> DoughnutChartData{
+        let data = PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: "")
+        
+        let metadata   = ChartMetadata(title: "", subtitle: "")
+        
+        let chartStyle = DoughnutChartStyle(
+            infoBoxPlacement : .floating,
+            infoBoxContentAlignment : .horizontal,
+            infoBoxDescriptionFont : .footnote,
+            infoBoxBorderColour : Color.primary,
+            infoBoxBorderStyle  : StrokeStyle(lineWidth: 1),
+            globalAnimation     : .easeOut(duration: 1)
+        )
+        
+        return DoughnutChartData(
+            dataSets       : data,
+            metadata       : metadata,
+            chartStyle     : chartStyle,
+            noDataText     : Text("No Data")
+        )
+    }
+    
     /// get data for category charts
     public func getChartData(for date: Date) -> DoughnutChartData{
 //        fetchItems(for: date)

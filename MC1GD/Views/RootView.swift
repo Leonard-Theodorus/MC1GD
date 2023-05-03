@@ -6,13 +6,13 @@
 //
 
 import SwiftUI
-
+import SwiftUICharts
 struct RootView: View {
     
     @State var selectedTab : Tabs = .expense
     @State private var todayDateComponent = Date()
     @EnvironmentObject var viewModel: coreDataViewModel
-    
+    @State var data : DoughnutChartData 
     var body: some View {
         VStack{
             if(viewModel.checkEmptyUsername()){
@@ -22,9 +22,9 @@ struct RootView: View {
                     }
             }else{
                 if selectedTab == .summary {
-                    SummaryView(todayDateComponent: $todayDateComponent)
+                    SummaryView(todayDateComponent: $todayDateComponent, data: $data)
                 }else if selectedTab == .expense {
-    //                ExpenseView(todayDateComponent: $todayDateComponent)
+                    //                ExpenseView(todayDateComponent: $todayDateComponent)
                     ExpenseViewTemp(todayDateComponent: $todayDateComponent)
                 }
                 Spacer()
@@ -32,13 +32,18 @@ struct RootView: View {
                 CustomTabBar(selectedTab: $selectedTab)
             }
         }
+        .onAppear{
+            data = viewModel.chartDummyData()
+        }
         
     }
 }
 
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
-        RootView()
-            .environmentObject(coreDataViewModel())
+        RootView(data:
+                    DoughnutChartData(
+                        dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text("")))
+        .environmentObject(coreDataViewModel())
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUICharts
 enum displayRange : Int{
     case day = 0
     case byWeek = 1
@@ -15,17 +16,18 @@ struct SummaryView: View {
     @State private var showDate = false
     @EnvironmentObject var viewModel : coreDataViewModel
     @State var showTips = false
-    @State var needsPercentage : Double = 0
-    @State var wantsPercentage : Double = 0
+    @State var needsPercentage : Double = 0.0
+    @State var wantsPercentage : Double = 0.0
     @State private var showPicker = false
     @State private var caseDisplayRange : displayRange = .day
+    @Binding var data : DoughnutChartData
     var body: some View {
         VStack(alignment: .leading){
             HStack(alignment: .center){
                 Text("Ringkasan")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    
+                
                 Spacer()
             }
             .padding(.horizontal, 22)
@@ -90,7 +92,7 @@ struct SummaryView: View {
                                             )
                                             .shadow(radius: 2)
                                     )
-        
+                                
                                 
                             }
                             
@@ -113,7 +115,7 @@ struct SummaryView: View {
                                             .shadow(radius: 2)
                                     )
                             }
-                          
+                            
                         }
                         
                         .foregroundColor(Color.primary)
@@ -129,16 +131,16 @@ struct SummaryView: View {
                                 showDate.toggle()
                             }
                         }label: {
-    //                        Text(Date().formatDateFrom(for: todayDateComponent))
-    //                            .padding(.vertical,8)
-    //                            .padding(.horizontal,20)
-    //                            .foregroundColor(.black)
-    //                            .background(
-    //                                RoundedRectangle(cornerRadius: 20)
-    //                                    .stroke(lineWidth: 0)
-    //                                    .background(Color.white.cornerRadius(20))
-    //                                    .shadow(radius: 2)
-    //                            )
+                            //                        Text(Date().formatDateFrom(for: todayDateComponent))
+                            //                            .padding(.vertical,8)
+                            //                            .padding(.horizontal,20)
+                            //                            .foregroundColor(.black)
+                            //                            .background(
+                            //                                RoundedRectangle(cornerRadius: 20)
+                            //                                    .stroke(lineWidth: 0)
+                            //                                    .background(Color.white.cornerRadius(20))
+                            //                                    .shadow(radius: 2)
+                            //                            )
                             Image(systemName: "calendar")
                                 .imageScale(.large)
                                 .foregroundColor(.primary_purple)
@@ -165,7 +167,7 @@ struct SummaryView: View {
                                             viewModel.fetchItems(for: todayDateComponent)
                                         }
                                     }
-
+                                    
                                     
                                 })
                             
@@ -186,8 +188,8 @@ struct SummaryView: View {
                         
                     }
                     .frame(height:55)
-//                    .zIndex(2)
-                .padding(-20)
+                    //                    .zIndex(2)
+                    .padding(-20)
                 }
                 .zIndex(2)
                 
@@ -196,12 +198,12 @@ struct SummaryView: View {
                     // MARK: Progress bar
                     HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).frame(width: 351).padding(.top, 20)
                     // MARK: Category Donut chart
-                    CategoryChart(todayDateComponent: $todayDateComponent)
+                    CategoryChart(todayDateComponent: $todayDateComponent, data: $data)
                     // MARK: Last7days bar chart
                     HStack{
                         NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent).frame(width: 351 ,height: caseDisplayRange == .byWeek ? 200 : 0)
-                        .padding()
-                        .opacity(caseDisplayRange == .byWeek ? 1 : 0)
+                            .padding()
+                            .opacity(caseDisplayRange == .byWeek ? 1 : 0)
                     }
                     
                     if caseDisplayRange == .day{
@@ -229,12 +231,15 @@ struct SummaryView: View {
                 .zIndex(1)
                 .onTapGesture {showDate = false}
                 
-
+                
                 
             }
             
         }
         .padding(.horizontal,22)
+        .onAppear{
+            data = viewModel.chartDummyData()
+        }
         //        .onTapGesture {showDate = false}
         
     }
@@ -242,7 +247,10 @@ struct SummaryView: View {
 
 struct SummaryView_Previews: PreviewProvider {
     static var previews: some View {
-        SummaryView(todayDateComponent: .constant(Date()))
-            .environmentObject(coreDataViewModel())
+        SummaryView(todayDateComponent: .constant(Date()), data: .constant(DoughnutChartData(
+            dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text(""))
+        )
+        )
+        .environmentObject(coreDataViewModel())
     }
 }
