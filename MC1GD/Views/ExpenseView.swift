@@ -98,7 +98,7 @@ struct ExpenseView: View {
                 List {
                     ForEach(viewModel.userItems) {item in
                         HStack{
-                            Image(uiImage: UIImage(data: item.itemImage!)!)
+                            Image(systemName: item.itemImage!)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .clipShape(Rectangle())

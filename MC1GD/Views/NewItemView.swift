@@ -154,6 +154,7 @@ struct NewItemView: View {
                                     .font(.caption)
                                     .bold()
                                     .padding(2)
+                                    .textCase(.uppercase)
                                 
                             }
                             .buttonStyle(.bordered)
@@ -181,6 +182,7 @@ struct NewItemView: View {
                                     .font(.caption)
                                     .bold()
                                     .padding(2)
+                                    .textCase(.uppercase)
                                 
                             }
                             .buttonStyle(.bordered)

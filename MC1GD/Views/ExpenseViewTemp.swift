@@ -58,7 +58,9 @@ struct ExpenseViewTemp: View {
             .padding(.vertical,8)
             .foregroundColor(.white)
             .background(
-                LinearGradient(colors: [Color("secondary-purple"),Color("primary-purple")], startPoint: .topLeading, endPoint: .bottomTrailing))
+                LinearGradient(colors: [Color("secondary-purple"),Color("primary-purple")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                
+            )
             .cornerRadius(22)
             
             // MARK: Expense Card
@@ -112,6 +114,7 @@ struct ExpenseViewTemp: View {
                                         withAnimation {
                                             showDatePicker.toggle()
                                             viewModel.fetchItems(for: todayDateComponent)
+                                            allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
                                         }
                                     }
                                     
@@ -121,62 +124,12 @@ struct ExpenseViewTemp: View {
                         }
                         .zIndex(5)
                         .padding(.trailing,70)
-//                        .background(.gray)
-
-                        //                            DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-                        //                                .datePickerStyle(.compact)
-                        //                                .onChange(of: todayDateComponent, perform: { newValue in
-                        //                                    DispatchQueue.main.async {
-                        //                                        withAnimation {
-                        //                                            showDate.toggle()
-                        //                                            viewModel.fetchItems(for: todayDateComponent)
-                        //                                        }
-                        //                                    }
-                        //
-                        //                                })
-                        //                                .frame(width: 50)
-                        
-                        
                     }
                     .frame(height:55)
                     .zIndex(3)
                     .padding(.vertical,-30)
                     .padding(.leading,-70)
                     .padding(.trailing,-70)
-//                    Button{
-//                        withAnimation {
-//                            showDatePicker.toggle()
-//                        }
-//                    } label: {
-//                        Text(Date().formatDateFrom(for: todayDateComponent))
-//                            .fontWeight(.semibold)
-//                            .padding()
-//                            .background(
-//                                RoundedRectangle(cornerRadius: 30)
-//                                    .stroke(Color.gray)
-//                                    .background(Color("primary-purple").cornerRadius(30))
-//                            )
-//                            .font(.footnote)
-//                            .foregroundColor(.white)
-//
-//                    }
-//                    .background(
-//                        DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-//                            .datePickerStyle(.compact)
-//                            .clipShape(Capsule())
-//                            .opacity(showDatePicker ? 1 : 0)
-//                            .offset(y: 50)
-//                            .onChange(of: todayDateComponent, perform: { newValue in
-//                                DispatchQueue.main.async {
-//                                    withAnimation {
-//                                        showDatePicker.toggle()
-//                                        viewModel.fetchItems(for: todayDateComponent)
-//                                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
-//                                    }
-//                                }
-//
-//                            })
-//                    )
                 }
                 .zIndex(2)
                 .frame(maxWidth: 351)
@@ -194,7 +147,7 @@ struct ExpenseViewTemp: View {
                             if categoryShow == .keinginan && item.itemTag == "Keinginan" {
                                 VStack{
                                     HStack(alignment: .top){
-                                        Image(systemName: "fork.knife")
+                                        Image(systemName: item.itemImage!)
                                             .resizable()
                                             .padding(12)
                                             .scaledToFit()
@@ -206,16 +159,18 @@ struct ExpenseViewTemp: View {
                                             Text(item.itemName!)
                                                 .font(.headline)
                                             Text(item.itemTag!)
-                                                .font(.caption)
+                                                .font(.caption2)
                                                 .padding(.horizontal,5)
-                                                .background(Color("primary-orange"))
+                                                .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
                                                 .foregroundColor(.white)
+                                                .textCase(.uppercase)
                                                 .cornerRadius(3)
                                             Text(item.itemDescription!)
                                                 .font(.caption2)
+                                                .italic()
                                                 .foregroundColor(Color("primary-gray"))
                                                 .padding(.top,1)
-                                                .lineSpacing(4)
+                                                .lineSpacing(2)
                                         }
                                         Spacer()
                                         Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
@@ -243,7 +198,7 @@ struct ExpenseViewTemp: View {
                             else if categoryShow == .kebutuhan && item.itemTag == "Kebutuhan" {
                                 VStack{
                                     HStack(alignment: .top){
-                                        Image(systemName: "fork.knife")
+                                        Image(systemName: item.itemImage!)
                                             .resizable()
                                             .padding(12)
                                             .scaledToFit()
@@ -255,16 +210,17 @@ struct ExpenseViewTemp: View {
                                             Text(item.itemName!)
                                                 .font(.headline)
                                             Text(item.itemTag!)
-                                                .font(.caption)
+                                                .font(.caption2)
                                                 .padding(.horizontal,5)
-                                                .background(Color("primary-orange"))
+                                                .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
                                                 .foregroundColor(.white)
+                                                .textCase(.uppercase)
                                                 .cornerRadius(3)
                                             Text(item.itemDescription!)
                                                 .font(.caption2)
+                                                .italic()
                                                 .foregroundColor(Color("primary-gray"))
-                                                .padding(.top,1)
-                                                .lineSpacing(4)
+                                                .lineSpacing(2)
                                         }
                                         Spacer()
                                         Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
@@ -291,7 +247,7 @@ struct ExpenseViewTemp: View {
                             else if categoryShow == .semua {
                                 VStack{
                                     HStack(alignment: .top){
-                                        Image(systemName: "fork.knife")
+                                        Image(systemName: item.itemImage!)
                                             .resizable()
                                             .padding(12)
                                             .scaledToFit()
@@ -302,17 +258,22 @@ struct ExpenseViewTemp: View {
                                         VStack(alignment: .leading){
                                             Text(item.itemName!)
                                                 .font(.headline)
+                                                .padding(.bottom,-5)
                                             Text(item.itemTag!)
-                                                .font(.caption)
-                                                .padding(.horizontal,5)
-                                                .background(Color("primary-orange"))
+//                                                .font(.caption2)
+                                                .font(Font.custom("SF Pro", size: 8))
+                                                .padding(8)
+                                                .frame(height:15)
+                                                .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
                                                 .foregroundColor(.white)
+                                                .textCase(.uppercase)
                                                 .cornerRadius(3)
                                             Text(item.itemDescription!)
                                                 .font(.caption2)
+                                                .italic()
                                                 .foregroundColor(Color("primary-gray"))
                                                 .padding(.top,1)
-                                                .lineSpacing(4)
+                                                .lineSpacing(2)
                                         }
                                         Spacer()
                                         Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
@@ -341,11 +302,8 @@ struct ExpenseViewTemp: View {
                     }
                     .listStyle(.plain)
                     .clipped()
-                    .zIndex(1)
+                    
                 }
-                
-                
-                
                 
                 Spacer()
             }
@@ -355,9 +313,22 @@ struct ExpenseViewTemp: View {
             .cornerRadius(22)
             .shadow(color: Color.gray, radius: 4, y: 2)
             .padding(.top,12)
+            .zIndex(1)
+//            .onTapGesture {showDatePicker = false}
             
         }
         .padding(.horizontal,22)
+        .onAppear{
+            DispatchQueue.main.async {
+                withAnimation{
+                    allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                }
+            }
+        }.onChange(of: viewModel.calculateAllExpense(for: todayDateComponent), perform: { newValue in
+            withAnimation {
+                allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+            }
+        })
         
     }
 }
