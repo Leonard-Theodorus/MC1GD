@@ -23,8 +23,8 @@ struct NeedsWantsBarChart: View {
     @State var needsTotal : Double = 0
     @State var wantsTotal : Double = 0
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Rekap harianmu selama tujuh hari terakhir")
+        VStack(alignment: .center) {
+            Text("Rekap")
                 .font(.caption)
                 .fontWeight(.thin)
                 .foregroundColor(.primary)
@@ -40,14 +40,15 @@ struct NeedsWantsBarChart: View {
                 }
                 .chartLegend(content: {
                     HStack(alignment : .center) {
-                        Circle().fill(Color.primary_purple).frame(width: 10, height: 10)
+                        Circle().fill(Color.tag_purple).frame(width: 10, height: 10)
                         Text("Kebutuhan").font(.caption).foregroundColor(.primary)
-                        Circle().fill(Color.secondary_purple).frame(width: 10, height: 10)
+                        Circle().fill(Color.tag_pink).frame(width: 10, height: 10)
                         Text("Keinginan").font(.caption).foregroundColor(.primary)
                     }
                 })
                 .chartForegroundStyleScale([
-                     "Kebutuhan": Color("primary-purple"), "Keinginan": Color("secondary-purple")
+                    "Keinginan": Color.tag_pink,
+                    "Kebutuhan": Color.tag_purple
                 ])
                 .onAppear{
                     DispatchQueue.main.async {
@@ -87,7 +88,7 @@ struct NeedsWantsBarChart: View {
             .padding()
             .background(Color(.white))
             .cornerRadius(20)
-            .shadow(radius: 4, y:8)
+            .shadow(radius: 4, y:2)
     }
     
 }

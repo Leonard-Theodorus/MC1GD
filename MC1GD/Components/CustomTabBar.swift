@@ -39,7 +39,7 @@ struct CustomTabBar: View {
             }
             .tint(.white)
         }
-        .frame(height: 83)
+        .frame(height: 90)
         .background(Color("primary-purple"))
     }
     

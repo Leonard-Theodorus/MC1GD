@@ -23,7 +23,13 @@ extension Date{
         dateFormatter.dateFormat = "LLLL"
         let day = calendar.component(.day, from: date)
         let month = dateFormatter.string(from: date)
-        return String(day) + " " + month
+        var cropedMonth :String = ""
+        if month.count > 5 {
+            cropedMonth = String(month.prefix(3))
+            return String(day) + " " + cropedMonth
+        }else{
+            return String(day) + " " + month
+        }
     }
     func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
         return calendar.dateComponents(Set(components), from: self)
