@@ -32,7 +32,7 @@ struct ExpenseView: View {
                 }
                 .background(
                     DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-                        .datePickerStyle(.compact)
+                        .datePickerStyle(.graphical)
                         .clipped()
                         .background(Color.gray.cornerRadius(10))
                         .opacity(showDatePicker ? 1 : 0)
@@ -111,7 +111,6 @@ struct ExpenseView: View {
                                 Text(item.itemDescription ?? "").font(.caption)
                             }
                             Spacer()
-//                            Text(item.itemPrice.formatted(.currency(code: "IDR")))
                             Text(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")
                         }
                         .padding()

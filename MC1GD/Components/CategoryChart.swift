@@ -22,42 +22,45 @@ struct CategoryChart: View {
                     .headerBox(chartData: data)
                     .legends(chartData: data, columns: [GridItem(.flexible()), GridItem(.flexible())])
                     .id(data.id)
-                    .frame(width: 180,
+                    .frame(width: 120,
                            height: 200,
                            alignment: .center)
                 //                    .touchOverlay(chartData: data)
-                VStack(alignment: .leading){
-                    Text("Pengeluaran bulan ini")
-                        .foregroundColor(.black)
-                        .font(.caption)
-                    Text(currencyFormatter.string(from: NSNumber(value: allExpense)) ?? "")
-                        .foregroundColor(Color("primary-purple"))
-                        .font(.title)
-                    HStack{
-                        Image(systemName: "circle.fill")
-                            .imageScale(.medium)
-                            .foregroundColor(Color("primary-orange"))
-                        Text("\(category.FNB.rawValue)")
+                
+                    VStack(alignment: .trailing){
+                        Text("Pengeluaran bulan ini")
                             .foregroundColor(.black)
-                            .font(.caption2)
-                    }.padding(.vertical,2)
-                    HStack{
-                        Image(systemName: "circle.fill")
-                            .imageScale(.medium)
-                            .foregroundColor(Color("primary-purple"))
-                        Text("\(category.transport.rawValue)")
-                            .foregroundColor(.black)
-                            .font(.caption2)
-                    }.padding(.bottom,2)
-                    HStack{
-                        Image(systemName: "circle.fill")
-                            .imageScale(.medium)
-                            .foregroundColor(Color("primary-green"))
-                        Text("\(category.barang.rawValue)")
-                            .foregroundColor(.black)
-                            .font(.caption2)
-                    }
-                }
+                            .font(.caption)
+                            .fontWeight(.thin)
+                        Text(currencyFormatter.string(from: NSNumber(value: allExpense)) ?? "")
+                            .foregroundColor(.primary_purple)
+                            .font(.title)
+                        HStack{
+                            Image(systemName: "circle.fill")
+                                .imageScale(.medium)
+                                .foregroundColor(.primary_purple)
+                            Text("\(category.FNB.rawValue)")
+                                .foregroundColor(.black)
+                                .font(.caption2)
+                        }.padding(.vertical,2)
+                        HStack{
+                            Image(systemName: "circle.fill")
+                                .imageScale(.medium)
+                                .foregroundColor(.secondary_purple)
+                            Text("\(category.transport.rawValue)")
+                                .foregroundColor(.black)
+                                .font(.caption2)
+                        }.padding(.bottom,2)
+                        HStack{
+                            Image(systemName: "circle.fill")
+                                .imageScale(.medium)
+                                .foregroundColor(.tertiary_purple)
+                            Text("\(category.barang.rawValue)")
+                                .foregroundColor(.black)
+                                .font(.caption2)
+                        }
+                    }.padding(.leading,20)
+                
                 
             }
             .frame(maxWidth:351, maxHeight: 250)
@@ -81,7 +84,7 @@ struct CategoryChart: View {
                 }
             })
             
-        }
+        }.frame(maxWidth:351)
         
     }
     
