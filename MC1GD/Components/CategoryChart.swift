@@ -133,7 +133,7 @@ struct CategoryChart_Previews: PreviewProvider {
     static var previews: some View {
         CategoryChart(todayDateComponent: .constant(Date()), data: .constant(DoughnutChartData(
             dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text(""))
-        )
+            )   
         )
         .environmentObject(coreDataViewModel())
     }
