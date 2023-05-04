@@ -113,10 +113,6 @@ class coreDataViewModel : ObservableObject{
         }
         fetchSaving()
         fetchUser()
-
-        if savingList.count > 10 {
-            deleteFirstSaving()
-        }
     }
     
     func deleteFirstSaving(){
