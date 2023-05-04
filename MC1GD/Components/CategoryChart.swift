@@ -102,6 +102,7 @@ struct CategoryChart: View {
                 
             }
             .frame(maxWidth:351, maxHeight: 250)
+            .padding(.horizontal, 10)
             .background(Color(.white))
             .cornerRadius(20)
             .shadow(radius: 4, y:2)
