@@ -12,7 +12,7 @@ struct RootView: View {
     @State var selectedTab : Tabs = .expense
     @State private var todayDateComponent = Date()
     @EnvironmentObject var viewModel: coreDataViewModel
-    @State var data : DoughnutChartData 
+    @State var data : DoughnutChartData
     var body: some View {
         VStack{
             if(viewModel.checkEmptyUsername()){
@@ -20,6 +20,10 @@ struct RootView: View {
                     .onAppear{
                         viewModel.fetchUser()
                     }
+                    .onDisappear{
+                        notificationModel.instance.setupNotifications(username: viewModel.getName())
+                    }
+                    
             }else{
                 if selectedTab == .summary {
                     SummaryView(todayDateComponent: $todayDateComponent, data: $data)

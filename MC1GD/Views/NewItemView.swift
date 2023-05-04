@@ -46,6 +46,7 @@ struct NewItemView: View {
                             .frame(width: 40)
                         Divider()
                         TextField("Harga Barang", value: $newItemPrice, format: .number)
+                            .lineLimit(0)
                             .keyboardType(.numberPad)
                             .focused($isFocusedPrice)
                             .onReceive(Just(newItemPrice)){ newValue in
@@ -57,7 +58,7 @@ struct NewItemView: View {
                                 }
                             }
                             .foregroundColor(newItemPrice <= 0 ? .gray : .black)
-                            .font(.largeTitle)
+                            .font(.title)
                         if isZeroPrice {
                             Text("Harga tidak boleh 0")
                                 .foregroundColor(.red).font(.caption)
@@ -229,13 +230,13 @@ struct NewItemView: View {
                                 .textFieldStyle(.roundedBorder)
                                 .font(.body)
                                 .fontWeight(.thin)
-//                                .overlay(
-//                                    Text("Deskripsi (50 Karakter)")
-//                                        .font(.body)
-//                                        .italic()
-//                                        .foregroundColor(.gray)
-//                                        .opacity(newItemDesc.isEmpty ? 0.5 : 0)
-//                                )
+                            //                                .overlay(
+                            //                                    Text("Deskripsi (50 Karakter)")
+                            //                                        .font(.body)
+                            //                                        .italic()
+                            //                                        .foregroundColor(.gray)
+                            //                                        .opacity(newItemDesc.isEmpty ? 0.5 : 0)
+                            //                                )
                                 .onChange(of: newItemDesc) {newValue in
                                     if newValue.count >= maxChars {
                                         newItemDesc = String(newValue.prefix(maxChars))
@@ -249,7 +250,7 @@ struct NewItemView: View {
                                 .foregroundColor($newItemDesc.wrappedValue.count == maxChars ? .red : .gray)
                         }
                     }.padding(.vertical, 10)
-                
+                    
                     
                     // MARK: select tanggal
                     HStack{
@@ -274,7 +275,7 @@ struct NewItemView: View {
                 
                 
             }
-//            .padding(.bottom, 50)
+            //            .padding(.bottom, 50)
             .onAppear{
                 newItemCategory = categories.first!}
             .toolbar{

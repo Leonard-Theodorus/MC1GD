@@ -22,7 +22,6 @@ struct ExpenseViewTemp: View {
     @State private var categoryShow : CategoryShow = .semua
     @State var allExpense : Double = 0
     @State var datebutton : Double = 0
-    
     var body: some View {
         VStack(alignment: .leading){
             // MARK: title & addItemButton
@@ -260,7 +259,7 @@ struct ExpenseViewTemp: View {
                                                 .font(.headline)
                                                 .padding(.bottom,-5)
                                             Text(item.itemTag!)
-//                                                .font(.caption2)
+                                            //                                                .font(.caption2)
                                                 .font(Font.custom("SF Pro", size: 8))
                                                 .padding(8)
                                                 .frame(height:15)
@@ -314,8 +313,7 @@ struct ExpenseViewTemp: View {
             .shadow(color: Color.gray, radius: 4, y: 2)
             .padding(.top,12)
             .zIndex(1)
-//            .onTapGesture {showDatePicker = false}
-            
+            //            .onTapGesture {showDatePicker = false}
         }
         .padding(.horizontal,22)
         .onAppear{
@@ -329,6 +327,8 @@ struct ExpenseViewTemp: View {
                 allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
             }
         })
+        
+        
         
     }
 }

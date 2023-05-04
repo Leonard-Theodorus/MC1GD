@@ -35,7 +35,7 @@ class coreDataViewModel : ObservableObject{
     }
     
     func checkEmptyUsername() -> Bool{
-        return userList.isEmpty
+        return userList.isEmpty //(kalo empty -> true, force return
     }
     
     func getName() -> String{
