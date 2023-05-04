@@ -21,108 +21,52 @@ struct SummaryView: View {
     @State private var showPicker = false
     @State private var caseDisplayRange : displayRange = .day
     @Binding var data : DoughnutChartData
+    @State var selectedMenu = "Harian"
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading){
-                HStack(alignment: .center){
-                    Text("Ringkasan")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    Spacer()
-                }
-                .padding(.horizontal, 22)
-                .padding(.top,10)
-                .zIndex(1)
+        
+        VStack(alignment: .leading){
+            
+            HStack(alignment: .center){
+                Text("Ringkasan")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
                 
+                //                    Spacer()
+            }
+            .background(.gray)
+            .padding(.leading,30)
+            .padding(.top,10)
+            .zIndex(1)
+            
+            ScrollView {
                 VStack (alignment: .center){
                     HStack {
                         //MARK: BUTTON GANTI HARI/MINGGU
-                        ZStack{
+                        Menu(selectedMenu) {
+                            Button {
+                                selectedMenu = "Harian"
+                                caseDisplayRange = .day
+                                showPicker.toggle()
+                                
+                            } label :{
+                                Text("Harian")
+                            }
                             Button{
-                                withAnimation {
-                                    showPicker.toggle()
-                                }
-                            }label: {
-                                if caseDisplayRange == .day{
-                                    Text("Harian")
-                                        .font(.caption)
-                                        .padding(.vertical,8)
-                                        .padding(.horizontal,10)
-                                        .foregroundColor(.primary)
-                                        .frame(width: 85)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 30)
-                                                .stroke(lineWidth: 0)
-                                                .background(Color.primary_white.cornerRadius(20))
-                                                .shadow(radius: 2)
-                                        )
-                                }
-                                else{
-                                    Text("7 Hari Kebelakang")
-                                        .font(.caption)
-                                        .padding(.vertical,8)
-                                        .padding(.horizontal,10)
-                                        .foregroundColor(.primary)
-                                        .frame(width: 130)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 30)
-                                                .stroke(lineWidth: 0)
-                                                .background(Color.primary_white.cornerRadius(20))
-                                                .shadow(radius: 2)
-                                        )
-                                }
-                                
+                                selectedMenu = "Per 7 Hari"
+                                caseDisplayRange = .byWeek
+                                showPicker.toggle()
+                            }label:{
+                                Text("Per 7 Hari")
                             }
-                            .zIndex(4)
-                            VStack(){
-                                Button{
-                                    withAnimation {
-                                        caseDisplayRange = .day
-                                        showPicker.toggle()
-                                    }
-                                    
-                                } label: {
-                                    Text("Harian").font(.caption)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .stroke(lineWidth: 0)
-                                                .background(
-                                                    Color.primary_white
-                                                        .cornerRadius(20)
-                                                )
-                                                .shadow(radius: 2)
-                                        )
-                                    
-                                    
-                                }
-                                
-                                
-                                Button(){
-                                    withAnimation {
-                                        caseDisplayRange = .byWeek
-                                        showPicker.toggle()
-                                    }
-                                    
-                                } label: {
-                                    Text("7 Hari Kebelakang").font(.caption)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .stroke(lineWidth: 0)
-                                                .background(
-                                                    Color.primary_white
-                                                        .cornerRadius(20)
-                                                )
-                                                .shadow(radius: 2)
-                                        )
-                                }
-                                
-                            }
-                            
-                            .foregroundColor(Color.primary)
-                            .opacity(showPicker ? 1 : 0)
-                            .offset(y : 30)
-                        }
+                        }.font(.body)
+                            .foregroundColor(.primary)
+                            .padding(10)
+                            .background(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(lineWidth: 0)
+                                    .background(Color.white.cornerRadius(15)).shadow(radius: 2)
+                            )
+                            .frame(width: 170)
                         
                         Spacer()
                         // MARK: Customized date picker
@@ -132,20 +76,11 @@ struct SummaryView: View {
                                     showDate.toggle()
                                 }
                             }label: {
-                                //                        Text(Date().formatDateFrom(for: todayDateComponent))
-                                //                            .padding(.vertical,8)
-                                //                            .padding(.horizontal,20)
-                                //                            .foregroundColor(.black)
-                                //                            .background(
-                                //                                RoundedRectangle(cornerRadius: 20)
-                                //                                    .stroke(lineWidth: 0)
-                                //                                    .background(Color.white.cornerRadius(20))
-                                //                                    .shadow(radius: 2)
-                                //                            )
                                 Image(systemName: "calendar")
                                     .imageScale(.large)
                                     .foregroundColor(.primary_purple)
                             }
+                            .padding(.leading,100)
                             HStack{
                                 DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
                                     .datePickerStyle(.graphical)
@@ -173,7 +108,7 @@ struct SummaryView: View {
                             }.zIndex(4)
                         }
                         .frame(height:55)
-                        .padding(-20)
+                        //                        .padding(-20)
                     }
                     .zIndex(2)
                     
@@ -181,6 +116,7 @@ struct SummaryView: View {
                     VStack{
                         // MARK: Progress bar
                         HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
+                            .frame(width: 351)
                             .padding(.horizontal)
                         
                         
@@ -197,7 +133,7 @@ struct SummaryView: View {
                             NoBarChartView().frame(width: 351, height: 200).padding()
                         }
                         Button{
-                            
+                            showTips.toggle()
                         }label: {
                             Text("Beberapa tips yang dapat Anda ikuti")
                                 .font(.caption2)
@@ -221,13 +157,15 @@ struct SummaryView: View {
                     
                     
                 }
-                
             }
-            .padding(.horizontal,22)
-            .onAppear{
-                data = viewModel.chartDummyData()
+            
+            
         }
-        }
+        .padding(.horizontal,22)
+        .onAppear{
+            data = viewModel.chartDummyData()
+            }
+        
         //        .onTapGesture {showDate = false}
         
     }

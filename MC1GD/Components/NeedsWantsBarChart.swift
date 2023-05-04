@@ -20,7 +20,7 @@ struct NeedsWantsBarChart: View {
     @State var wantsTotal : Double = 0
     var body: some View {
         VStack(alignment: .center) {
-            Text("Rekap")
+            Text("Rekap 7 Hari Kebelakang")
                 .font(.caption)
                 .fontWeight(.thin)
                 .foregroundColor(.primary)

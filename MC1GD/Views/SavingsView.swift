@@ -14,7 +14,7 @@ struct SavingsView: View {
     @State private var stringDate = ""
     @State private var showDatePicker = false
     @State var allSavings : Double = 0
-
+    
     var body: some View {
         VStack(alignment: .leading){
             // MARK: title & addItemButton
@@ -27,7 +27,7 @@ struct SavingsView: View {
             }
             // MARK: Hello Card
             
-
+            
             VStack(alignment: .leading){
                 HStack{
                     Image(systemName: "sun.min.fill")
@@ -56,7 +56,7 @@ struct SavingsView: View {
                         .padding(.horizontal)
                         .padding(.bottom)
                 }
-
+                
             }
             .padding(.vertical,8)
             .foregroundColor(.white)
@@ -73,29 +73,54 @@ struct SavingsView: View {
                                 .frame(height: 100)
                         }
                         .padding(.trailing)
-
+                        
                     }
                 }
-
+                
             )
             .cornerRadius(22)
-
+            
             // MARK: Tabungan History Card
             VStack{
-                Spacer().frame(width: 351)
+                VStack{
+                    HStack(alignment: .top){
+                        VStack(alignment: .leading){
+                            Text("3 Mei 2023")
+                                .font(.headline)
+                                .padding(.bottom,-5)
+                            Text("Sisa Uang Jajan")
+                                .font(.caption2)
+                                .italic()
+                                .foregroundColor(Color("primary-gray"))
+                                .padding(.top,1)
+                                .lineSpacing(2)
+                        }
+                        Spacer()
+                        Text("+ \(currencyFormatter.string(from: NSNumber(value: 0)) ?? "")")
+                            .foregroundColor(Color.primary_green)
+                            .fontWeight(.bold)
+                    }
+                    .padding(.horizontal,-1)
+                    .padding(.top)
+                    
+                    Rectangle()
+                        .foregroundColor(Color.tertiary_gray)
+                        .frame(height: 1)
+                        .padding(.vertical,2)
+                    
+                }
             }
             .padding()
             .background(.white)
             .cornerRadius(22)
             .shadow(color: Color.gray, radius: 4, y: 2)
             .padding(.top,12)
-            .frame(width: 351)
             //            .onTapGesture {showDatePicker = false}
             
         }
         .padding(.horizontal,22)
-
-
+        
+        
     }
 }
 
