@@ -46,6 +46,7 @@ struct NewItemView: View {
                             .frame(width: 40)
                         Divider()
                         TextField("Harga Barang", value: $newItemPrice, format: .number)
+                            .lineLimit(0)
                             .keyboardType(.numberPad)
                             .focused($isFocusedPrice)
                             .onReceive(Just(newItemPrice)){ newValue in
