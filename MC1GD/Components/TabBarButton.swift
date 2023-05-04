@@ -15,14 +15,20 @@ struct TabBarButton: View {
     var body: some View {
         GeometryReader{ geo in
             VStack(alignment: .center, spacing: 2){
-                Image(systemName: imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 30, height: 30)
+                Spacer()
+                if imageName == "rupiah"{
+                    Text("Rp")
+                        .font(.system(size: 24))
+                }else{
+                    Image(systemName: imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                }
                 Text(buttonText)
                     .font(.callout)
             }
-            .opacity(isActive ? 1 : 0.4)
+            .tint(isActive ? Color.primary_purple : Color.secondary_gray)
             .frame(width: geo.size.width, height: geo.size.height)
         }
     }
