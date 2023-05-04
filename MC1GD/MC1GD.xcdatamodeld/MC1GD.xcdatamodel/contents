@@ -10,6 +10,10 @@
         <attribute name="itemPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="itemTag" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="SavingEntity" representedClassName="SavingEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="savingAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="savingDate" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
         <attribute name="money" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="username" optional="YES" attributeType="String"/>
