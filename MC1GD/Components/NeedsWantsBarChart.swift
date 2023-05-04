@@ -114,7 +114,7 @@ struct NeedsWantsBarChart: View {
                 .chartYAxis(.hidden)
                 
             }
-        }.frame(maxWidth:351, maxHeight: 350)
+        }.frame(maxHeight: 350)
             .padding()
             .background(Color(.white))
             .cornerRadius(20)
