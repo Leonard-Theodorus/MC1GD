@@ -31,6 +31,14 @@ extension Date{
             return String(day) + " " + month
         }
     }
+    func formatDateFull(for date : Date) -> String {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMM yyyy"
+        let dateFormatted = dateFormatter.string(from: date)
+        return dateFormatted
+    }
+    
     func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
         return calendar.dateComponents(Set(components), from: self)
     }

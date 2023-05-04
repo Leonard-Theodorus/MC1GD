@@ -13,12 +13,11 @@ struct NoBarChartView: View {
             withAnimation {
                 Text("Pilih opsi tujuh hari kebelakang untuk menampilkan data")
                     .font(.body)
-                    .foregroundColor(.primary)
+                    .italic()
+                    .foregroundColor(.secondary_gray)
                     .padding(.leading, 20)
             }
-            
-           
-        }.frame(maxWidth:351, maxHeight: 350)
+        }.frame(maxHeight: 350)
             .padding()
             .background(Color(.white))
             .cornerRadius(20)
