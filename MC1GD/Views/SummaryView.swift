@@ -108,7 +108,7 @@ struct SummaryView: View {
                             }.zIndex(4)
                         }
                         .frame(height:55)
-                        //                        .padding(-20)
+                        .padding(-20)
                     }
                     .zIndex(2)
                     
