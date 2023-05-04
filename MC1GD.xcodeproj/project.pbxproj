@@ -14,8 +14,7 @@
 		B13ED56429F858E200491CFF /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13ED56329F858E200491CFF /* SummaryView.swift */; };
 		B13ED56629F8594E00491CFF /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13ED56529F8594E00491CFF /* TabBarButton.swift */; };
 		B18990412A021BD500260C10 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18990402A021BD500260C10 /* WelcomeScreen.swift */; };
-		D4375F682A0356DC0023DAD2 /* SavingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4375F672A0356DC0023DAD2 /* SavingsView.swift */; };
-		D4375F6A2A0368150023DAD2 /* ExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4375F692A0368150023DAD2 /* ExpenseView.swift */; };
+		B1DB48C029FFC670003E8BEE /* ExpenseViewTemp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DB48BF29FFC670003E8BEE /* ExpenseViewTemp.swift */; };
 		D465C76D2A017CDE00447757 /* TipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D465C76C2A017CDE00447757 /* TipsView.swift */; };
 		D4D4A7C929FA37BA008674F8 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D415A44A29FA0FB7004BC18E /* SwiftUICharts */; };
 		D4D4A7CD29FA5BEE008674F8 /* CategoryChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4A7CC29FA5BEE008674F8 /* CategoryChart.swift */; };
@@ -30,6 +29,7 @@
 		D753EC3829F66C29007C3F31 /* MC1GDUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC3729F66C29007C3F31 /* MC1GDUITestsLaunchTests.swift */; };
 		D753EC4929F66DAC007C3F31 /* CoreDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC4829F66DAC007C3F31 /* CoreDataViewModel.swift */; };
 		D753EC4B29F66DDA007C3F31 /* AddItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC4A29F66DDA007C3F31 /* AddItemButton.swift */; };
+		D753EC4F29F66DF4007C3F31 /* ExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC4E29F66DF4007C3F31 /* ExpenseView.swift */; };
 		D753EC5129F66DFA007C3F31 /* NewItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5029F66DFA007C3F31 /* NewItemView.swift */; };
 		D753EC5429F66E55007C3F31 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5329F66E55007C3F31 /* ImagePicker.swift */; };
 		D753EC5829F66E79007C3F31 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5729F66E79007C3F31 /* CurrencyFormatter.swift */; };
@@ -71,8 +71,7 @@
 		B13ED56329F858E200491CFF /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		B13ED56529F8594E00491CFF /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
 		B18990402A021BD500260C10 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
-		D4375F672A0356DC0023DAD2 /* SavingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsView.swift; sourceTree = "<group>"; };
-		D4375F692A0368150023DAD2 /* ExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseView.swift; sourceTree = "<group>"; };
+		B1DB48BF29FFC670003E8BEE /* ExpenseViewTemp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewTemp.swift; sourceTree = "<group>"; };
 		D465C76C2A017CDE00447757 /* TipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsView.swift; sourceTree = "<group>"; };
 		D4D4A7CC29FA5BEE008674F8 /* CategoryChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryChart.swift; sourceTree = "<group>"; };
 		D4F9DCA82A026800002F51B5 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
@@ -89,6 +88,7 @@
 		D753EC3729F66C29007C3F31 /* MC1GDUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MC1GDUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D753EC4829F66DAC007C3F31 /* CoreDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataViewModel.swift; sourceTree = "<group>"; };
 		D753EC4A29F66DDA007C3F31 /* AddItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemButton.swift; sourceTree = "<group>"; };
+		D753EC4E29F66DF4007C3F31 /* ExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseView.swift; sourceTree = "<group>"; };
 		D753EC5029F66DFA007C3F31 /* NewItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemView.swift; sourceTree = "<group>"; };
 		D753EC5329F66E55007C3F31 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		D753EC5729F66E79007C3F31 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
@@ -196,14 +196,14 @@
 		D753EC4429F66C45007C3F31 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D4375F692A0368150023DAD2 /* ExpenseView.swift */,
 				58A6A0D32A03925A0014E4BD /* Home.swift */,
 				58A6A0D42A03925A0014E4BD /* YTView.swift */,
+				D753EC4E29F66DF4007C3F31 /* ExpenseView.swift */,
 				D753EC5029F66DFA007C3F31 /* NewItemView.swift */,
 				B13ED56129F856A000491CFF /* RootView.swift */,
 				B13ED56329F858E200491CFF /* SummaryView.swift */,
-				D4375F672A0356DC0023DAD2 /* SavingsView.swift */,
 				D780C72229FF0BE2007BF480 /* QuestionsView.swift */,
+				B1DB48BF29FFC670003E8BEE /* ExpenseViewTemp.swift */,
 				D465C76C2A017CDE00447757 /* TipsView.swift */,
 				B18990402A021BD500260C10 /* WelcomeScreen.swift */,
 				D755B0262A0286A10013C7FA /* NoBarChartView.swift */,
@@ -397,8 +397,6 @@
 				D753EC5829F66E79007C3F31 /* CurrencyFormatter.swift in Sources */,
 				B13ED56429F858E200491CFF /* SummaryView.swift in Sources */,
 				D753EC4929F66DAC007C3F31 /* CoreDataViewModel.swift in Sources */,
-				D4375F682A0356DC0023DAD2 /* SavingsView.swift in Sources */,
-				D4375F6A2A0368150023DAD2 /* ExpenseView.swift in Sources */,
 				D780C6DB29FD233D007BF480 /* CategoryEnum.swift in Sources */,
 				B12AC8C429F84DD500111013 /* CustomTabBar.swift in Sources */,
 				D7C4AB3B2A014F6C00FD76BF /* HorizontalProgressBar.swift in Sources */,
@@ -414,6 +412,7 @@
 				D753EC4B29F66DDA007C3F31 /* AddItemButton.swift in Sources */,
 				D753EC2229F66C29007C3F31 /* MC1GD.xcdatamodeld in Sources */,
 				D465C76D2A017CDE00447757 /* TipsView.swift in Sources */,
+				B1DB48C029FFC670003E8BEE /* ExpenseViewTemp.swift in Sources */,
 				D7B81C1729F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift in Sources */,
 				D4F9DCA92A026800002F51B5 /* RoundedCorner.swift in Sources */,
 				58A6A0D52A03925A0014E4BD /* Home.swift in Sources */,
@@ -422,6 +421,7 @@
 				D753EC1629F66C28007C3F31 /* MC1GDApp.swift in Sources */,
 				D780C72329FF0BE2007BF480 /* QuestionsView.swift in Sources */,
 				D4D4A7CD29FA5BEE008674F8 /* CategoryChart.swift in Sources */,
+				D753EC4F29F66DF4007C3F31 /* ExpenseView.swift in Sources */,
 				D780C6DF29FE8411007BF480 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
