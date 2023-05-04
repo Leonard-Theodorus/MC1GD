@@ -39,6 +39,9 @@ class coreDataViewModel : ObservableObject{
     }
     
     func getName() -> String{
+        if (userList.isEmpty) {
+            return "empty"
+        }
         return userList.first!.username ?? "error"
     }
     
