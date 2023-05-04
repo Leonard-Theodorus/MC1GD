@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-enum Tabs: Int{
-    case summary = 0
-    case expense = 1
-    case tabungan = 2
-}
-
 struct CustomTabBar: View {
     
     @Binding var selectedTab: Tabs
