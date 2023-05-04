@@ -14,7 +14,7 @@ struct SavingsView: View {
     @State private var stringDate = ""
     @State private var showDatePicker = false
     @State var allSavings : Double = 0
-    
+
     var body: some View {
         VStack(alignment: .leading){
             // MARK: title & addItemButton
@@ -27,7 +27,7 @@ struct SavingsView: View {
             }
             // MARK: Hello Card
             
-            
+
             VStack(alignment: .leading){
                 HStack{
                     Image(systemName: "sun.min.fill")
@@ -56,7 +56,7 @@ struct SavingsView: View {
                         .padding(.horizontal)
                         .padding(.bottom)
                 }
-                
+
             }
             .padding(.vertical,8)
             .foregroundColor(.white)
@@ -73,13 +73,13 @@ struct SavingsView: View {
                                 .frame(height: 100)
                         }
                         .padding(.trailing)
-                        
+
                     }
                 }
-                
+
             )
             .cornerRadius(22)
-            
+
             // MARK: Tabungan History Card
             VStack{
                 Spacer().frame(width: 351)
@@ -94,8 +94,8 @@ struct SavingsView: View {
             
         }
         .padding(.horizontal,22)
-        
-        
+
+
     }
 }
 
