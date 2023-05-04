@@ -17,9 +17,17 @@ struct HorizontalProgressBar: View {
         VStack{
             GeometryReader { geometry in
                 HStack{
-                    Text(String(Int(round(needsPercentage * 100))) + "%")
+                    if needsPercentage.isNaN{
+                        Text("0%")
+                    }else{
+                        Text(String(Int(round(needsPercentage * 100))) + "%")
+                    }
                     Spacer()
-                    Text(String(Int(round(wantsPercentage * 100))) + "%")
+                    if needsPercentage.isNaN{
+                        Text("0%")
+                    }else{
+                        Text(String(Int(round(wantsPercentage * 100))) + "%")
+                    }
                 }
                 .foregroundColor(Color.white)
                 .font(.caption2)
