@@ -139,7 +139,7 @@ struct ExpenseView: View {
                     .padding(.trailing,-70)
                 }
                 .zIndex(2)
-//                .frame(maxWidth: 351)
+                //                .frame(maxWidth: 351)
                 VStack{
                     Picker("Category", selection: $categoryShow){
                         Text("Semua").tag(CategoryShow.semua)

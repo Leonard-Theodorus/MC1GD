@@ -34,9 +34,33 @@ struct WelcomeScreen: View {
             }
             
             Spacer()
+            
+//            HStack(alignment: .bottom){
+//                Image("beruang-welcome")
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(height: 350)
+//            }
         }
         .background(
-            LinearGradient(colors: [Color("secondary-purple"),Color("primary-purple")], startPoint: .topLeading, endPoint: .bottomTrailing))
+            ZStack{
+                LinearGradient(colors: [Color("secondary-purple"),Color("primary-purple")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .edgesIgnoringSafeArea(.all)
+                HStack(alignment:.bottom){
+                    VStack{
+                        Spacer()
+                        Image("beruang-welcome")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 380)
+                            .padding(.bottom,-50)
+                    }
+                }
+            }
+
+            
+        )
+        
         .foregroundColor(Color("primary-white"))
     }
 }
