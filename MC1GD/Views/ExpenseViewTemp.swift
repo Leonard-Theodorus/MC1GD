@@ -309,7 +309,6 @@ struct ExpenseViewTemp: View {
             }
             .padding()
             .background(.white)
-            .frame(maxWidth: 351)
             .cornerRadius(22)
             .shadow(color: Color.gray, radius: 4, y: 2)
             .padding(.top,12)
