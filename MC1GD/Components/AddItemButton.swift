@@ -17,11 +17,9 @@ struct AddItemButton: View {
             .imageScale(.large)
             .foregroundColor(Color("primary-purple"))
         }
-        .padding()
         .controlSize(.large)
         .sheet(isPresented: $showSheet) {
             NewItemView(showSheet: $showSheet, todayDateComponent: $todayDateComponent)
-//                .background(Color("primary-white"))
         }
     }
 }
