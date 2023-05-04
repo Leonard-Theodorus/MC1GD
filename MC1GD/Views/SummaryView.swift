@@ -168,28 +168,11 @@ struct SummaryView: View {
                                                 viewModel.fetchItems(for: todayDateComponent)
                                             }
                                         }
-                                        
-                                        
                                     })
                                 
                             }.zIndex(4)
-                            //                            DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-                            //                                .datePickerStyle(.compact)
-                            //                                .onChange(of: todayDateComponent, perform: { newValue in
-                            //                                    DispatchQueue.main.async {
-                            //                                        withAnimation {
-                            //                                            showDate.toggle()
-                            //                                            viewModel.fetchItems(for: todayDateComponent)
-                            //                                        }
-                            //                                    }
-                            //
-                            //                                })
-                            //                                .frame(width: 50)
-                            
-                            
                         }
                         .frame(height:55)
-                        //                    .zIndex(2)
                         .padding(-20)
                     }
                     .zIndex(2)
@@ -197,7 +180,10 @@ struct SummaryView: View {
                     
                     VStack{
                         // MARK: Progress bar
-                        HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage).frame(width: 351).padding(.top, 20)
+                        HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
+                            .padding(.horizontal)
+                        
+                        
                         // MARK: Category Donut chart
                         CategoryChart(todayDateComponent: $todayDateComponent, data: $data)
                         // MARK: Last7days bar chart

@@ -12,78 +12,46 @@ struct HorizontalProgressBar: View {
     @Binding var wantsPercentage : Double
     @State var wantsText : String = ""
     @State var needsText : String = ""
+    
     var body: some View {
         VStack{
-            HStack(spacing: 0){
-                VStack(alignment: .leading){
-                    if needsPercentage.isNaN{
-                        Text("0%")
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .foregroundColor(.white)
-                    }
-                    else{
-                        Text(String(Int(round(needsPercentage * 100))) + "%")
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .foregroundColor(.white)
-                    }
+            GeometryReader { geometry in
+                HStack{
+                    Text(String(Int(round(needsPercentage * 100))) + "%")
+                    Spacer()
+                    Text(String(Int(round(wantsPercentage * 100))) + "%")
+                }
+                .foregroundColor(Color.white)
+                .font(.caption2)
+                .fontWeight(.bold)
+                .zIndex(2)
+                .frame(height: 30)
+                .padding(.horizontal)
+                
+                ZStack(alignment: .leading) {
+//                    Text("0%")
+//                        .foregroundColor(.black)
+//                        .frame(width: geometry.size.width, height: geometry.size.height)
+                    Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
+                        .foregroundColor(Color.tag_pink)
                     
+                    Rectangle().frame(width: abs(geometry.size.width * (needsPercentage)), height: geometry.size.height)
+                        .foregroundColor(Color.tag_purple)
                 }
-                .frame(width: needsPercentage.isNaN ? abs(UIScreen.main.bounds.width * 0.5) - 40 : abs((UIScreen.main.bounds.width * needsPercentage) - 40))
-                .frame(height:30)
-                .frame(maxWidth: 351)
-                .background(Color.tag_purple)
-                VStack(alignment : .trailing){
-                    if wantsPercentage.isNaN{
-                        Text("0%")
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .foregroundColor(.white)
-                    }
-                    else{
-                        Text(String(Int(round(wantsPercentage * 100))) + "%")
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .foregroundColor(.white)
-                    }
-                    
-                }
-                .frame(width: needsPercentage.isNaN ? abs(UIScreen.main.bounds.width * 0.5) - 40 : abs((UIScreen.main.bounds.width * needsPercentage) - 40))
-                .frame(height:30)
-                .frame(maxWidth: 351)
-                .background(Color.tag_pink)
-                
-                
+                .cornerRadius(45.0)
             }
-            .mask{
-                RoundedRectangle(cornerRadius: 20)
-            }
-            .padding(.horizontal,24)
-            .frame(maxWidth: 351)
-            .shadow(radius: 4, y: 2)
-            HStack{
-                VStack(alignment: .trailing){
-                    Text("Kebutuhan")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .italic()
-                        .padding(.leading, 50)
-                }
-                Spacer()
-                VStack(alignment: .leading){
-                    Text("Keinginan")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .italic()
-                        .padding(.trailing, 50)
-                }
-            }
-            .foregroundColor(.secondary_gray)
-            .frame(width:351)
-        }.frame(width:351)
-            .onAppear{
-                
-            }
+        }
+        .frame(height: 30)
         
-        
-        
+        HStack{
+            Text("Kebutuhan")
+            Spacer()
+            Text("Keinginan")
+        }
+        .font(.caption)
+        .fontWeight(.bold)
+        .italic()
+        .foregroundColor(Color.secondary_gray)
     }
 }
 
