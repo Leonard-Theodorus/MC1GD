@@ -11,36 +11,52 @@ struct WelcomeScreen: View {
     @State var nicknameUser = ""
     @EnvironmentObject var viewModel : coreDataViewModel
     @FocusState var focusName: Bool
+    @State var showDelete : Bool = false
     
     var body: some View {
         VStack{
             Spacer()
-            TextField("Ketik Namamu", text: $nicknameUser).disableAutocorrection(true)
-                .padding()
-                .background(.white)
-                .cornerRadius(12)
-                .padding(.horizontal,37)
-                .foregroundColor(.black)
+            HStack {
+                ZStack {
+                    TextField("Ketik Namamu", text: $nicknameUser).disableAutocorrection(true)
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal,37)
+                    .foregroundColor(.black)
+                    if nicknameUser != "" {
+                        Button{
+                            nicknameUser = ""
+                            showDelete.toggle()
+                        }label: {
+                            HStack{
+                                Spacer()
+                                Image(systemName: "x.circle.fill")
+                                    .foregroundColor(.secondary_gray)
+                            }
+                            .padding(.horizontal,57)
+                        }
+                    }
+                    
+                }
+            }
+                
+        
                 
             Button{
                 viewModel.addName(name: nicknameUser)
             }label: {
                 Text("Mulai Perjalananmu")
                     .padding()
-                    .background(Color("primary-purple"))
+                    .background(Color.secondary_purple)
                     .cornerRadius(32)
-                    .shadow(color: .black, radius: 4, x: 0, y:4)
+                    .shadow(radius: 4, y:2)
                     .padding(.top,10)
-            }
+            }.disabled(nicknameUser == "")
             
             Spacer()
             
-//            HStack(alignment: .bottom){
-//                Image("beruang-welcome")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(height: 350)
-//            }
+
         }
         .background(
             ZStack{

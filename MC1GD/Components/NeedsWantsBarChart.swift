@@ -100,7 +100,7 @@ struct NeedsWantsBarChart: View {
                                 chartDate.append(correctDate)
                                 
                             }
-                          
+                            
                         }
                     }
                     
@@ -114,11 +114,12 @@ struct NeedsWantsBarChart: View {
                 .chartYAxis(.hidden)
                 
             }
-        }.frame(maxHeight: 350)
-            .padding()
-            .background(Color(.white))
-            .cornerRadius(20)
-            .shadow(radius: 4, y:2)
+        }
+        .frame(maxHeight: 350)
+        .padding()
+        .background(Color(.white))
+        .cornerRadius(20)
+        .shadow(radius: 4, y:2)
     }
     
 }

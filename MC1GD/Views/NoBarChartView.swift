@@ -15,7 +15,7 @@ struct NoBarChartView: View {
                     .font(.body)
                     .italic()
                     .foregroundColor(.secondary_gray)
-                    .padding(.leading, 20)
+                    .padding()
             }
         }.frame(maxHeight: 350)
             .padding()

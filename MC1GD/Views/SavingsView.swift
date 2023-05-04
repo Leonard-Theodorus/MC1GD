@@ -30,7 +30,10 @@ struct SavingsView: View {
             
             VStack(alignment: .leading){
                 HStack{
-                    Image(systemName: "sun.min.fill")
+                    Image("rp")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
                     Text("Total Tabunganmu")
                         .font(.title3)
                         .fontWeight(.light)

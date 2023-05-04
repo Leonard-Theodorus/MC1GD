@@ -27,6 +27,8 @@ struct NewItemView: View {
     @State var isZeroPrice: Bool = false
     @State var showQuestions = false
     @Binding var todayDateComponent : Date
+    @State var showDatePicker : Bool = false
+    @State var showDeleteIcon : Bool = false
     var body: some View {
         NavigationView {
             VStack(alignment: .center){
@@ -44,7 +46,7 @@ struct NewItemView: View {
                                     .background(Color("tertiary-gray").cornerRadius(10)))
                             .foregroundColor(Color("primary-gray"))
                             .frame(width: 40)
-                        Divider()
+                        Divider().frame(height: 20)
                         TextField("Harga Barang", value: $newItemPrice, format: .number)
                             .lineLimit(0)
                             .keyboardType(.numberPad)
@@ -59,9 +61,20 @@ struct NewItemView: View {
                             }
                             .foregroundColor(newItemPrice <= 0 ? .gray : .black)
                             .font(.title)
-                        if isZeroPrice {
+                        if isZeroPrice == true {
                             Text("Harga tidak boleh 0")
                                 .foregroundColor(.red).font(.caption)
+                        } else if isZeroPrice == false && isFocusedPrice == true{
+                            Button{
+                                newItemPrice = 0
+                                showDeleteIcon.toggle()
+                            }label: {
+                                HStack{
+                                    Spacer()
+                                    Image(systemName: "x.circle.fill")
+                                        .foregroundColor(.secondary_gray)
+                                }
+                            }
                         }
                     }
                     
@@ -93,13 +106,13 @@ struct NewItemView: View {
                             .focused($isFocusedName)
                         
                     }.padding(.vertical, 5)
-                    if !formVm.textIsValid{
+                    if !formVm.textIsValid && isFocusedName == true{
                         Text("Harus diisi, tidak diawali ataupun diakhiri dengan spasi")
                             .foregroundColor(.red)
                             .font(.caption2)
                             .multilineTextAlignment(.leading)
                             .padding(.leading,60)
-                    }else{
+                    }else if formVm.textIsValid && isFocusedName == true {
                         Image(systemName: "checkmark").foregroundColor(.green)
                             .padding(.horizontal,15)
                     }
@@ -124,122 +137,130 @@ struct NewItemView: View {
                         }
                     }.padding(.vertical, 5)
                     
-//                    Divider()
+                    //                    Divider()
                     
                     // MARK:  pilih itemTag needs/wants
-                    VStack {
-                        HStack{
-                            Image(systemName: "tag")
-                                .imageScale(.large)
-                                .foregroundColor(Color.primary_gray)
-                                .padding(.horizontal,15)
-                            Button{
-                                if isNeeds != true {
-                                    if isWants != true {
+                    Group {
+                        VStack {
+                            HStack{
+                                Image(systemName: "tag")
+                                    .imageScale(.large)
+                                    .foregroundColor(Color.primary_gray)
+                                    .padding(.horizontal,15)
+                                Button{
+                                    if isNeeds != true {
+                                        if isWants != true {
+                                            self.isWants.toggle()
+                                            self.newItemTag = "Keinginan"
+                                        }else{
+                                            self.isWants.toggle()
+                                            self.newItemTag = ""
+                                        }
+                                    }else{
+                                        self.isNeeds.toggle()
                                         self.isWants.toggle()
                                         self.newItemTag = "Keinginan"
+                                    }
+                                } label: {
+                                    Text("Keinginan")
+                                        .font(.caption)
+                                        .bold()
+                                        .padding(2)
+                                        .textCase(.uppercase)
+                                    
+                                }
+                                .buttonStyle(.bordered)
+                                .foregroundColor(.white)
+                                .background(
+                                    Color.tag_pink
+                                        .opacity(self.isWants ? 1: 0.4)
+                                )
+                                .cornerRadius(25)
+                                //                                .shadow(radius: self.isWants ? 5:0)
+                                .hoverEffect(.lift)
+                                Button{
+                                    if isWants != true{
+                                        if isNeeds != true {
+                                            self.isNeeds.toggle()
+                                            self.newItemTag = "Kebutuhan"
+                                        }else{
+                                            self.isNeeds.toggle()
+                                            self.newItemTag = ""
+                                        }
                                     }else{
                                         self.isWants.toggle()
-                                        self.newItemTag = ""
-                                    }
-                                }else{
-                                    self.isNeeds.toggle()
-                                    self.isWants.toggle()
-                                    self.newItemTag = "Keinginan"
-                                }
-                            } label: {
-                                Text("Keinginan")
-                                    .font(.caption)
-                                    .bold()
-                                    .padding(2)
-                                    .textCase(.uppercase)
-                                
-                            }
-                            .buttonStyle(.bordered)
-                            .foregroundColor(.white)
-                            .background(Color.tag_pink)
-                            .cornerRadius(25)
-                            .shadow(radius: self.isWants ? 5:0)
-                            .hoverEffect(.lift)
-                            Button{
-                                if isWants != true{
-                                    if isNeeds != true {
                                         self.isNeeds.toggle()
                                         self.newItemTag = "Kebutuhan"
-                                    }else{
-                                        self.isNeeds.toggle()
-                                        self.newItemTag = ""
                                     }
-                                }else{
-                                    self.isWants.toggle()
-                                    self.isNeeds.toggle()
-                                    self.newItemTag = "Kebutuhan"
+                                } label: {
+                                    Text("Kebutuhan")
+                                        .font(.caption)
+                                        .bold()
+                                        .padding(2)
+                                        .textCase(.uppercase)
+                                    
                                 }
-                            } label: {
-                                Text("Kebutuhan")
-                                    .font(.caption)
-                                    .bold()
-                                    .padding(2)
-                                    .textCase(.uppercase)
+                                .buttonStyle(.bordered)
+                                .foregroundColor(.white)
+                                .background(
+                                    Color.tag_purple
+                                        .opacity(self.isNeeds ? 1: 0.4)
+                                )
+                                .cornerRadius(25)
+                                //                                .shadow(radius: self.isNeeds ? 5:0)
+                                .hoverEffect(.lift)
+                                
+                                
+                                
+                                
+                                Button{
+                                    showQuestions.toggle()
+                                } label: {
+                                    Image(systemName: "questionmark.circle.fill")
+                                        .foregroundColor(Color("secondary-gray"))
+                                }
+                                .buttonStyle(.borderless)
+                                .sheet(isPresented: $showQuestions) {
+                                    QuestionsView(showQuestions: $showQuestions)
+                                }
+                                
                                 
                             }
-                            .buttonStyle(.bordered)
-                            .foregroundColor(.white)
-                            .background(
-                                Color.tag_purple
-                            )
-                            .cornerRadius(25)
-                            .shadow(radius: self.isNeeds ? 5:0)
-                            .hoverEffect(.lift)
-                            
-                            
-                            
-                            
-                            Button{
-                                showQuestions.toggle()
-                            } label: {
-                                Image(systemName: "questionmark.circle.fill")
-                                    .foregroundColor(Color("secondary-gray"))
-                            }
-                            .buttonStyle(.borderless)
-                            .sheet(isPresented: $showQuestions) {
-                                QuestionsView(showQuestions: $showQuestions)
-                            }
-                            
-                            
                         }
+                        .padding(.top, 15)
+                        .padding(.bottom, 5)
                     }
-                    .padding(.top, 15)
-                    .padding(.bottom, 5)
                     
                     
                     // MARK:  input deskripsi item
-                    VStack {
-                        HStack(alignment: .top){
-                            Image(systemName: "text.alignleft")
-                                .imageScale(.large)
-                                .foregroundColor(Color.primary_gray)
-                                .padding(.horizontal,15)
-                            TextField("Deskripsi (50 Karakter)", text: $newItemDesc, axis: .vertical)
-                                .focused($isFocusedDesc)
-                                .lineLimit(5, reservesSpace: true)
-                                .disableAutocorrection(true)
-                                .textFieldStyle(.roundedBorder)
-                                .font(.body)
-                                .fontWeight(.thin)
-                                .onChange(of: newItemDesc) {newValue in
-                                    if newValue.count >= maxChars {
-                                        newItemDesc = String(newValue.prefix(maxChars))
+                    Group {
+                        VStack {
+                            HStack(alignment: .top){
+                                Image(systemName: "text.alignleft")
+                                    .imageScale(.large)
+                                    .foregroundColor(Color.primary_gray)
+                                    .padding(.horizontal,15)
+                                TextField("Deskripsi (50 Karakter)", text: $newItemDesc, axis: .vertical)
+                                    .focused($isFocusedDesc)
+                                    .lineLimit(5, reservesSpace: true)
+                                    .disableAutocorrection(true)
+                                    .textFieldStyle(.roundedBorder)
+                                    .font(.body)
+                                    .fontWeight(.thin)
+                                    .onChange(of: newItemDesc) {newValue in
+                                        if newValue.count >= maxChars {
+                                            newItemDesc = String(newValue.prefix(maxChars))
+                                        }
                                     }
-                                }
-                        }
-                        HStack{
-                            Spacer()
-                            Text("\($newItemDesc.wrappedValue.count)/50")
-                                .font(.caption)
-                                .foregroundColor($newItemDesc.wrappedValue.count == maxChars ? .red : .gray)
-                        }
-                    }.padding(.vertical, 10)
+                            }
+                            HStack{
+                                Spacer()
+                                Text("\($newItemDesc.wrappedValue.count)/50")
+                                    .font(.caption)
+                                    .foregroundColor($newItemDesc.wrappedValue.count == maxChars ? .red : .gray)
+                            }
+                        }.padding(.vertical, 10)
+                    }
                     
                     
                     // MARK: select tanggal
@@ -249,17 +270,30 @@ struct NewItemView: View {
                             .foregroundColor(Color("secondary-gray"))
                             .padding(.horizontal,15)
                         
-                        Text(Date().formatDateFull(for: todayDateComponent))
-                            .font(.body)
-                            .padding(.vertical,8)
-                            .padding(.horizontal,10)
-                            .foregroundColor(.black)
+                        Button{
+                            showDatePicker.toggle()
+                        }label:{
+                            Text(Date().formatDateFull(for: todayDateComponent))
+                                .font(.body)
+                                .padding(.vertical,8)
+                                .padding(.horizontal,10)
+                                .foregroundColor(.black)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.tertiary_gray)
+                                )
+                        }
                         
                     }
-                    HStack{
-                        DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
-                            .accentColor(Color.primary_purple)
+                    if showDatePicker == true{
+                        HStack{
+                                                DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
+                                                    .accentColor(Color.primary_purple)
+                                            }
+                    } else {
+                        
                     }
+                    
                     
                     
                 }
