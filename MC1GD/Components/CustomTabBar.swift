@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-enum Tabs: Int{
-    case summary = 0
-    case expense = 1
-}
-
 struct CustomTabBar: View {
     
     @Binding var selectedTab: Tabs
@@ -31,10 +26,25 @@ struct CustomTabBar: View {
                 
                 .frame(width: 0.5)
                 .padding(.top,10)
+            
             Button{
                 selectedTab = .summary
             }label: {
                 TabBarButton(buttonText: "Ringkasan", imageName: "list.bullet.clipboard.fill", isActive: selectedTab == .summary)
+                
+            }
+            .tint(.white)
+            
+            Rectangle()
+                .foregroundColor(.white)
+                
+                .frame(width: 0.5)
+                .padding(.top,10)
+            
+            Button{
+                selectedTab = .tabungan
+            }label: {
+                TabBarButton(buttonText: "Tabungan", imageName: "dollarsign.circle.fill", isActive: selectedTab == .tabungan)
                 
             }
             .tint(.white)

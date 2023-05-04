@@ -20,7 +20,7 @@ struct NeedsWantsBarChart: View {
     @State var wantsTotal : Double = 0
     var body: some View {
         VStack(alignment: .center) {
-            Text("Rekap")
+            Text("Rekap 7 Hari Kebelakang")
                 .font(.caption)
                 .fontWeight(.thin)
                 .foregroundColor(.primary)
@@ -114,7 +114,7 @@ struct NeedsWantsBarChart: View {
                 .chartYAxis(.hidden)
                 
             }
-        }.frame(maxWidth:351, maxHeight: 350)
+        }.frame(maxHeight: 350)
             .padding()
             .background(Color(.white))
             .cornerRadius(20)

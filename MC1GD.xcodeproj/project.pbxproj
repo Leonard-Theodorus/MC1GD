@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58A6A0D52A03925A0014E4BD /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A6A0D32A03925A0014E4BD /* Home.swift */; };
+		58A6A0D62A03925A0014E4BD /* YTView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A6A0D42A03925A0014E4BD /* YTView.swift */; };
 		B12AC8C429F84DD500111013 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12AC8C329F84DD500111013 /* CustomTabBar.swift */; };
 		B13ED56229F856A000491CFF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13ED56129F856A000491CFF /* RootView.swift */; };
 		B13ED56429F858E200491CFF /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13ED56329F858E200491CFF /* SummaryView.swift */; };
 		B13ED56629F8594E00491CFF /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13ED56529F8594E00491CFF /* TabBarButton.swift */; };
+		B1475EF62A03567A00D41BED /* PageEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1475EF52A03567A00D41BED /* PageEnum.swift */; };
 		B18990412A021BD500260C10 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18990402A021BD500260C10 /* WelcomeScreen.swift */; };
+		D45D2D5C2A03A07C0098BFB6 /* SavingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45D2D5B2A03A07C0098BFB6 /* SavingsView.swift */; };
 		D465C76D2A017CDE00447757 /* TipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D465C76C2A017CDE00447757 /* TipsView.swift */; };
 		D4D4A7C929FA37BA008674F8 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = D415A44A29FA0FB7004BC18E /* SwiftUICharts */; };
 		D4D4A7CD29FA5BEE008674F8 /* CategoryChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4A7CC29FA5BEE008674F8 /* CategoryChart.swift */; };
@@ -62,11 +66,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		58A6A0D32A03925A0014E4BD /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		58A6A0D42A03925A0014E4BD /* YTView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YTView.swift; sourceTree = "<group>"; };
 		B12AC8C329F84DD500111013 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		B13ED56129F856A000491CFF /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B13ED56329F858E200491CFF /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		B13ED56529F8594E00491CFF /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
+		B1475EF52A03567A00D41BED /* PageEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageEnum.swift; sourceTree = "<group>"; };
 		B18990402A021BD500260C10 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
+		D45D2D5B2A03A07C0098BFB6 /* SavingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsView.swift; sourceTree = "<group>"; };
 		D465C76C2A017CDE00447757 /* TipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsView.swift; sourceTree = "<group>"; };
 		D4D4A7CC29FA5BEE008674F8 /* CategoryChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryChart.swift; sourceTree = "<group>"; };
 		D4F9DCA82A026800002F51B5 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
@@ -192,6 +200,8 @@
 		D753EC4429F66C45007C3F31 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				58A6A0D32A03925A0014E4BD /* Home.swift */,
+				58A6A0D42A03925A0014E4BD /* YTView.swift */,
 				D753EC4E29F66DF4007C3F31 /* ExpenseView.swift */,
 				D753EC5029F66DFA007C3F31 /* NewItemView.swift */,
 				B13ED56129F856A000491CFF /* RootView.swift */,
@@ -200,6 +210,7 @@
 				D465C76C2A017CDE00447757 /* TipsView.swift */,
 				B18990402A021BD500260C10 /* WelcomeScreen.swift */,
 				D755B0262A0286A10013C7FA /* NoBarChartView.swift */,
+				D45D2D5B2A03A07C0098BFB6 /* SavingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -246,6 +257,7 @@
 				D780C6DE29FE8411007BF480 /* ColorExtension.swift */,
 				D780C72029FEF6EA007BF480 /* ArrayExtension.swift */,
 				D4F9DCA82A026800002F51B5 /* RoundedCorner.swift */,
+				B1475EF52A03567A00D41BED /* PageEnum.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -387,6 +399,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D753EC5129F66DFA007C3F31 /* NewItemView.swift in Sources */,
+				58A6A0D62A03925A0014E4BD /* YTView.swift in Sources */,
 				D753EC5829F66E79007C3F31 /* CurrencyFormatter.swift in Sources */,
 				B13ED56429F858E200491CFF /* SummaryView.swift in Sources */,
 				D753EC4929F66DAC007C3F31 /* CoreDataViewModel.swift in Sources */,
@@ -398,15 +411,18 @@
 				D780C71F29FEA41F007BF480 /* BarChartDataModel.swift in Sources */,
 				D755B0272A0286A10013C7FA /* NoBarChartView.swift in Sources */,
 				B13ED56229F856A000491CFF /* RootView.swift in Sources */,
+				D45D2D5C2A03A07C0098BFB6 /* SavingsView.swift in Sources */,
 				D780C72129FEF6EA007BF480 /* ArrayExtension.swift in Sources */,
 				B18990412A021BD500260C10 /* WelcomeScreen.swift in Sources */,
 				D753EC5A29F66E92007C3F31 /* DateModel.swift in Sources */,
 				D753EC1F29F66C29007C3F31 /* Persistence.swift in Sources */,
 				D753EC4B29F66DDA007C3F31 /* AddItemButton.swift in Sources */,
+				B1475EF62A03567A00D41BED /* PageEnum.swift in Sources */,
 				D753EC2229F66C29007C3F31 /* MC1GD.xcdatamodeld in Sources */,
 				D465C76D2A017CDE00447757 /* TipsView.swift in Sources */,
 				D7B81C1729F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift in Sources */,
 				D4F9DCA92A026800002F51B5 /* RoundedCorner.swift in Sources */,
+				58A6A0D52A03925A0014E4BD /* Home.swift in Sources */,
 				D753EC5429F66E55007C3F31 /* ImagePicker.swift in Sources */,
 				D780C6D729FA584F007BF480 /* AddItemFromViewModel.swift in Sources */,
 				D753EC1629F66C28007C3F31 /* MC1GDApp.swift in Sources */,
@@ -573,7 +589,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1GD/Preview Content\"";
-				DEVELOPMENT_TEAM = 6H4427J3SZ;
+				DEVELOPMENT_TEAM = 54STNG9K7F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -602,7 +618,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1GD/Preview Content\"";
-				DEVELOPMENT_TEAM = 6H4427J3SZ;
+				DEVELOPMENT_TEAM = 54STNG9K7F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

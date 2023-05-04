@@ -64,7 +64,6 @@ struct NewItemView: View {
                                 .foregroundColor(.red).font(.caption)
                         }
                     }
-                    .frame(height: 50)
                     
                     Divider()
                     
@@ -95,13 +94,12 @@ struct NewItemView: View {
                         
                     }.padding(.vertical, 5)
                     if !formVm.textIsValid{
-                        
-                        Text("Nama barang harus diisi, tidak diawali ataupun diakhiri dengan spasi.")
+                        Text("Harus diisi, tidak diawali ataupun diakhiri dengan spasi")
                             .foregroundColor(.red)
-                            .font(.caption)
+                            .font(.caption2)
+                            .multilineTextAlignment(.leading)
                             .padding(.leading,60)
-                    }
-                    else{
+                    }else{
                         Image(systemName: "checkmark").foregroundColor(.green)
                             .padding(.horizontal,15)
                     }
@@ -110,7 +108,6 @@ struct NewItemView: View {
                     
                     // MARK: pilih itemCategory
                     HStack{
-                        
                         Image(systemName: "circle.fill")
                             .imageScale(.large)
                             .foregroundColor(Color.primary_gray)
@@ -127,7 +124,7 @@ struct NewItemView: View {
                         }
                     }.padding(.vertical, 5)
                     
-                    Divider()
+//                    Divider()
                     
                     // MARK:  pilih itemTag needs/wants
                     VStack {
@@ -230,13 +227,6 @@ struct NewItemView: View {
                                 .textFieldStyle(.roundedBorder)
                                 .font(.body)
                                 .fontWeight(.thin)
-                            //                                .overlay(
-                            //                                    Text("Deskripsi (50 Karakter)")
-                            //                                        .font(.body)
-                            //                                        .italic()
-                            //                                        .foregroundColor(.gray)
-                            //                                        .opacity(newItemDesc.isEmpty ? 0.5 : 0)
-                            //                                )
                                 .onChange(of: newItemDesc) {newValue in
                                     if newValue.count >= maxChars {
                                         newItemDesc = String(newValue.prefix(maxChars))
@@ -259,16 +249,22 @@ struct NewItemView: View {
                             .foregroundColor(Color("secondary-gray"))
                             .padding(.horizontal,15)
                         
-                        DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.compact)
-                            .accentColor(Color.primary_purple)
+                        Text(Date().formatDateFull(for: todayDateComponent))
+                            .font(.body)
+                            .padding(.vertical,8)
+                            .padding(.horizontal,10)
+                            .foregroundColor(.black)
                         
-                    }.padding(.vertical, 5)
+                    }
+                    HStack{
+                        DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
+                            .accentColor(Color.primary_purple)
+                    }
                     
                     
                 }
                 .padding(.horizontal,20)
-                .padding(.bottom, 50)
-                .padding(.top, -20)
+                .padding(.bottom, 30)
                 
                 
                 Spacer()

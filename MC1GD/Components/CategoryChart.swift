@@ -21,7 +21,7 @@ struct CategoryChart: View {
                     .headerBox(chartData: data)
                     .legends(chartData: data, columns: [GridItem(.flexible()), GridItem(.flexible())])
                     .id(data.id)
-                    .frame(width: 120,
+                    .frame(width: 100,
                            height: 200,
                            alignment: .center)
                     .padding(.horizontal,10)
@@ -67,25 +67,40 @@ struct CategoryChart: View {
                                     .padding(.leading,-5)
                             }
                         }
+                        .frame(width: 90)
                         .padding(.leading,-5)
                     }
                     .padding(.bottom,2)
                     .padding(.leading,15)
                     HStack{
-                        Image(systemName: "face.smiling.inverse")
-                            .imageScale(.large)
-                            .foregroundColor(.primary_purple)
-                            .frame(width: 39)
+                        Spacer()
                         Text("Jangan lupa untuk selalu mengisi kategori pengeluaran")
                             .foregroundColor(.secondary_gray)
                         //                                .font(.caption2)
                             .font(Font.custom("SF Pro", size: 10))
                             .multilineTextAlignment(.trailing)
+                            .frame(width: 100)
                         
                     }
                     .frame(width: 150, height: 60)
                     .padding(6)
-                    .background(Color.primary_white)
+                    .background(
+                        ZStack{
+                            Color.primary_white
+                            HStack{
+                                VStack{
+                                    Spacer()
+                                    Image("beruang-welcome")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 40)
+                                        .padding(.leading, 10)
+                                }
+                                Spacer()
+                            }
+                        }
+                        
+                    )
                     /// to define different corner radius
                     .clipShape(
                         RoundedCorner(
@@ -101,29 +116,30 @@ struct CategoryChart: View {
                 
                 
             }
-            .frame(maxWidth:351, maxHeight: 250)
-            .padding(.horizontal, 10)
-            .background(Color(.white))
-            .cornerRadius(20)
-            .shadow(radius: 4, y:2)
-            .onAppear{
-                withAnimation {
-                    viewModel.fetchItems(for: todayDateComponent)
-                    data = viewModel.getChartData(for: todayDateComponent)
-                    allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
-                }
+            
+            
+        }
+        .frame(maxHeight: 250)
+        .padding(.horizontal)
+        .background(Color(.white))
+        .cornerRadius(20)
+        .shadow(radius: 4, y:2)
+        .onAppear{
+            withAnimation {
+                viewModel.fetchItems(for: todayDateComponent)
+                data = viewModel.getChartData(for: todayDateComponent)
+                allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
             }
-            
-            .onChange(of: todayDateComponent, perform: { newValue in
-                print(todayDateComponent)
-                withAnimation {
-                    viewModel.fetchItems(for: todayDateComponent)
-                    data = viewModel.getChartData(for: todayDateComponent)
-                    allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
-                }
-            })
-            
-        }.frame(width:351)
+        }
+        
+        .onChange(of: todayDateComponent, perform: { newValue in
+            print(todayDateComponent)
+            withAnimation {
+                viewModel.fetchItems(for: todayDateComponent)
+                data = viewModel.getChartData(for: todayDateComponent)
+                allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+            }
+        })
         
     }
     

@@ -18,8 +18,9 @@ struct TabBarButton: View {
                 Image(systemName: imageName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 36, height: 36)
+                    .frame(width: 30, height: 30)
                 Text(buttonText)
+                    .font(.callout)
             }
             .opacity(isActive ? 1 : 0.4)
             .frame(width: geo.size.width, height: geo.size.height)
