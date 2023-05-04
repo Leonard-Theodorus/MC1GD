@@ -15,6 +15,7 @@
 		B13ED56629F8594E00491CFF /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13ED56529F8594E00491CFF /* TabBarButton.swift */; };
 		B1475EF62A03567A00D41BED /* PageEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1475EF52A03567A00D41BED /* PageEnum.swift */; };
 		B1475F002A0429B100D41BED /* AddSavingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1475EFF2A0429B100D41BED /* AddSavingButton.swift */; };
+		B1475F022A042A1D00D41BED /* NewSavingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1475F012A042A1D00D41BED /* NewSavingView.swift */; };
 		B18990412A021BD500260C10 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18990402A021BD500260C10 /* WelcomeScreen.swift */; };
 		D45D2D5C2A03A07C0098BFB6 /* SavingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45D2D5B2A03A07C0098BFB6 /* SavingsView.swift */; };
 		D465C76D2A017CDE00447757 /* TipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D465C76C2A017CDE00447757 /* TipsView.swift */; };
@@ -36,7 +37,7 @@
 		D753EC5129F66DFA007C3F31 /* NewItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5029F66DFA007C3F31 /* NewItemView.swift */; };
 		D753EC5429F66E55007C3F31 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5329F66E55007C3F31 /* ImagePicker.swift */; };
 		D753EC5829F66E79007C3F31 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5729F66E79007C3F31 /* CurrencyFormatter.swift */; };
-		D753EC5A29F66E92007C3F31 /* DateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5929F66E92007C3F31 /* DateModel.swift */; };
+		D753EC5A29F66E92007C3F31 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5929F66E92007C3F31 /* DateExtension.swift */; };
 		D755B0272A0286A10013C7FA /* NoBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D755B0262A0286A10013C7FA /* NoBarChartView.swift */; };
 		D780C6D729FA584F007BF480 /* AddItemFromViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C6D629FA584F007BF480 /* AddItemFromViewModel.swift */; };
 		D780C6DB29FD233D007BF480 /* CategoryEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C6DA29FD233D007BF480 /* CategoryEnum.swift */; };
@@ -75,6 +76,7 @@
 		B13ED56529F8594E00491CFF /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
 		B1475EF52A03567A00D41BED /* PageEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageEnum.swift; sourceTree = "<group>"; };
 		B1475EFF2A0429B100D41BED /* AddSavingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSavingButton.swift; sourceTree = "<group>"; };
+		B1475F012A042A1D00D41BED /* NewSavingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSavingView.swift; sourceTree = "<group>"; };
 		B18990402A021BD500260C10 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
 		D45D2D5B2A03A07C0098BFB6 /* SavingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsView.swift; sourceTree = "<group>"; };
 		D465C76C2A017CDE00447757 /* TipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsView.swift; sourceTree = "<group>"; };
@@ -98,7 +100,7 @@
 		D753EC5029F66DFA007C3F31 /* NewItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemView.swift; sourceTree = "<group>"; };
 		D753EC5329F66E55007C3F31 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		D753EC5729F66E79007C3F31 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
-		D753EC5929F66E92007C3F31 /* DateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateModel.swift; sourceTree = "<group>"; };
+		D753EC5929F66E92007C3F31 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		D755B0262A0286A10013C7FA /* NoBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBarChartView.swift; sourceTree = "<group>"; };
 		D780C6D629FA584F007BF480 /* AddItemFromViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemFromViewModel.swift; sourceTree = "<group>"; };
 		D780C6DA29FD233D007BF480 /* CategoryEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEnum.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				B18990402A021BD500260C10 /* WelcomeScreen.swift */,
 				D755B0262A0286A10013C7FA /* NoBarChartView.swift */,
 				D45D2D5B2A03A07C0098BFB6 /* SavingsView.swift */,
+				B1475F012A042A1D00D41BED /* NewSavingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -244,7 +247,6 @@
 		D753EC4729F66C55007C3F31 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D753EC5929F66E92007C3F31 /* DateModel.swift */,
 				D780C71E29FEA41F007BF480 /* BarChartDataModel.swift */,
 				D7228C9A2A039AC8006237B9 /* NotificationModel.swift */,
 			);
@@ -259,6 +261,7 @@
 				D780C6DA29FD233D007BF480 /* CategoryEnum.swift */,
 				D780C6DE29FE8411007BF480 /* ColorExtension.swift */,
 				D780C72029FEF6EA007BF480 /* ArrayExtension.swift */,
+				D753EC5929F66E92007C3F31 /* DateExtension.swift */,
 				D4F9DCA82A026800002F51B5 /* RoundedCorner.swift */,
 				B1475EF52A03567A00D41BED /* PageEnum.swift */,
 			);
@@ -406,6 +409,7 @@
 				D753EC5829F66E79007C3F31 /* CurrencyFormatter.swift in Sources */,
 				B1475F002A0429B100D41BED /* AddSavingButton.swift in Sources */,
 				B13ED56429F858E200491CFF /* SummaryView.swift in Sources */,
+				B1475F022A042A1D00D41BED /* NewSavingView.swift in Sources */,
 				D753EC4929F66DAC007C3F31 /* CoreDataViewModel.swift in Sources */,
 				D780C6DB29FD233D007BF480 /* CategoryEnum.swift in Sources */,
 				B12AC8C429F84DD500111013 /* CustomTabBar.swift in Sources */,
@@ -418,7 +422,7 @@
 				D45D2D5C2A03A07C0098BFB6 /* SavingsView.swift in Sources */,
 				D780C72129FEF6EA007BF480 /* ArrayExtension.swift in Sources */,
 				B18990412A021BD500260C10 /* WelcomeScreen.swift in Sources */,
-				D753EC5A29F66E92007C3F31 /* DateModel.swift in Sources */,
+				D753EC5A29F66E92007C3F31 /* DateExtension.swift in Sources */,
 				D753EC1F29F66C29007C3F31 /* Persistence.swift in Sources */,
 				D753EC4B29F66DDA007C3F31 /* AddItemButton.swift in Sources */,
 				B1475EF62A03567A00D41BED /* PageEnum.swift in Sources */,
