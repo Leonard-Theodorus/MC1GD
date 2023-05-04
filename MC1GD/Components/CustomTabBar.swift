@@ -17,15 +17,8 @@ struct CustomTabBar: View {
             Button{
                 selectedTab = .expense
             }label: {
-                TabBarButton(buttonText: "Pengeluaran", imageName: "creditcard.circle", isActive: selectedTab == .expense)
+                TabBarButton(buttonText: "Pengeluaran", imageName: "creditcard.fill", isActive: selectedTab == .expense)
             }
-            .tint(.white)
-            
-            Rectangle()
-                .foregroundColor(.white)
-                
-                .frame(width: 0.5)
-                .padding(.top,10)
             
             Button{
                 selectedTab = .summary
@@ -33,24 +26,16 @@ struct CustomTabBar: View {
                 TabBarButton(buttonText: "Ringkasan", imageName: "list.bullet.clipboard.fill", isActive: selectedTab == .summary)
                 
             }
-            .tint(.white)
-            
-            Rectangle()
-                .foregroundColor(.white)
-                
-                .frame(width: 0.5)
-                .padding(.top,10)
             
             Button{
                 selectedTab = .tabungan
             }label: {
-                TabBarButton(buttonText: "Tabungan", imageName: "dollarsign.circle.fill", isActive: selectedTab == .tabungan)
+                TabBarButton(buttonText: "Tabungan", imageName: "rupiah", isActive: selectedTab == .tabungan)
                 
             }
-            .tint(.white)
         }
-        .frame(height: 90)
-        .background(Color("primary-purple"))
+        .frame(height: 58)
+        .background(Color.primary_white)
     }
     
 }

@@ -76,6 +76,7 @@ struct ExpenseView: View {
                         .font(.headline)
                         .foregroundColor(Color.primary_purple)
                         .frame(width: 100)
+                    Spacer()
                     // MARK: Customized date picker
                     ZStack{
                         Button{

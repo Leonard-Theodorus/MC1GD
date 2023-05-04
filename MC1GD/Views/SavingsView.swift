@@ -13,7 +13,6 @@ struct SavingsView: View {
     @Binding var todayDateComponent : Date
     @State private var stringDate = ""
     @State private var showDatePicker = false
-    @State var allSavings : Double = 0
     
     var body: some View {
         VStack(alignment: .leading){
@@ -23,7 +22,7 @@ struct SavingsView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 Spacer()
-                AddItemButton(todayDateComponent: $todayDateComponent)
+                AddSavingButton(todayDateComponent: $todayDateComponent)
             }
             // MARK: Hello Card
             
@@ -38,12 +37,12 @@ struct SavingsView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
-                Text(currencyFormatter.string(from: NSNumber(value: allSavings)) ?? "")
+                Text(currencyFormatter.string(from: NSNumber(value: viewModel.getUserMoney())) ?? "")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.horizontal)
                     .padding(.bottom,5)
-                if allSavings == 0 {
+                if viewModel.getUserMoneyToday() == 0 {
                     Text("Ayo semangat menabung!")
                         .font(.body)
                         .fontWeight(.light)
@@ -51,7 +50,7 @@ struct SavingsView: View {
                         .padding(.horizontal)
                         .padding(.bottom)
                 }else{
-                    Text("Ayo semangat menabung!")
+                    Text(currencyFormatter.string(from: NSNumber(value: viewModel.getUserMoneyToday())) ?? "")
                         .fontWeight(.light)
                         .padding(.horizontal)
                         .padding(.bottom)
@@ -81,42 +80,37 @@ struct SavingsView: View {
             .cornerRadius(22)
             
             // MARK: Tabungan History Card
-            VStack{
-                VStack{
-                    HStack(alignment: .top){
-                        VStack(alignment: .leading){
-                            Text("3 Mei 2023")
-                                .font(.headline)
-                                .padding(.bottom,-5)
-                            Text("Sisa Uang Jajan")
-                                .font(.caption2)
-                                .italic()
-                                .foregroundColor(Color("primary-gray"))
-                                .padding(.top,1)
-                                .lineSpacing(2)
+            List{
+                ForEach(viewModel.savingList.reversed()) { saving in
+                    VStack{
+                        HStack(alignment: .top){
+                            VStack(alignment: .leading){
+                                Text(viewModel.getSavingDate(date: saving.savingDate!))
+                                    .font(.headline)
+                                    .padding(.bottom,-5)
+                            }
+                            Spacer()
+                            Text("+ \(currencyFormatter.string(from: NSNumber(value: saving.savingAmount)) ?? "")")
+                                .foregroundColor(Color.primary_green)
+                                .fontWeight(.bold)
                         }
-                        Spacer()
-                        Text("+ \(currencyFormatter.string(from: NSNumber(value: 0)) ?? "")")
-                            .foregroundColor(Color.primary_green)
-                            .fontWeight(.bold)
+                        .padding(.horizontal,3)
+                        .padding(.vertical)
                     }
-                    .padding(.horizontal,-1)
-                    .padding(.top)
-                    
-                    Rectangle()
-                        .foregroundColor(Color.tertiary_gray)
-                        .frame(height: 1)
-                        .padding(.vertical,2)
-                    
                 }
+                .listRowInsets(EdgeInsets())
             }
             .padding()
+            .padding(.top,3)
             .background(.white)
             .cornerRadius(22)
+            .onAppear(){
+                viewModel.fetchSaving()
+            }
+            .listStyle(.plain)
+            .clipped()
             .shadow(color: Color.gray, radius: 4, y: 2)
-            .padding(.top,12)
-            //            .onTapGesture {showDatePicker = false}
-            
+            .padding(.top)
         }
         .padding(.horizontal,22)
         
@@ -127,5 +121,6 @@ struct SavingsView: View {
 struct SavingsView_Previews: PreviewProvider {
     static var previews: some View {
         SavingsView(todayDateComponent: .constant(Date()))
+            .environmentObject(coreDataViewModel())
     }
 }
