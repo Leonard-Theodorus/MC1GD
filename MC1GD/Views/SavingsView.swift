@@ -81,7 +81,7 @@ struct SavingsView: View {
             
             // MARK: Tabungan History Card
             List{
-                ForEach(viewModel.savingList.reversed()) { saving in
+                ForEach(viewModel.savingList.suffix(10)) { saving in
                     VStack{
                         HStack(alignment: .top){
                             VStack(alignment: .leading){
