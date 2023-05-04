@@ -1,8 +1,3 @@
-//
-//  CurrencyFormatter.swift
-//  MC1
-//
-//
 
 import SwiftUI
 
