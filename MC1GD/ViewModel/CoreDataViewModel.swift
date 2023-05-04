@@ -68,7 +68,7 @@ class coreDataViewModel : ObservableObject{
     func getUserMoneyToday() -> Double{
         guard(!userList.isEmpty) else { return 0 }
         
-        var moneyToday:Double = 0
+        let moneyToday:Double = 0
         
         return moneyToday
     }
