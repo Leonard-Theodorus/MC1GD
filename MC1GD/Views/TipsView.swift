@@ -9,7 +9,7 @@ import WebKit
 import SwiftUICharts
 
 struct TipsView: View {
-//    @Binding var showTips: Bool
+    //    @Binding var showTips: Bool
     @Environment(\.presentationMode) var presentationMode
     @Binding var todayDateComponent : Date
     @Binding var data : DoughnutChartData
@@ -63,7 +63,6 @@ struct TipsView: View {
                             Text("5 Tips Menabung Untuk Anak")
                                 .padding(.trailing, 60)
                             Text("12.34")
-                            //                            .padding(.trailing, 40)
                         }
                         .foregroundColor(.white)
                         .bold()
@@ -87,15 +86,15 @@ struct TipsView: View {
     }
     
     private var backButton: some View {
-            Button(action: { presentationMode.wrappedValue.dismiss() }) {
-                HStack {
-                    Image(systemName: "chevron.backward")
-                    Text("Ringkasan")
-                        .font(.title3)
-                }
-                .foregroundColor(.primary_purple)
+        Button(action: { presentationMode.wrappedValue.dismiss() }) {
+            HStack {
+                Image(systemName: "chevron.backward")
+                Text("Ringkasan")
+                    .font(.title3)
             }
+            .foregroundColor(.primary_purple)
         }
+    }
 }
 
 struct TipsView_Previews: PreviewProvider {
@@ -103,7 +102,7 @@ struct TipsView_Previews: PreviewProvider {
         TipsView(
             todayDateComponent: .constant(Date()), data: .constant(DoughnutChartData(
                 dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text("")))
-
+            
         )
     }
 }

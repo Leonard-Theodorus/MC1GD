@@ -74,7 +74,6 @@ struct SummaryView: View {
                                     .imageScale(.large)
                                     .foregroundColor(.primary_purple)
                             }
-                            //                            .padding(.leading,100)
                             HStack{
                                 DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
                                     .datePickerStyle(.graphical)
@@ -102,7 +101,6 @@ struct SummaryView: View {
                             }.zIndex(4)
                         }
                         .frame(width: 25,height:30)
-                        //                        .padding(-20)
                     }
                     .zIndex(2)
                     .padding(.bottom,5)
@@ -110,29 +108,23 @@ struct SummaryView: View {
                     VStack{
                         // MARK: Progress bar
                         HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
-                        //                        .frame(width: 351)
                         
                         // MARK: Category Donut chart
                         CategoryChart(todayDateComponent: $todayDateComponent, data: $data)
+                            .padding(.vertical,6)
                         
                         // MARK: Last7days bar chart
                         if caseDisplayRange == .day{
-                            NoBarChartView().frame(height: 200).padding()
+                            NoBarChartView()
+                                .frame(height: 200)
                         }else{
                             HStack{
                                 NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
-                                    .padding()
                                     .opacity(caseDisplayRange == .byWeek ? 1 : 0)
                             }
                         }
                         
                         NavigationLink(destination: TipsView(todayDateComponent: $todayDateComponent, data: $data)) {
-    //                        Button{
-    //                            showTips.toggle()
-    //                        }label: {
-    //
-    //
-    //                        }.zIndex(2)
                             Text("Beberapa tips yang dapat Anda ikuti")
                                 .font(.caption2)
                                 .fontWeight(.bold)
@@ -146,13 +138,13 @@ struct SummaryView: View {
                                         .shadow(radius: 2, y:2)
                                         .frame(width:280)
                                 )
+                            
+                                .padding(.vertical,15)
                         }
                         
                     }
+                    .padding(.vertical,15)
                     .zIndex(1)
-    //                .onTapGesture {showDate = false}
-                    
-                    
                     
                 }
                 
@@ -160,7 +152,7 @@ struct SummaryView: View {
             .padding(.horizontal,22)
             .onAppear{
                 data = viewModel.chartDummyData()
-        }
+            }
         }
         
     }

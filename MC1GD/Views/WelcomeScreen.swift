@@ -47,8 +47,11 @@ struct WelcomeScreen: View {
                 viewModel.addName(name: nicknameUser)
             }label: {
                 Text("Mulai Perjalananmu")
-                    .padding()
-                    .background(Color.secondary_purple)
+                    .padding(.vertical)
+                    .padding(.horizontal, 30)
+                    .font(.callout)
+                    .foregroundColor(nicknameUser != "" ? Color.primary_white : Color.secondary_gray)
+                    .background(nicknameUser != "" ? Color.secondary_purple : Color.tertiary_gray)
                     .cornerRadius(32)
                     .shadow(radius: 4, y:2)
                     .padding(.top,10)

@@ -21,11 +21,10 @@ struct CategoryChart: View {
                     .headerBox(chartData: data)
                     .legends(chartData: data, columns: [GridItem(.flexible()), GridItem(.flexible())])
                     .id(data.id)
-                    .frame(width: 100,
-                           height: 200,
+                    .frame(minWidth: 100,
+                           minHeight: 200,
                            alignment: .center)
                     .padding(.horizontal,10)
-                //                    .touchOverlay(chartData: data)
                 
                 VStack(alignment: .trailing){
                     Text("Pengeluaran bulan ini")
@@ -46,7 +45,7 @@ struct CategoryChart: View {
                                 .imageScale(.small)
                                 .foregroundColor(.primary_purple)
                                 .padding(.leading,-5)
-                        }
+                        }.frame(minWidth: 70)
                         VStack(alignment:.trailing){
                             HStack{
                                 Text("\(category.transport.rawValue)")
@@ -67,7 +66,7 @@ struct CategoryChart: View {
                                     .padding(.leading,-5)
                             }
                         }
-                        .frame(width: 90)
+                        .frame(minWidth: 90)
                         .padding(.leading,-5)
                     }
                     .padding(.bottom,2)
@@ -79,10 +78,10 @@ struct CategoryChart: View {
                         //                                .font(.caption2)
                             .font(Font.custom("SF Pro", size: 10))
                             .multilineTextAlignment(.trailing)
-                            .frame(width: 100)
+                            .frame(maxWidth: 100)
                         
                     }
-                    .frame(width: 150, height: 60)
+                    .frame(minWidth: 100, minHeight: 60)
                     .padding(6)
                     .background(
                         ZStack{
@@ -116,8 +115,6 @@ struct CategoryChart: View {
                 
                 
             }
-            
-            
         }
         .frame(maxHeight: 250)
         .padding(.horizontal)
