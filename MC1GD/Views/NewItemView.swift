@@ -33,7 +33,7 @@ struct NewItemView: View {
         NavigationView {
             VStack(alignment: .center){
                 VStack(alignment: .leading){
-                    // MARK: input harga barang
+                    // MARK: harga barang
                     HStack{
                         Text("Rp")
                             .font(.caption)
@@ -67,13 +67,13 @@ struct NewItemView: View {
                                 , alignment: .trailing
                             )
                             .focused($isFocusedPrice)
-//                        if !formVm.priceIsValid && isFocusedPrice == true{
-//                            Text("Harga tidak boleh 0")
-//                                .foregroundColor(.red)
-//                                .font(.caption2)
-//                                .multilineTextAlignment(.leading)
-//                                .padding(.leading,60)
-//                        }
+                        //                        if !formVm.priceIsValid && isFocusedPrice == true{
+                        //                            Text("Harga tidak boleh 0")
+                        //                                .foregroundColor(.red)
+                        //                                .font(.caption2)
+                        //                                .multilineTextAlignment(.leading)
+                        //                                .padding(.leading,60)
+                        //                        }
                     }
                     //                    else if formVm.textIsValid && isFocusedName == true {
                     //                        Image(systemName: "checkmark").foregroundColor(.green)
@@ -82,7 +82,7 @@ struct NewItemView: View {
                     
                     Divider()
                     
-                    // MARK: input nama barang
+                    // MARK: nama barang
                     HStack{
                         Text("Aa")
                             .font(.headline)

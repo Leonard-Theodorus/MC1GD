@@ -63,7 +63,6 @@ struct ExpenseView: View {
                                 .scaledToFit()
                                 .frame(height: 150)
                         }
-                        
                     }
                 }
             )
@@ -133,7 +132,7 @@ struct ExpenseView: View {
                     .zIndex(3)
                 }
                 .zIndex(2)
-                
+                // MARK: Segmented
                 VStack{
                     Picker("Category", selection: $categoryShow){
                         Text("Semua").tag(CategoryShow.semua)
@@ -142,10 +141,11 @@ struct ExpenseView: View {
                     }
                     .zIndex(1)
                     .pickerStyle(.segmented)
-                    
+                    // MARK: Show Empty
                     if (categoryShow == .semua && !viewModel.userItems.isEmpty) || (categoryShow == .keinginan && !viewModel.userItems.filter{$0.itemTag == "Keinginan"}.isEmpty) || (categoryShow == .kebutuhan && !viewModel.userItems.filter{$0.itemTag == "Kebutuhan"}.isEmpty) {
                         List {
                             ForEach(viewModel.userItems){ item in
+                                // MARK: Section Keinginan
                                 if categoryShow == .keinginan && item.itemTag == "Keinginan" {
                                     VStack{
                                         HStack(alignment: .top){
@@ -200,6 +200,7 @@ struct ExpenseView: View {
                                     .listRowSeparator(.hidden)
                                     .listRowInsets(EdgeInsets())
                                 }
+                                // MARK: Section Kebutuhan
                                 else if categoryShow == .kebutuhan && item.itemTag == "Kebutuhan" {
                                     VStack{
                                         HStack(alignment: .top){
@@ -254,6 +255,7 @@ struct ExpenseView: View {
                                     .listRowSeparator(.hidden)
                                     .listRowInsets(EdgeInsets())
                                 }
+                                // MARK: Section Semua
                                 else if categoryShow == .semua {
                                     VStack{
                                         HStack(alignment: .top){
@@ -327,7 +329,6 @@ struct ExpenseView: View {
             .shadow(color: Color.gray, radius: 4, y: 2)
             .padding(.top,12)
             .zIndex(1)
-            //            .onTapGesture {showDatePicker = false}
             
         }
         .padding(.horizontal,22)

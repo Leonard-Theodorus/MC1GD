@@ -50,7 +50,7 @@ struct NewSavingView: View {
                                         .resizable()
                                         .frame(width: 30, height: 30)
                                         .foregroundColor(.primary_red)
-                                        
+                                    
                                 }
                             }
                         }
@@ -59,24 +59,24 @@ struct NewSavingView: View {
                         Text("Harga tidak boleh 0")
                             .foregroundColor(Color.primary_red).font(.caption)
                     }
-//                    else if isZeroPrice == false && isFocusedPrice == true{
-//                        Button{
-//                            amount = 0
-//                            showDeleteIcon.toggle()
-//                        }label: {
-//                            HStack{
-//                                Spacer()
-//                                Image(systemName: "x.circle.fill")
-//                                    .resizable()
-//                                    .frame(width: 50, height: 50)
-//                                    .foregroundColor(.primary_red)
-//
-//                            }.padding(.bottom, 30)
-//                                .background(
-//                                    Color.red
-//                                )
-//                        }
-//                    }
+                    //                    else if isZeroPrice == false && isFocusedPrice == true{
+                    //                        Button{
+                    //                            amount = 0
+                    //                            showDeleteIcon.toggle()
+                    //                        }label: {
+                    //                            HStack{
+                    //                                Spacer()
+                    //                                Image(systemName: "x.circle.fill")
+                    //                                    .resizable()
+                    //                                    .frame(width: 50, height: 50)
+                    //                                    .foregroundColor(.primary_red)
+                    //
+                    //                            }.padding(.bottom, 30)
+                    //                                .background(
+                    //                                    Color.red
+                    //                                )
+                    //                        }
+                    //                    }
                 }
                 Spacer()
                 Button{

@@ -48,22 +48,15 @@ struct NeedsWantsBarChart: View {
                     "Kebutuhan": Color.tag_purple
                 ])
                 .onAppear{
-                    DispatchQueue.main.async {
-                        withAnimation {
-                            needsTotal = viewModel.getTodayNeeds(for: todayDateComponent)
-                            wantsTotal = viewModel.getTodayWants(for: todayDateComponent)
-                            total = needsTotal + wantsTotal
-                            needsPercentage = needsTotal / total
-                            wantsPercentage = wantsTotal / total
-                            
-                        }
-                    }
-                }
-                .onChange(of: todayDateComponent, perform: { newValue in
-                    DispatchQueue.main.async {
-                        if caseDisplayRange == .byWeek{
+                    if caseDisplayRange == .byWeek{
+                        DispatchQueue.main.async {
                             withAnimation {
                                 chartData = viewModel.getLastSevenDaysData(startFrom: todayDateComponent)
+                                guard chartData.count != 0 else{
+                                    needsPercentage = 0
+                                    wantsPercentage = 0
+                                    return
+                                }
                                 for item in chartData{
                                     if item.tag == "Keinginan"{
                                         wantsTotal += item.expense
@@ -83,19 +76,24 @@ struct NeedsWantsBarChart: View {
                                     chartDate.append(correctDate)
                                     
                                 }
+                                
                             }
                         }
-                        else{
-                            needsTotal = viewModel.getTodayNeeds(for: todayDateComponent)
-                            wantsTotal = viewModel.getTodayWants(for: todayDateComponent)
-                            total = needsTotal + wantsTotal
-                            needsPercentage = needsTotal / total
-                            wantsPercentage = wantsTotal / total
-                        }
-                        
                     }
-                })
-                
+                    else{
+                        DispatchQueue.main.async {
+                            withAnimation {
+                                needsTotal = viewModel.getTodayNeeds(for: todayDateComponent)
+                                wantsTotal = viewModel.getTodayWants(for: todayDateComponent)
+                                total = needsTotal + wantsTotal
+                                needsPercentage = needsTotal / total
+                                wantsPercentage = wantsTotal / total
+                                
+                            }
+                        }
+                    }
+                    
+                }
                 .onChange(of: caseDisplayRange, perform: { newValue in
                     if newValue == .byWeek{
                         DispatchQueue.main.async {
@@ -138,6 +136,44 @@ struct NeedsWantsBarChart: View {
                         
                     }
                 })
+                .onChange(of: todayDateComponent, perform: { newValue in
+                    DispatchQueue.main.async {
+                        if caseDisplayRange == .byWeek{
+                            withAnimation {
+                                chartData = viewModel.getLastSevenDaysData(startFrom: todayDateComponent)
+                                for item in chartData{
+                                    if item.tag == "Keinginan"{
+                                        wantsTotal += item.expense
+                                    }
+                                    else{
+                                        needsTotal += item.expense
+                                    }
+                                }
+                                total = wantsTotal + needsTotal
+                                needsPercentage = needsTotal / total
+                                wantsPercentage = wantsTotal / total
+                                uniqueDates = []
+                                chartDate = []
+                                uniqueDates = chartData.map({$0.date})
+                                for date in uniqueDates{
+                                    let correctDate = Calendar.current.date(byAdding: .day, value: 1, to: date)!
+                                    chartDate.append(correctDate)
+                                    
+                                }
+                            }
+                        }
+                        else{
+                            needsTotal = viewModel.getTodayNeeds(for: todayDateComponent)
+                            wantsTotal = viewModel.getTodayWants(for: todayDateComponent)
+                            total = needsTotal + wantsTotal
+                            needsPercentage = needsTotal / total
+                            wantsPercentage = wantsTotal / total
+                        }
+                        
+                    }
+                })
+                
+                
                 .chartXAxis{
                     AxisMarks(values: chartDate.unique.sorted()) {
                         AxisValueLabel(centered: true)
