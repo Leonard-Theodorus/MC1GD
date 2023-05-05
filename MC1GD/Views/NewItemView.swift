@@ -176,7 +176,6 @@ struct NewItemView: View {
                                         .opacity(self.isWants ? 1: 0.4)
                                 )
                                 .cornerRadius(25)
-                                //                                .shadow(radius: self.isWants ? 5:0)
                                 .hoverEffect(.lift)
                                 Button{
                                     if isWants != true{
@@ -207,7 +206,6 @@ struct NewItemView: View {
                                         .opacity(self.isNeeds ? 1: 0.4)
                                 )
                                 .cornerRadius(25)
-                                //                                .shadow(radius: self.isNeeds ? 5:0)
                                 .hoverEffect(.lift)
                                 
                                 
@@ -287,14 +285,10 @@ struct NewItemView: View {
                     }
                     if showDatePicker == true{
                         HStack{
-                                                DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
-                                                    .accentColor(Color.primary_purple)
-                                            }
-                    } else {
-                        
+                            DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
+                                .accentColor(Color.primary_purple)
+                        }
                     }
-                    
-                    
                     
                 }
                 .padding(.horizontal,20)

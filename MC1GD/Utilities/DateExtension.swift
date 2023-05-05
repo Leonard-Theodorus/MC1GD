@@ -32,7 +32,6 @@ extension Date{
         }
     }
     func formatDateFull(for date : Date) -> String {
-        let calendar = Calendar.current
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMM yyyy"
         let dateFormatted = dateFormatter.string(from: date)

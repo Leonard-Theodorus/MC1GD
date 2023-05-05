@@ -10,18 +10,21 @@ import SwiftUI
 struct NoBarChartView: View {
     var body: some View {
         VStack(alignment: .center) {
-            withAnimation {
+            HStack {
+                Spacer()
                 Text("Pilih opsi tujuh hari kebelakang untuk menampilkan data")
                     .font(.body)
                     .italic()
                     .foregroundColor(.secondary_gray)
                     .padding()
+                Spacer()
             }
-        }.frame(maxHeight: 350)
-            .padding()
-            .background(Color(.white))
-            .cornerRadius(20)
-            .shadow(radius: 4, y:2)
+        }
+        .frame(maxHeight: 250)
+        .padding()
+        .background(Color(.white))
+        .cornerRadius(20)
+        .shadow(radius: 4, y:2)
     }
 }
 

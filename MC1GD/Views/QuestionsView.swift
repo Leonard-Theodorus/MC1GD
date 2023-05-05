@@ -22,7 +22,7 @@ struct QuestionsView: View {
                             .frame(width:280)
                         Spacer()
                     }
-//                    .padding(.top, 5)
+                    //                    .padding(.top, 5)
                     VStack(alignment: .center){
                         Image("guiding")
                             .resizable()
