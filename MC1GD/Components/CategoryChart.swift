@@ -13,6 +13,7 @@ struct CategoryChart: View {
     @Binding var data : DoughnutChartData
     @State var allExpense : Double = 0
     @State var cropedFNB = category.FNB.rawValue.prefix(7)
+    @Binding var caseDisplayRange : displayRange
     var body: some View {
         
         VStack(alignment: .center) {
@@ -122,21 +123,61 @@ struct CategoryChart: View {
         .cornerRadius(20)
         .shadow(radius: 4, y:2)
         .onAppear{
-            withAnimation {
-                viewModel.fetchItems(for: todayDateComponent)
-                data = viewModel.getChartData(for: todayDateComponent)
-                allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+            if caseDisplayRange == .day{
+                withAnimation {
+                    DispatchQueue.main.async {
+                        viewModel.fetchItems(for: todayDateComponent)
+                        data = viewModel.getChartData(for: todayDateComponent)
+                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                    }
+                    
+                }
+            }
+            
+        }
+        .onChange(of: todayDateComponent, perform: { newValue in
+            if caseDisplayRange == .day{
+                withAnimation {
+                    DispatchQueue.main.async {
+                        viewModel.fetchItems(for: todayDateComponent)
+                        data = viewModel.getChartData(for: todayDateComponent)
+                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                    }
+                    
+                }
+            }
+            else{
+                withAnimation {
+                    DispatchQueue.main.async {
+                        data = viewModel.getLastSevenDaysDonutData(startFrom: todayDateComponent)
+                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent, by: .byWeek)
+                    }
+                    
+                }
+            }
+            
+        })
+        .onChange(of: caseDisplayRange) { newValue in
+            if newValue == .byWeek{
+                withAnimation {
+                    DispatchQueue.main.async {
+                        data = viewModel.getLastSevenDaysDonutData(startFrom: todayDateComponent)
+                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent, by: .byWeek)
+                    }
+               
+                }
+            }
+            else{
+                withAnimation {
+                    DispatchQueue.main.async {
+                        viewModel.fetchItems(for: todayDateComponent)
+                        data = viewModel.getChartData(for: todayDateComponent)
+                        allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                    }
+                    
+                }
             }
         }
-        
-        .onChange(of: todayDateComponent, perform: { newValue in
-            print(todayDateComponent)
-            withAnimation {
-                viewModel.fetchItems(for: todayDateComponent)
-                data = viewModel.getChartData(for: todayDateComponent)
-                allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
-            }
-        })
         
     }
     
@@ -146,7 +187,7 @@ struct CategoryChart_Previews: PreviewProvider {
     static var previews: some View {
         CategoryChart(todayDateComponent: .constant(Date()), data: .constant(DoughnutChartData(
             dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text(""))
-            )   
+        ), caseDisplayRange: .constant(.day)
         )
         .environmentObject(coreDataViewModel())
     }

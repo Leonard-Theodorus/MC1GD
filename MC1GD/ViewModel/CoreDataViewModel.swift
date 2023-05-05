@@ -14,7 +14,7 @@ import SwiftUICharts
 class coreDataViewModel : ObservableObject{
     let manager = PersistenceController.shared
     @Published var userItems : [ItemEntity] = []
-    @Published var itemForBarChart : [ItemEntity] = []
+    @Published var itemForChart : [ItemEntity] = []
     @Published var userList: [UserEntity] = []
     @Published var savingList: [SavingEntity] = []
     let categoryFNB = category.FNB.rawValue
@@ -151,6 +151,90 @@ class coreDataViewModel : ObservableObject{
             }
         }
     }
+    func getTodayNeeds(for date: Date) -> Double{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        let dateString = dateFormatter.string(from: date)
+        let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
+        let predicate = NSPredicate(format: "itemAddedDate == %@", dateString)
+        var totalNeeds : Double = 0
+        request.predicate = predicate
+        withAnimation(Animation.default) {
+            do{
+                itemForChart = try manager.container.viewContext.fetch(request)
+            }
+            catch let error{
+                print(error.localizedDescription)
+            }
+        }
+        
+        totalNeeds =  itemForChart.filter({$0.itemAddedDate == dateString && $0.itemTag == "Kebutuhan"}).map({$0.itemPrice}).reduce(0, +)
+        return totalNeeds
+    }
+    func getTodayWants(for date: Date) -> Double{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        let dateString = dateFormatter.string(from: date)
+        let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
+        let predicate = NSPredicate(format: "itemAddedDate == %@", dateString)
+        request.predicate = predicate
+        withAnimation(Animation.default) {
+            do{
+                itemForChart = try manager.container.viewContext.fetch(request)
+            }
+            catch let error{
+                print(error.localizedDescription)
+            }
+        }
+        var totalWants : Double = 0
+        totalWants =  itemForChart.filter({$0.itemAddedDate == dateString && $0.itemTag == "Keinginan"}).map({$0.itemPrice}).reduce(0, +)
+        return totalWants
+    }
+    func getLastSevenDaysDonutData(startFrom date : Date) -> DoughnutChartData{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        let validDates = date.getDatesForLastNDays(startDate: date, nDays: 7)
+        let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
+        let validDatePredicate = NSPredicate(format: "itemAddedDate IN %@", validDates)
+        request.predicate = validDatePredicate
+        withAnimation(Animation.default){
+            do{
+                itemForChart = try manager.container.viewContext.fetch(request)
+            }
+            catch let error{
+                print(error.localizedDescription)
+            }
+        }
+        var datasets : [PieChartDataPoint] = []
+        let metadata   = ChartMetadata(title: "", subtitle: "")
+        
+        let chartStyle = DoughnutChartStyle(
+            infoBoxPlacement : .floating,
+            infoBoxContentAlignment : .horizontal,
+            infoBoxDescriptionFont : .footnote,
+            infoBoxBorderColour : Color.primary,
+            infoBoxBorderStyle  : StrokeStyle(lineWidth: 1),
+            globalAnimation     : .easeOut(duration: 1)
+        )
+        for validDate in validDates {
+            let fnbPrice = itemForChart.filter({$0.itemAddedDate == validDate && $0.itemCategory == categoryFNB}).map({$0.itemPrice}).reduce(0, +)
+            let transportPrice = itemForChart.filter({$0.itemAddedDate == validDate && $0.itemCategory == categoryTransport}).map({$0.itemPrice}).reduce(0, +)
+            let barangPrice = itemForChart.filter({$0.itemAddedDate == validDate && $0.itemCategory == categoryBarang}).map({$0.itemPrice}).reduce(0, +)
+            
+            datasets.append(PieChartDataPoint(value: fnbPrice, colour: Color.primary_purple))
+            datasets.append(PieChartDataPoint(value: transportPrice, colour: Color.secondary_purple))
+            datasets.append(PieChartDataPoint(value: barangPrice, colour: Color.tertiary_purple))
+            
+            
+        }
+        let data = PieDataSet(dataPoints: datasets, legendTitle: "")
+        return DoughnutChartData(
+            dataSets       : data,
+            metadata       : metadata,
+            chartStyle     : chartStyle,
+            noDataText     : Text("No Data")
+        )
+    }
     func getLastSevenDaysData(startFrom date : Date) -> [barChartData]{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
@@ -160,13 +244,13 @@ class coreDataViewModel : ObservableObject{
         request.predicate = validDatePredicate
         withAnimation(Animation.default){
             do{
-                itemForBarChart = try manager.container.viewContext.fetch(request)
+                itemForChart = try manager.container.viewContext.fetch(request)
             }
             catch let error{
                 print(error.localizedDescription)
             }
         }
-        let containingDates = itemForBarChart.map({$0.itemAddedDate})
+        let containingDates = itemForChart.map({$0.itemAddedDate})
         var barChartData : [barChartData] = []
         for validDate in validDates {
             if !containingDates.contains(validDate){
@@ -176,7 +260,7 @@ class coreDataViewModel : ObservableObject{
             
         }
         var uniqueDates : [String] = []
-        uniqueDates = itemForBarChart.map( {$0.itemAddedDate ?? "" } ).unique.sorted()
+        uniqueDates = itemForChart.map( {$0.itemAddedDate ?? "" } ).unique.sorted()
         var needsTotalExpense : Double = 0
         var wantsTotalExpense : Double = 0
 //        if itemForBarChart.isEmpty{
@@ -186,7 +270,7 @@ class coreDataViewModel : ObservableObject{
         
         for date in uniqueDates{
             //Fungsi ini COSTLY AF, masi dipikirin cara untuk optimisasi
-            let transactionAtDate = itemForBarChart.filter({$0.itemAddedDate == date})
+            let transactionAtDate = itemForChart.filter({$0.itemAddedDate == date})
             let needsTransaction = transactionAtDate.filter({$0.itemTag == "Keinginan"})
             needsTotalExpense = needsTransaction.map({$0.itemPrice}).reduce(0, +)
             let wantsTransaction = transactionAtDate.filter({$0.itemTag == "Kebutuhan"})
@@ -205,19 +289,26 @@ class coreDataViewModel : ObservableObject{
         return barChartData
     }
     
-    func calculateItemPriceCategory(category : String) -> Double{
+    func calculateItemPriceCategory(category : String, for date : Date) -> Double{
         let selectedCategory = userItems.filter({ $0.itemCategory == category })
         let itemPrice = selectedCategory.map{ $0.itemPrice }
         let totalPrice = itemPrice.reduce(0, +)
         return totalPrice
     }
     
-    func calculateAllExpense(for date: Date) -> Double {
-        let fnbPrice = calculateItemPriceCategory(category: categoryFNB)
-        let transportPrice = calculateItemPriceCategory(category: categoryTransport)
-        let barangPrice = calculateItemPriceCategory(category: categoryBarang)
-        let allExpense = fnbPrice + transportPrice + barangPrice
-        return allExpense
+    func calculateAllExpense(for date: Date, by displayCase: displayRange = .day) -> Double {
+        if displayCase == .day{
+            let fnbPrice = calculateItemPriceCategory(category: categoryFNB, for: date)
+            let transportPrice = calculateItemPriceCategory(category: categoryTransport, for: date)
+            let barangPrice = calculateItemPriceCategory(category: categoryBarang, for: date)
+            let allExpense = fnbPrice + transportPrice + barangPrice
+            return allExpense
+        }
+        else{
+            let totalPrice = itemForChart.map({$0.itemPrice}).reduce(0, +)
+            return totalPrice
+        }
+        
     }
     
     
@@ -325,9 +416,9 @@ class coreDataViewModel : ObservableObject{
     /// get data for category charts
     public func getChartData(for date: Date) -> DoughnutChartData{
 //        fetchItems(for: date)
-        let fnbPrice = calculateItemPriceCategory(category: categoryFNB)
-        let transportPrice = calculateItemPriceCategory(category: categoryTransport)
-        let barangPrice = calculateItemPriceCategory(category: categoryBarang)
+        let fnbPrice = calculateItemPriceCategory(category: categoryFNB, for: date)
+        let transportPrice = calculateItemPriceCategory(category: categoryTransport, for: date)
+        let barangPrice = calculateItemPriceCategory(category: categoryBarang, for: date)
         let data = PieDataSet(
             dataPoints: [
                 PieChartDataPoint(
