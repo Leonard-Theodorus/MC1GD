@@ -69,17 +69,22 @@ class coreDataViewModel : ObservableObject{
         guard(!userList.isEmpty) else { return 0 }
         guard(!savingList.isEmpty) else { return 0 }
         
-        //blom kelar
+        var moneyToday: Double = 0
+        
         dateFormatter.dateFormat = "yyyyMMdd"
+        let targetDate = Date()
+        let outputDateToday = dateFormatter.string(from: targetDate)
         
+        let savingListToday = savingList.filter { $0.savingDate == outputDateToday }
         
-        let moneyToday:Double = 0
+        for saving in savingListToday {
+            moneyToday += saving.savingAmount
+        }
         
         return moneyToday
     }
     
     func getSavingDate(date: String) -> String {
-        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         
         guard let outputDate = dateFormatter.date(from: date) else { return "nil" }
