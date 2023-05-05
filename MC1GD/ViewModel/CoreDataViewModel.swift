@@ -67,6 +67,11 @@ class coreDataViewModel : ObservableObject{
     
     func getUserMoneyToday() -> Double{
         guard(!userList.isEmpty) else { return 0 }
+        guard(!savingList.isEmpty) else { return 0 }
+        
+        //blom kelar
+        dateFormatter.dateFormat = "yyyyMMdd"
+        
         
         let moneyToday:Double = 0
         
