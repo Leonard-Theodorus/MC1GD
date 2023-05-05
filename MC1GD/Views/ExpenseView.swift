@@ -76,6 +76,7 @@ struct ExpenseView: View {
                         .font(.headline)
                         .foregroundColor(Color.primary_purple)
                         .frame(width: 100)
+                    Spacer()
                     // MARK: Customized date picker
                     ZStack{
                         Button{
@@ -97,8 +98,6 @@ struct ExpenseView: View {
                                 )
                         }
                         .zIndex(3)
-                        .padding(.leading,60)
-                        .padding(.trailing,-60)
                         
                         HStack(alignment: .center){
                             DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
@@ -113,7 +112,7 @@ struct ExpenseView: View {
                                 .accentColor(Color.primary_purple)
                                 .padding(10)
                                 .opacity(showDatePicker ? 1 : 0)
-                                .offset(y:160)
+                                .offset(x: -90, y:160)
                                 .frame(width: 280)
                                 .onChange(of: todayDateComponent, perform: { newValue in
                                     DispatchQueue.main.async {
@@ -129,16 +128,12 @@ struct ExpenseView: View {
                             
                         }
                         .zIndex(5)
-                        .padding(.trailing,70)
                     }
-                    .frame(height:55)
+                    .frame(width:85,height:30)
                     .zIndex(3)
-                    .padding(.vertical,-30)
-                    .padding(.leading,-70)
-                    .padding(.trailing,-70)
                 }
                 .zIndex(2)
-                //                .frame(maxWidth: 351)
+                
                 VStack{
                     Picker("Category", selection: $categoryShow){
                         Text("Semua").tag(CategoryShow.semua)

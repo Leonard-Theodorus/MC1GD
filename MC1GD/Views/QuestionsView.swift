@@ -22,9 +22,9 @@ struct QuestionsView: View {
                             .frame(width:280)
                         Spacer()
                     }
-                    .padding(.top, 5)
+//                    .padding(.top, 5)
                     VStack(alignment: .center){
-                        Image("tips")
+                        Image("guiding")
                             .resizable()
                             .cornerRadius(20)
                             .scaledToFill()
@@ -64,7 +64,9 @@ struct QuestionsView: View {
                             .multilineTextAlignment(.leading)
                     }
                 }
-                .padding(22)
+                .padding(.horizontal,22)
+                .padding(.bottom,22)
+                .padding(.top,15)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(LinearGradient(colors: [Color.secondary_purple,Color.primary_purple], startPoint: .topLeading, endPoint: .bottomTrailing))
