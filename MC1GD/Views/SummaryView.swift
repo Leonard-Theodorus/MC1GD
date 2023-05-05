@@ -22,6 +22,8 @@ struct SummaryView: View {
     @State private var showPicker = false
     @State private var caseDisplayRange : displayRange = .day
     @State var selectedMenu = "Harian"
+    @State var showEmpty : Bool = false
+    
     var body: some View {
         
         NavigationView {
@@ -105,51 +107,72 @@ struct SummaryView: View {
                     .zIndex(2)
                     .padding(.top,5)
                     
-                    VStack{
-                        // MARK: Progress bar
-                        HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
-                            .padding(.top,5)
-                        
-                        // MARK: Category Donut chart
-                        CategoryChart(todayDateComponent: $todayDateComponent, data: $data)
-                            .padding(.vertical,15)
-                        
-                        // MARK: Last7days bar chart
-                        if caseDisplayRange == .day{
-                            NoBarChartView()
-                                .frame(height: 200)
-                            NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
-                                .opacity(caseDisplayRange == .byWeek ? 1 : 0)
+                    if showEmpty{
+                        VStack{
+                            // MARK: Progress bar
+                            HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
+                                .padding(.top,5)
                             
-                        }else{
-                            NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
-                                .opacity(caseDisplayRange == .byWeek ? 1 : 0)
-                        }
-                        
-                        
-                        NavigationLink(destination: TipsView(todayDateComponent: $todayDateComponent, data: $data)) {
-                            Text("Beberapa tips yang dapat Anda ikuti")
-                                .font(.caption2)
-                                .fontWeight(.bold)
-                                .padding(.vertical,8)
-                                .padding(.horizontal,20)
-                                .foregroundColor(.white)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 30)
-                                        .stroke(lineWidth: 0)
-                                        .background(Color.primary_purple.cornerRadius(20))
-                                        .shadow(radius: 2, y:2)
-                                        .frame(width:280)
-                                )
-                            
+                            // MARK: Category Donut chart
+                            CategoryChart(todayDateComponent: $todayDateComponent, data: $data)
                                 .padding(.vertical,15)
+                            
+                            // MARK: Last7days bar chart
+                            if caseDisplayRange == .day{
+                                NoBarChartView()
+                                    .frame(height: 200)
+                                NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
+                                    .opacity(caseDisplayRange == .byWeek ? 1 : 0)
+                                
+                            }else{
+                                NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
+                                    .opacity(caseDisplayRange == .byWeek ? 1 : 0)
+                            }
+                            
+                            
+                            NavigationLink(destination: TipsView(todayDateComponent: $todayDateComponent, data: $data)) {
+                                Text("Beberapa tips yang dapat Anda ikuti")
+                                    .font(.caption2)
+                                    .fontWeight(.bold)
+                                    .padding(.vertical,8)
+                                    .padding(.horizontal,20)
+                                    .foregroundColor(.white)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 30)
+                                            .stroke(lineWidth: 0)
+                                            .background(Color.primary_purple.cornerRadius(20))
+                                            .shadow(radius: 2, y:2)
+                                            .frame(width:280)
+                                    )
+                                
+                                    .padding(.vertical,15)
+                            }
+                            
                         }
-                        
+                        .padding(.top,10)
+                        .zIndex(1)
                     }
-                    .padding(.top,10)
-                    .zIndex(1)
+                    else{
+                        HStack{
+                            Spacer()
+                            VStack{
+                                Spacer()
+                                Image(systemName: "ellipsis")
+                                    .resizable()
+                                    .frame(width: 60, height: 14)
+                                Text("Belum ada tabungan")
+                                    .font(.title3)
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                        .foregroundColor(Color.secondary_gray)
+                        .background(.white)
+                        .padding(.top)
+                    }
                     
                 }
+                
                 
             }
             .padding(.horizontal,22)
