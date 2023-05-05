@@ -25,7 +25,6 @@ struct SummaryView: View {
     @State var showEmpty : Bool = false
     
     var body: some View {
-        
         NavigationView {
             VStack(alignment: .center){
                 HStack(alignment: .center){

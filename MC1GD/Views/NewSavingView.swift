@@ -6,27 +6,77 @@
 //
 
 import SwiftUI
-
+import Combine
 struct NewSavingView: View {
     @Binding var showSheet : Bool
     @Binding var todayDateComponent : Date
     @EnvironmentObject var viewModel : coreDataViewModel
     @State var amount : Double = 0.0
+    @State var isZeroPrice: Bool = false
+    @State var showDeleteIcon : Bool = false
+    @FocusState var isFocusedPrice : Bool
     
     var body: some View {
-        NavigationView(){
+        NavigationView{
             VStack{
                 Spacer()
-                HStack{
-                    Spacer()
-                    Text("Rp")
-                        .font(.largeTitle)
-                    TextField("", value: $amount, format: .number)
-                        .keyboardType(.numberPad)
-                        .foregroundColor(Color.primary_gray)
-                        .font(.system(size: 52))
-                        .fixedSize()
-                    Spacer()
+                VStack {
+                    HStack{
+                        Spacer()
+                        Text("Rp")
+                            .font(.largeTitle)
+                        TextField("", value: $amount, format: .number)
+                            .keyboardType(.numberPad)
+                            .foregroundColor(Color.primary_gray)
+                            .font(.system(size: 52))
+                            .fixedSize()
+                            .focused($isFocusedPrice)
+                            .onReceive(Just(amount)){ newValue in
+                                isZeroPrice = isFocusedPrice && newValue <= 0
+                            }
+                            .onChange(of: isFocusedPrice){ newValue in
+                                if !newValue{
+                                    isZeroPrice = amount <= 0
+                                }
+                            }
+                        Spacer()
+                        if isZeroPrice == false && isFocusedPrice == true{
+                            Button{
+                                amount = 0
+                                showDeleteIcon.toggle()
+                            }label: {
+                                HStack(){
+                                    Image(systemName: "x.circle.fill")
+                                        .resizable()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(.primary_red)
+                                        
+                                }
+                            }
+                        }
+                    }
+                    if isZeroPrice {
+                        Text("Harga tidak boleh 0")
+                            .foregroundColor(Color.primary_red).font(.caption)
+                    }
+//                    else if isZeroPrice == false && isFocusedPrice == true{
+//                        Button{
+//                            amount = 0
+//                            showDeleteIcon.toggle()
+//                        }label: {
+//                            HStack{
+//                                Spacer()
+//                                Image(systemName: "x.circle.fill")
+//                                    .resizable()
+//                                    .frame(width: 50, height: 50)
+//                                    .foregroundColor(.primary_red)
+//
+//                            }.padding(.bottom, 30)
+//                                .background(
+//                                    Color.red
+//                                )
+//                        }
+//                    }
                 }
                 Spacer()
                 Button{
@@ -37,12 +87,14 @@ struct NewSavingView: View {
                         .foregroundColor(Color.white)
                         .padding(.horizontal,120)
                         .padding(.vertical,24)
-                        .background(Color.primary_purple)
+                        .background(amount == 0 ? Color.secondary_gray : Color.primary_purple)
                         .font(.title2)
                         .fontWeight(.semibold)
                         .cornerRadius(35)
                         .padding()
                 }
+                .disabled(amount == 0)
+                
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
