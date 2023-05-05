@@ -47,36 +47,39 @@ struct NewItemView: View {
                             .foregroundColor(Color("primary-gray"))
                             .frame(width: 40)
                         Divider().frame(height: 20)
-                        TextField("Harga Barang", value: $newItemPrice, format: .number)
+                        TextField("Harga Barang", value: $formVm.itemPrice, format: .number)
                             .lineLimit(0)
                             .keyboardType(.numberPad)
+                            .overlay (
+                                ZStack{
+                                    Button {
+                                        withAnimation {
+                                            formVm.deletePrice()
+                                            
+                                        }
+                                    } label: {
+                                        Image(systemName: "delete.left").foregroundColor(.red)
+                                    }
+                                    .buttonStyle(.borderless)
+                                    .clipped()
+                                    .opacity(formVm.priceButtonDeleteOn ? 1.0 : 0.0)
+                                    
+                                }
+                                , alignment: .trailing
+                            )
                             .focused($isFocusedPrice)
-                            .onReceive(Just(newItemPrice)){ newValue in
-                                isZeroPrice = isFocusedPrice && newValue <= 0
-                            }
-                            .onChange(of: isFocusedPrice){ newValue in
-                                if !newValue{
-                                    isZeroPrice = newItemPrice <= 0
-                                }
-                            }
-                            .foregroundColor(newItemPrice <= 0 ? .gray : .black)
-                            .font(.title)
-                        if isZeroPrice == true {
-                            Text("Harga tidak boleh 0")
-                                .foregroundColor(.red).font(.caption)
-                        } else if isZeroPrice == false && isFocusedPrice == true{
-                            Button{
-                                newItemPrice = 0
-                                showDeleteIcon.toggle()
-                            }label: {
-                                HStack{
-                                    Spacer()
-                                    Image(systemName: "x.circle.fill")
-                                        .foregroundColor(.secondary_gray)
-                                }
-                            }
-                        }
+//                        if !formVm.priceIsValid && isFocusedPrice == true{
+//                            Text("Harga tidak boleh 0")
+//                                .foregroundColor(.red)
+//                                .font(.caption2)
+//                                .multilineTextAlignment(.leading)
+//                                .padding(.leading,60)
+//                        }
                     }
+                    //                    else if formVm.textIsValid && isFocusedName == true {
+                    //                        Image(systemName: "checkmark").foregroundColor(.green)
+                    //                            .padding(.horizontal,15)
+                    //                    }
                     
                     Divider()
                     
@@ -137,7 +140,6 @@ struct NewItemView: View {
                         }
                     }.padding(.vertical, 5)
                     
-                    //                    Divider()
                     
                     // MARK:  pilih itemTag needs/wants
                     Group {
@@ -176,7 +178,6 @@ struct NewItemView: View {
                                         .opacity(self.isWants ? 1: 0.4)
                                 )
                                 .cornerRadius(25)
-                                //                                .shadow(radius: self.isWants ? 5:0)
                                 .hoverEffect(.lift)
                                 Button{
                                     if isWants != true{
@@ -207,7 +208,6 @@ struct NewItemView: View {
                                         .opacity(self.isNeeds ? 1: 0.4)
                                 )
                                 .cornerRadius(25)
-                                //                                .shadow(radius: self.isNeeds ? 5:0)
                                 .hoverEffect(.lift)
                                 
                                 
@@ -287,15 +287,10 @@ struct NewItemView: View {
                     }
                     if showDatePicker == true{
                         HStack{
-                                                DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
-                                                    .accentColor(Color.primary_purple)
-                                            }
-                    } else {
-                        
+                            DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
+                                .accentColor(Color.primary_purple)
+                        }
                     }
-                    
-                    
-                    
                 }
                 .padding(.horizontal,20)
                 .padding(.bottom, 30)
@@ -305,7 +300,6 @@ struct NewItemView: View {
                 
                 
             }
-            //            .padding(.bottom, 50)
             .onAppear{
                 newItemCategory = categories.first!}
             .toolbar{

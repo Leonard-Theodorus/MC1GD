@@ -23,7 +23,6 @@ struct SummaryView: View {
     @State private var caseDisplayRange : displayRange = .day
     @State var selectedMenu = "Harian"
     var body: some View {
-        
         NavigationView {
             VStack(alignment: .center){
                 HStack(alignment: .center){
@@ -32,8 +31,6 @@ struct SummaryView: View {
                         .fontWeight(.bold)
                     Spacer()
                 }
-                
-                
                 VStack (alignment: .center){
                     HStack(alignment: .center){
                         //MARK: BUTTON GANTI HARI/MINGGU
@@ -74,7 +71,6 @@ struct SummaryView: View {
                                     .imageScale(.large)
                                     .foregroundColor(.primary_purple)
                             }
-                            //                            .padding(.leading,100)
                             HStack{
                                 DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
                                     .datePickerStyle(.graphical)
@@ -102,7 +98,6 @@ struct SummaryView: View {
                             }.zIndex(4)
                         }
                         .frame(width: 25,height:30)
-                        //                        .padding(-20)
                     }
                     .zIndex(2)
                     .padding(.bottom,5)
@@ -110,7 +105,6 @@ struct SummaryView: View {
                     VStack{
                         // MARK: Progress bar
                         HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
-                        //                        .frame(width: 351)
                         
                         // MARK: Category Donut chart
                         CategoryChart(todayDateComponent: $todayDateComponent, data: $data)
@@ -127,12 +121,6 @@ struct SummaryView: View {
                         }
                         
                         NavigationLink(destination: TipsView(todayDateComponent: $todayDateComponent, data: $data)) {
-    //                        Button{
-    //                            showTips.toggle()
-    //                        }label: {
-    //
-    //
-    //                        }.zIndex(2)
                             Text("Beberapa tips yang dapat Anda ikuti")
                                 .font(.caption2)
                                 .fontWeight(.bold)
@@ -150,7 +138,6 @@ struct SummaryView: View {
                         
                     }
                     .zIndex(1)
-    //                .onTapGesture {showDate = false}
                     
                     
                     
@@ -160,7 +147,7 @@ struct SummaryView: View {
             .padding(.horizontal,22)
             .onAppear{
                 data = viewModel.chartDummyData()
-        }
+            }
         }
         
     }

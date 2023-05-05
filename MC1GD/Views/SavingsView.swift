@@ -25,8 +25,6 @@ struct SavingsView: View {
                 AddSavingButton(todayDateComponent: $todayDateComponent)
             }
             // MARK: Hello Card
-            
-            
             VStack(alignment: .leading){
                 HStack{
                     Image("rp")
