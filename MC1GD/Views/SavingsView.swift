@@ -117,26 +117,14 @@ struct SavingsView: View {
                 .shadow(color: Color.gray, radius: 4, y: 2)
                 .padding(.top)
             }else {
-                HStack{
-                    Spacer()
-                    VStack{
-                        Spacer()
-                        Image(systemName: "ellipsis")
-                            .resizable()
-                            .frame(width: 60, height: 15)
-                        Text("Belum ada tabungan")
-                            .font(.title3)
-                        Spacer()
-                    }
-                    Spacer()
-                }
-                .foregroundColor(Color.secondary_gray)
-                .padding()
-                .padding(.top,3)
-                .background(.white)
-                .cornerRadius(22)
-                .padding(.top)
-                .shadow(color: Color.gray, radius: 4, y: 2)
+                EmptyData(desc: "Belum ada tabungan")
+                    .foregroundColor(Color.secondary_gray)
+                    .padding()
+                    .padding(.top,3)
+                    .background(.white)
+                    .cornerRadius(22)
+                    .padding(.top)
+                    .shadow(color: Color.gray, radius: 4, y: 2)
             }
             
             
