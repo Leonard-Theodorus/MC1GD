@@ -24,6 +24,9 @@ struct SavingsView: View {
                 Spacer()
                 AddSavingButton(todayDateComponent: $todayDateComponent)
             }
+            .onAppear(){
+                viewModel.fetchSaving()
+            }
             // MARK: Hello Card
             VStack(alignment: .leading){
                 HStack{
@@ -81,37 +84,63 @@ struct SavingsView: View {
             .cornerRadius(22)
             
             // MARK: Tabungan History Card
-            List{
-                ForEach(viewModel.savingList.suffix(10)) { saving in
-                    VStack{
-                        HStack(alignment: .top){
-                            VStack(alignment: .leading){
-                                Text(viewModel.getSavingDate(date: saving.savingDate!))
-                                    .font(.headline)
-                                    .padding(.bottom,-5)
+            if !viewModel.savingList.isEmpty{
+                List{
+                    ForEach(viewModel.savingList.suffix(10).reversed()) { saving in
+                        VStack{
+                            HStack(alignment: .top){
+                                VStack(alignment: .leading){
+                                    Text(viewModel.getSavingDate(date: saving.savingDate!))
+                                        .font(.headline)
+                                        .padding(.bottom,-5)
+                                }
+                                Spacer()
+                                Text("+ \(currencyFormatter.string(from: NSNumber(value: saving.savingAmount)) ?? "")")
+                                    .foregroundColor(Color.primary_green)
+                                    .fontWeight(.bold)
                             }
-                            Spacer()
-                            Text("+ \(currencyFormatter.string(from: NSNumber(value: saving.savingAmount)) ?? "")")
-                                .foregroundColor(Color.primary_green)
-                                .fontWeight(.bold)
+                            .padding(.horizontal,3)
+                            .padding(.vertical)
                         }
-                        .padding(.horizontal,3)
-                        .padding(.vertical)
                     }
+                    .listRowInsets(EdgeInsets())
                 }
-                .listRowInsets(EdgeInsets())
+                .padding()
+                .padding(.top,3)
+                .background(.white)
+                .cornerRadius(22)
+                .onAppear(){
+                    viewModel.fetchSaving()
+                }
+                .listStyle(.plain)
+                .clipped()
+                .shadow(color: Color.gray, radius: 4, y: 2)
+                .padding(.top)
+            }else {
+                HStack{
+                    Spacer()
+                    VStack{
+                        Spacer()
+                        Image(systemName: "ellipsis")
+                            .resizable()
+                            .frame(width: 60, height: 15)
+                        Text("Belum ada tabungan")
+                            .font(.title3)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+                .foregroundColor(Color.secondary_gray)
+                .padding()
+                .padding(.top,3)
+                .background(.white)
+                .cornerRadius(22)
+                .padding(.top)
+                .shadow(color: Color.gray, radius: 4, y: 2)
             }
-            .padding()
-            .padding(.top,3)
-            .background(.white)
-            .cornerRadius(22)
-            .onAppear(){
-                viewModel.fetchSaving()
-            }
-            .listStyle(.plain)
-            .clipped()
-            .shadow(color: Color.gray, radius: 4, y: 2)
-            .padding(.top)
+            
+            
+            
         }
         .padding(.horizontal,22)
         
