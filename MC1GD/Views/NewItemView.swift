@@ -55,7 +55,6 @@ struct NewItemView: View {
                                     Button {
                                         withAnimation {
                                             formVm.deletePrice()
-                                            
                                         }
                                     } label: {
                                         Image(systemName: "delete.left").foregroundColor(.red)
@@ -315,12 +314,12 @@ struct NewItemView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Simpan"){
                         
-                        viewModel.addNewItem(date: todayDateComponent, price: newItemPrice, itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
+                        viewModel.addNewItem(date: todayDateComponent, price: formVm.itemPrice, itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
                         
                         dateNotif.send(todayDateComponent)
                         showSheet = false
                     }
-                    .disabled(!formVm.textIsValid || newItemPrice <= 0 || newItemTag == "")
+                    .disabled(!formVm.textIsValid || !formVm.priceIsValid || newItemTag == "")
                 }
             }
         }
