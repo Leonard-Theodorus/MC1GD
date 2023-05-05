@@ -208,6 +208,7 @@
 				58A6A0D42A03925A0014E4BD /* YTView.swift */,
 				D753EC4E29F66DF4007C3F31 /* ExpenseView.swift */,
 				D753EC5029F66DFA007C3F31 /* NewItemView.swift */,
+				B1475F012A042A1D00D41BED /* NewSavingView.swift */,
 				B13ED56129F856A000491CFF /* RootView.swift */,
 				B13ED56329F858E200491CFF /* SummaryView.swift */,
 				D780C72229FF0BE2007BF480 /* QuestionsView.swift */,
@@ -215,7 +216,6 @@
 				B18990402A021BD500260C10 /* WelcomeScreen.swift */,
 				D755B0262A0286A10013C7FA /* NoBarChartView.swift */,
 				D45D2D5B2A03A07C0098BFB6 /* SavingsView.swift */,
-				B1475F012A042A1D00D41BED /* NewSavingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
