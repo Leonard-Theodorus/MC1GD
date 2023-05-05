@@ -15,7 +15,12 @@ struct WelcomeScreen: View {
     
     var body: some View {
         VStack{
-            Spacer()
+            Image("logo")
+                .resizable()
+                .scaledToFill()
+                .frame(width: 150,height: 150, alignment: .center)
+                .padding()
+                .padding(.vertical,50)
             HStack {
                 ZStack {
                     TextField("Ketik Namamu", text: $nicknameUser).disableAutocorrection(true)

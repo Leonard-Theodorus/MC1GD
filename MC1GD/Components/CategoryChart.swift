@@ -27,7 +27,7 @@ struct CategoryChart: View {
                     .padding(.horizontal,10)
                 
                 VStack(alignment: .trailing){
-                    Text("Pengeluaran bulan ini")
+                    Text("Pengeluaran hari ini")
                         .foregroundColor(.black)
                         .font(.caption)
                         .fontWeight(.thin)
