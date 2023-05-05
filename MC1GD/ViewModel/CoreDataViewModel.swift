@@ -151,6 +151,7 @@ class coreDataViewModel : ObservableObject{
             }
         }
     }
+    
     func getTodayNeeds(for date: Date) -> Double{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
@@ -171,6 +172,7 @@ class coreDataViewModel : ObservableObject{
         totalNeeds =  itemForChart.filter({$0.itemAddedDate == dateString && $0.itemTag == "Kebutuhan"}).map({$0.itemPrice}).reduce(0, +)
         return totalNeeds
     }
+    
     func getTodayWants(for date: Date) -> Double{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
@@ -190,6 +192,7 @@ class coreDataViewModel : ObservableObject{
         totalWants =  itemForChart.filter({$0.itemAddedDate == dateString && $0.itemTag == "Keinginan"}).map({$0.itemPrice}).reduce(0, +)
         return totalWants
     }
+    
     func getLastSevenDaysDonutData(startFrom date : Date) -> DoughnutChartData{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
@@ -235,6 +238,7 @@ class coreDataViewModel : ObservableObject{
             noDataText     : Text("No Data")
         )
     }
+    
     func getLastSevenDaysData(startFrom date : Date) -> [barChartData]{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
@@ -263,10 +267,10 @@ class coreDataViewModel : ObservableObject{
         uniqueDates = itemForChart.map( {$0.itemAddedDate ?? "" } ).unique.sorted()
         var needsTotalExpense : Double = 0
         var wantsTotalExpense : Double = 0
-//        if itemForBarChart.isEmpty{
-//            let nilItem = barChartData
-//            return barChartData[.init]
-//        }
+        //        if itemForBarChart.isEmpty{
+        //            let nilItem = barChartData
+        //            return barChartData[.init]
+        //        }
         
         for date in uniqueDates{
             //Fungsi ini COSTLY AF, masi dipikirin cara untuk optimisasi
@@ -326,20 +330,20 @@ class coreDataViewModel : ObservableObject{
     func addNewItem(date: Date, price : Double, itemName : String, itemDescription : String, itemCategory : String, itemTag : String){
         withAnimation(Animation.default) {
             let newItem = ItemEntity(context: manager.container.viewContext)
-//            // if itemImage Binary datatype
-//            var itemImage : UIImage = UIImage(systemName: "trash")!
-//            switch itemCategory{
-//            case categoryFNB:
-//                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.white))
-//            case categoryTransport:
-//                itemImage = UIImage(systemName: "tram.fill")!.withTintColor(UIColor(Color.white))
-//            case categoryBarang:
-//                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.white))
-//            default:
-//                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.white))
-//            }
-//            // ketika di encode background jadi putih
-//            let newItemImage = encodeImage(for: itemImage)
+            //            // if itemImage Binary datatype
+            //            var itemImage : UIImage = UIImage(systemName: "trash")!
+            //            switch itemCategory{
+            //            case categoryFNB:
+            //                itemImage = UIImage(systemName: "fork.knife")!.withTintColor(UIColor(Color.white))
+            //            case categoryTransport:
+            //                itemImage = UIImage(systemName: "tram.fill")!.withTintColor(UIColor(Color.white))
+            //            case categoryBarang:
+            //                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.white))
+            //            default:
+            //                itemImage = UIImage(systemName: "bag")!.withTintColor(UIColor(Color.white))
+            //            }
+            //            // ketika di encode background jadi putih
+            //            let newItemImage = encodeImage(for: itemImage)
             
             var itemImage : String = "trash"
             switch itemCategory{
@@ -415,7 +419,7 @@ class coreDataViewModel : ObservableObject{
     
     /// get data for category charts
     public func getChartData(for date: Date) -> DoughnutChartData{
-//        fetchItems(for: date)
+        //        fetchItems(for: date)
         let fnbPrice = calculateItemPriceCategory(category: categoryFNB, for: date)
         let transportPrice = calculateItemPriceCategory(category: categoryTransport, for: date)
         let barangPrice = calculateItemPriceCategory(category: categoryBarang, for: date)

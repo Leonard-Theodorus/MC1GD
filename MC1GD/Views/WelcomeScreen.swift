@@ -28,7 +28,7 @@ struct WelcomeScreen: View {
                         .background(.white)
                         .cornerRadius(12)
                         .padding(.horizontal,37)
-                    .foregroundColor(.black)
+                        .foregroundColor(.black)
                     if nicknameUser != "" {
                         Button{
                             nicknameUser = ""
@@ -45,9 +45,9 @@ struct WelcomeScreen: View {
                     
                 }
             }
-                
-        
-                
+            
+            
+            
             Button{
                 viewModel.addName(name: nicknameUser)
             }label: {
@@ -64,7 +64,7 @@ struct WelcomeScreen: View {
             
             Spacer()
             
-
+            
         }
         .background(
             ZStack{
@@ -81,7 +81,7 @@ struct WelcomeScreen: View {
                     }
                 }
             }
-
+            
             
         )
         

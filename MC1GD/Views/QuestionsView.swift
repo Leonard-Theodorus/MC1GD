@@ -95,8 +95,6 @@ struct QuestionsView: View {
                             
                         }
                     }
-                    
-                    
                 }
             }
         }

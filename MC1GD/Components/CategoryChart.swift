@@ -164,7 +164,7 @@ struct CategoryChart: View {
                         data = viewModel.getLastSevenDaysDonutData(startFrom: todayDateComponent)
                         allExpense = viewModel.calculateAllExpense(for: todayDateComponent, by: .byWeek)
                     }
-               
+                    
                 }
             }
             else{

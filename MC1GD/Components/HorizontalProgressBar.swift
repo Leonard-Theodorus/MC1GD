@@ -37,9 +37,9 @@ struct HorizontalProgressBar: View {
                 .padding(.horizontal)
                 
                 ZStack(alignment: .leading) {
-//                    Text("0%")
-//                        .foregroundColor(.black)
-//                        .frame(width: geometry.size.width, height: geometry.size.height)
+                    //                    Text("0%")
+                    //                        .foregroundColor(.black)
+                    //                        .frame(width: geometry.size.width, height: geometry.size.height)
                     Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
                         .foregroundColor(Color.tag_pink)
                     
