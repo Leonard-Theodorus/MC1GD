@@ -51,7 +51,7 @@ struct WelcomeScreen: View {
                     .padding(.horizontal, 30)
                     .font(.callout)
                     .foregroundColor(nicknameUser != "" ? Color.primary_white : Color.secondary_gray)
-                    .background(nicknameUser != "" ? Color.secondary_purple : Color.tertiary_gray)
+                    .background(nicknameUser != "" ? Color.secondary_purple : Color.primary_white)
                     .cornerRadius(32)
                     .shadow(radius: 4, y:2)
                     .padding(.top,10)
