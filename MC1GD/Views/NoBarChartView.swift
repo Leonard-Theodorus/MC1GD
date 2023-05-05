@@ -12,10 +12,12 @@ struct NoBarChartView: View {
         VStack(alignment: .center) {
             HStack {
                 Spacer()
-                Text("Pilih opsi tujuh hari kebelakang untuk menampilkan data")
-                    .font(.body)
+                Text("Pilih opsi \"Per 7 Hari\" untuk menampilkan data tujuh hari kebelakang")
+                    .font(.callout)
+                    .multilineTextAlignment(.center)
                     .italic()
                     .foregroundColor(.secondary_gray)
+                    .frame(minWidth: 200)
                     .padding()
                 Spacer()
             }

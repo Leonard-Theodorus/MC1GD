@@ -33,7 +33,6 @@ struct SummaryView: View {
                     Spacer()
                 }
                 
-                
                 VStack (alignment: .center){
                     HStack(alignment: .center){
                         //MARK: BUTTON GANTI HARI/MINGGU
@@ -53,9 +52,10 @@ struct SummaryView: View {
                             }label:{
                                 Text("Per 7 Hari")
                             }
-                        }.font(.body)
+                        }.font(.callout)
                             .foregroundColor(.primary)
                             .padding(10)
+                            .padding(.horizontal,5)
                             .background(
                                 RoundedRectangle(cornerRadius: 15)
                                     .stroke(lineWidth: 0)
@@ -103,26 +103,29 @@ struct SummaryView: View {
                         .frame(width: 25,height:30)
                     }
                     .zIndex(2)
-                    .padding(.bottom,5)
+                    .padding(.top,5)
                     
                     VStack{
                         // MARK: Progress bar
                         HorizontalProgressBar(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage)
+                            .padding(.top,5)
                         
                         // MARK: Category Donut chart
                         CategoryChart(todayDateComponent: $todayDateComponent, data: $data)
-                            .padding(.vertical,6)
+                            .padding(.vertical,15)
                         
                         // MARK: Last7days bar chart
                         if caseDisplayRange == .day{
                             NoBarChartView()
                                 .frame(height: 200)
+                            NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
+                                .opacity(caseDisplayRange == .byWeek ? 1 : 0)
+                            
                         }else{
-                            HStack{
-                                NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
-                                    .opacity(caseDisplayRange == .byWeek ? 1 : 0)
-                            }
+                            NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
+                                .opacity(caseDisplayRange == .byWeek ? 1 : 0)
                         }
+                        
                         
                         NavigationLink(destination: TipsView(todayDateComponent: $todayDateComponent, data: $data)) {
                             Text("Beberapa tips yang dapat Anda ikuti")
@@ -143,7 +146,7 @@ struct SummaryView: View {
                         }
                         
                     }
-                    .padding(.vertical,15)
+                    .padding(.top,10)
                     .zIndex(1)
                     
                 }
