@@ -143,177 +143,182 @@ struct ExpenseView: View {
                     .zIndex(1)
                     .pickerStyle(.segmented)
                     
-                    List {
-                        ForEach(viewModel.userItems){ item in
-                            if categoryShow == .keinginan && item.itemTag == "Keinginan" {
-                                VStack{
-                                    HStack(alignment: .top){
-                                        Image(systemName: item.itemImage!)
-                                            .resizable()
-                                            .padding(12)
-                                            .scaledToFit()
-                                            .frame(width: 54,height: 54)
-                                            .background(Color("primary-purple"))
-                                            .cornerRadius(10)
-                                            .foregroundColor(.white)
-                                        VStack(alignment: .leading){
-                                            Text(item.itemName!)
-                                                .font(.headline)
-                                                .padding(.bottom,-5)
-                                            Text(item.itemTag!)
-                                            //                                                .font(.caption2)
-                                                .font(Font.custom("SF Pro", size: 8))
-                                                .padding(8)
-                                                .frame(height:15)
-                                                .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
+                    if (categoryShow == .semua && !viewModel.userItems.isEmpty) || (categoryShow == .keinginan && !viewModel.userItems.filter{$0.itemTag == "Keinginan"}.isEmpty) || (categoryShow == .kebutuhan && !viewModel.userItems.filter{$0.itemTag == "Kebutuhan"}.isEmpty) {
+                        List {
+                            ForEach(viewModel.userItems){ item in
+                                if categoryShow == .keinginan && item.itemTag == "Keinginan" {
+                                    VStack{
+                                        HStack(alignment: .top){
+                                            Image(systemName: item.itemImage!)
+                                                .resizable()
+                                                .padding(12)
+                                                .scaledToFit()
+                                                .frame(width: 54,height: 54)
+                                                .background(Color("primary-purple"))
+                                                .cornerRadius(10)
                                                 .foregroundColor(.white)
-                                                .textCase(.uppercase)
-                                                .cornerRadius(3)
-                                            Text(item.itemDescription!)
-                                                .font(.caption2)
-                                                .italic()
-                                                .foregroundColor(Color("primary-gray"))
-                                                .padding(.top,1)
-                                                .lineSpacing(2)
+                                            VStack(alignment: .leading){
+                                                Text(item.itemName!)
+                                                    .font(.headline)
+                                                    .padding(.bottom,-5)
+                                                Text(item.itemTag!)
+                                                //                                                .font(.caption2)
+                                                    .font(Font.custom("SF Pro", size: 8))
+                                                    .padding(8)
+                                                    .frame(height:15)
+                                                    .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
+                                                    .foregroundColor(.white)
+                                                    .textCase(.uppercase)
+                                                    .cornerRadius(3)
+                                                Text(item.itemDescription!)
+                                                    .font(.caption2)
+                                                    .italic()
+                                                    .foregroundColor(Color("primary-gray"))
+                                                    .padding(.top,1)
+                                                    .lineSpacing(2)
+                                            }
+                                            Spacer()
+                                            Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
+                                                .foregroundColor(Color("primary-red"))
+                                                .fontWeight(.bold)
                                         }
-                                        Spacer()
-                                        Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                            .foregroundColor(Color("primary-red"))
-                                            .fontWeight(.bold)
+                                        .padding(.horizontal,-1)
+                                        .padding(.top)
+                                        .swipeActions {
+                                            Button{
+                                                viewModel.deleteItem(for:  item.itemId!)
+                                            } label: {
+                                                Label("", systemImage: "trash")
+                                            }.tint(.red)
+                                        }
+                                        Rectangle()
+                                            .foregroundColor(Color.tertiary_gray)
+                                            .frame(height: 1)
+                                            .padding(.vertical,2)
+                                        
                                     }
-                                    .padding(.horizontal,-1)
-                                    .padding(.top)
-                                    .swipeActions {
-                                        Button{
-                                            viewModel.deleteItem(for:  item.itemId!)
-                                        } label: {
-                                            Label("", systemImage: "trash")
-                                        }.tint(.red)
-                                    }
-                                    Rectangle()
-                                        .foregroundColor(Color.tertiary_gray)
-                                        .frame(height: 1)
-                                        .padding(.vertical,2)
-                                    
+                                    .listRowSeparator(.hidden)
+                                    .listRowInsets(EdgeInsets())
                                 }
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets())
-                            }
-                            else if categoryShow == .kebutuhan && item.itemTag == "Kebutuhan" {
-                                VStack{
-                                    HStack(alignment: .top){
-                                        Image(systemName: item.itemImage!)
-                                            .resizable()
-                                            .padding(12)
-                                            .scaledToFit()
-                                            .frame(width: 54,height: 54)
-                                            .background(Color("primary-purple"))
-                                            .cornerRadius(10)
-                                            .foregroundColor(.white)
-                                        VStack(alignment: .leading){
-                                            Text(item.itemName!)
-                                                .font(.headline)
-                                                .padding(.bottom,-5)
-                                            Text(item.itemTag!)
-                                            //                                                .font(.caption2)
-                                                .font(Font.custom("SF Pro", size: 8))
-                                                .padding(8)
-                                                .frame(height:15)
-                                                .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
+                                else if categoryShow == .kebutuhan && item.itemTag == "Kebutuhan" {
+                                    VStack{
+                                        HStack(alignment: .top){
+                                            Image(systemName: item.itemImage!)
+                                                .resizable()
+                                                .padding(12)
+                                                .scaledToFit()
+                                                .frame(width: 54,height: 54)
+                                                .background(Color("primary-purple"))
+                                                .cornerRadius(10)
                                                 .foregroundColor(.white)
-                                                .textCase(.uppercase)
-                                                .cornerRadius(3)
-                                            Text(item.itemDescription!)
-                                                .font(.caption2)
-                                                .italic()
-                                                .foregroundColor(Color("primary-gray"))
-                                                .padding(.top,1)
-                                                .lineSpacing(2)
+                                            VStack(alignment: .leading){
+                                                Text(item.itemName!)
+                                                    .font(.headline)
+                                                    .padding(.bottom,-5)
+                                                Text(item.itemTag!)
+                                                //                                                .font(.caption2)
+                                                    .font(Font.custom("SF Pro", size: 8))
+                                                    .padding(8)
+                                                    .frame(height:15)
+                                                    .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
+                                                    .foregroundColor(.white)
+                                                    .textCase(.uppercase)
+                                                    .cornerRadius(3)
+                                                Text(item.itemDescription!)
+                                                    .font(.caption2)
+                                                    .italic()
+                                                    .foregroundColor(Color("primary-gray"))
+                                                    .padding(.top,1)
+                                                    .lineSpacing(2)
+                                            }
+                                            Spacer()
+                                            Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
+                                                .foregroundColor(Color("primary-red"))
+                                                .fontWeight(.bold)
                                         }
-                                        Spacer()
-                                        Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                            .foregroundColor(Color("primary-red"))
-                                            .fontWeight(.bold)
+                                        .padding(.horizontal,-1)
+                                        .padding(.top)
+                                        .swipeActions {
+                                            Button{
+                                                viewModel.deleteItem(for:  item.itemId!)
+                                            } label: {
+                                                Label("", systemImage: "trash")
+                                            }.tint(.red)
+                                        }
+                                        Rectangle()
+                                            .foregroundColor(Color.tertiary_gray)
+                                            .frame(height: 1)
+                                            .padding(.vertical,2)
+                                        
                                     }
-                                    .padding(.horizontal,-1)
-                                    .padding(.top)
-                                    .swipeActions {
-                                        Button{
-                                            viewModel.deleteItem(for:  item.itemId!)
-                                        } label: {
-                                            Label("", systemImage: "trash")
-                                        }.tint(.red)
-                                    }
-                                    Rectangle()
-                                        .foregroundColor(Color.tertiary_gray)
-                                        .frame(height: 1)
-                                        .padding(.vertical,2)
-                                    
+                                    .listRowSeparator(.hidden)
+                                    .listRowInsets(EdgeInsets())
                                 }
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets())
-                            }
-                            else if categoryShow == .semua {
-                                VStack{
-                                    HStack(alignment: .top){
-                                        Image(systemName: item.itemImage!)
-                                            .resizable()
-                                            .padding(12)
-                                            .scaledToFit()
-                                            .frame(width: 54,height: 54)
-                                            .background(Color("primary-purple"))
-                                            .cornerRadius(10)
-                                            .foregroundColor(.white)
-                                        VStack(alignment: .leading){
-                                            Text(item.itemName!)
-                                                .font(.headline)
-                                                .padding(.bottom,-5)
-                                            Text(item.itemTag!)
-                                            //                                                .font(.caption2)
-                                                .font(Font.custom("SF Pro", size: 8))
-                                                .padding(8)
-                                                .frame(height:15)
-                                                .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
+                                else if categoryShow == .semua {
+                                    VStack{
+                                        HStack(alignment: .top){
+                                            Image(systemName: item.itemImage!)
+                                                .resizable()
+                                                .padding(12)
+                                                .scaledToFit()
+                                                .frame(width: 54,height: 54)
+                                                .background(Color("primary-purple"))
+                                                .cornerRadius(10)
                                                 .foregroundColor(.white)
-                                                .textCase(.uppercase)
-                                                .cornerRadius(3)
-                                            Text(item.itemDescription!)
-                                                .font(.caption2)
-                                                .italic()
-                                                .foregroundColor(Color("primary-gray"))
-                                                .padding(.top,1)
-                                                .lineSpacing(2)
+                                            VStack(alignment: .leading){
+                                                Text(item.itemName!)
+                                                    .font(.headline)
+                                                    .padding(.bottom,-5)
+                                                Text(item.itemTag!)
+                                                //                                                .font(.caption2)
+                                                    .font(Font.custom("SF Pro", size: 8))
+                                                    .padding(8)
+                                                    .frame(height:15)
+                                                    .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
+                                                    .foregroundColor(.white)
+                                                    .textCase(.uppercase)
+                                                    .cornerRadius(3)
+                                                Text(item.itemDescription!)
+                                                    .font(.caption2)
+                                                    .italic()
+                                                    .foregroundColor(Color("primary-gray"))
+                                                    .padding(.top,1)
+                                                    .lineSpacing(2)
+                                            }
+                                            Spacer()
+                                            Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
+                                                .foregroundColor(Color("primary-red"))
+                                                .fontWeight(.bold)
                                         }
-                                        Spacer()
-                                        Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                            .foregroundColor(Color("primary-red"))
-                                            .fontWeight(.bold)
+                                        .padding(.horizontal,-1)
+                                        .padding(.top)
+                                        .swipeActions {
+                                            Button{
+                                                viewModel.deleteItem(for:  item.itemId!)
+                                            } label: {
+                                                Label("", systemImage: "trash")
+                                            }.tint(.red)
+                                        }
+                                        Rectangle()
+                                            .foregroundColor(Color.tertiary_gray)
+                                            .frame(height: 1)
+                                            .padding(.vertical,2)
+                                        
                                     }
-                                    .padding(.horizontal,-1)
-                                    .padding(.top)
-                                    .swipeActions {
-                                        Button{
-                                            viewModel.deleteItem(for:  item.itemId!)
-                                        } label: {
-                                            Label("", systemImage: "trash")
-                                        }.tint(.red)
-                                    }
-                                    Rectangle()
-                                        .foregroundColor(Color.tertiary_gray)
-                                        .frame(height: 1)
-                                        .padding(.vertical,2)
-                                    
+                                    .listRowSeparator(.hidden)
+                                    .listRowInsets(EdgeInsets())
                                 }
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets())
                             }
                         }
+                        .listStyle(.plain)
+                        .clipped()
+                    } else {
+                        EmptyData(desc: "Belum ada pengeluaran")
+                            .foregroundColor(Color.secondary_gray)
+                            .background(.white)
+                            .padding(.top)
                     }
-                    .listStyle(.plain)
-                    .clipped()
-                    
                 }
-                
                 Spacer()
             }
             .padding()
