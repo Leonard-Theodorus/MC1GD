@@ -51,13 +51,27 @@ struct SavingsView: View {
                         .font(.body)
                         .fontWeight(.light)
                         .italic()
-                        .padding(.horizontal)
+                        .padding(.leading)
                         .padding(.bottom)
                 }else{
-                    Text(currencyFormatter.string(from: NSNumber(value: viewModel.getUserMoneyToday())) ?? "")
-                        .fontWeight(.light)
-                        .padding(.horizontal)
-                        .padding(.bottom)
+                    HStack{
+                        Image(systemName: "triangle.fill")
+                            .resizable()
+                            .frame(width: 10,height: 10)
+                            .padding(0)
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 10,height: 10)
+                            .padding(0)
+                        Text("\(currencyFormatter.string(from: NSNumber(value: viewModel.getUserMoneyToday())) ?? "") Hari ini")
+                    }
+                    .padding(.horizontal,12)
+                    .padding(.vertical,3)
+                    .foregroundColor(Color.primary_green)
+                    .background(Color.white)
+                    .cornerRadius(30)
+                    .padding(.leading)
+                    .padding(.bottom)
                 }
                 
             }
@@ -65,7 +79,7 @@ struct SavingsView: View {
             .foregroundColor(.white)
             .background(
                 ZStack{
-                    LinearGradient(colors: [Color("secondary-purple"),Color("primary-purple")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                    LinearGradient(colors: [Color("primary-purple"),Color("secondary-purple")], startPoint: .topLeading, endPoint: .bottomTrailing)
                     HStack{
                         Spacer()
                         VStack{
