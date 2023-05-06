@@ -11,8 +11,8 @@ let dateNotif = PassthroughSubject<Date, Never>()
 struct NewItemView: View {
     @Binding var showSheet : Bool
     @StateObject var formVm = addItemFormViewModel()
-    @State var newItemPrice : Double = 0
     @State var newItemImage = UIImage()
+    @State var newItemPrice = ""
     @State var newItemCategory = ""
     @State var newItemTag : String = ""
     @State var newItemDesc : String = ""
@@ -29,58 +29,91 @@ struct NewItemView: View {
     @Binding var todayDateComponent : Date
     @State var showDatePicker : Bool = false
     @State var showDeleteIcon : Bool = false
+    @State var priceValid : Bool = false
+    @State var num : Double = 0
+    @FocusState private var focusedField: Field?
+    @State var const = ""
     var body: some View {
         NavigationView {
             VStack(alignment: .center){
                 VStack(alignment: .leading){
+                    TextField("SS", text: $const).hidden().focused($isFocusedPrice)
+                    TextField("SS", text: $const).hidden().focused($isFocusedPrice)
+                    TextField("SS", text: $const).hidden()
+                        .focused($isFocusedPrice)
                     // MARK: harga barang
-                    HStack{
-                        Text("Rp")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .padding(.horizontal,10)
-                            .padding(.vertical,6)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray)
-                                    .background(Color("tertiary-gray").cornerRadius(10)))
-                            .foregroundColor(Color("primary-gray"))
-                            .frame(width: 40)
-                        Divider().frame(height: 30)
-                        TextField("Harga Barang", value: $formVm.itemPrice, format: .number)
-                            .lineLimit(0)
-                            .keyboardType(.numberPad)
-                            .font(.title2)
-                            .overlay (
-                                ZStack{
-                                    Button {
-                                        withAnimation {
-                                            formVm.deletePrice()
+                    Group {
+                        HStack{
+                            Text("Rp")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .padding(.horizontal,10)
+                                .padding(.vertical,6)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.gray)
+                                        .background(Color("tertiary-gray").cornerRadius(10)))
+                                .foregroundColor(Color("primary-gray"))
+                                .frame(width: 40)
+                            Divider().frame(height: 30)
+                            TextField("Harga Barang", text: $newItemPrice)
+                                .disableAutocorrection(true)
+                                .lineLimit(0)
+                                .keyboardType(.numberPad)
+                                .font(.title2)
+                                
+                                .onChange(of: newItemPrice) { newValue in
+                                    withAnimation {
+                                        let numberString = newValue.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+                                        if let number = Double(numberString) {
+                                            num = number
+                                            newItemPrice = currencyFormatterInForm.string(from: NSNumber(value: num)) ?? ""
                                         }
-                                    } label: {
-                                        Image(systemName: "delete.left").foregroundColor(.red)
+                                        if (numberString != "0" && numberString != ""){
+                                            priceValid = true
+                                        }
+                                        else{
+                                            priceValid = false
+                                        }
                                     }
-                                    .buttonStyle(.borderless)
-                                    .clipped()
-                                    .opacity(formVm.priceButtonDeleteOn ? 1.0 : 0.0)
                                     
                                 }
-                                , alignment: .trailing
-                            )
-                            .focused($isFocusedPrice)
-                        //                        if !formVm.priceIsValid && isFocusedPrice == true{
-                        //                            Text("Harga tidak boleh 0")
-                        //                                .foregroundColor(.red)
-                        //                                .font(.caption2)
-                        //                                .multilineTextAlignment(.leading)
-                        //                                .padding(.leading,60)
-                        //                        }
+                                .overlay (
+                                    ZStack{
+                                        Button {
+                                            withAnimation {
+                                                newItemPrice = ""
+                                            }
+                                        } label: {
+                                            Image(systemName: "delete.left").foregroundColor(.red)
+                                        }
+                                        .buttonStyle(.borderless)
+                                        .clipped()
+                                        .opacity(priceValid ? 1.0 : 0.0)
+                                        
+                                    }
+                                    , alignment: .trailing
+                                )
+                                .focused($focusedField, equals: Field.itemPrice)
+                                .onTapGesture {
+                                    focusedField = Field.itemPrice
+                                }
+                            
+                        }
+                        .padding(.bottom,5)
+                        if !priceValid && focusedField == .itemPrice{
+                            Text("Harga tidak boleh 0")
+                                .foregroundColor(.red)
+                                .font(.caption2)
+                                .multilineTextAlignment(.leading)
+                                .padding(.leading,60)
+                        }
+                        else if priceValid && focusedField == .itemPrice {
+                            Image(systemName: "checkmark").foregroundColor(.green)
+                                .padding(.horizontal,15)
+                        }
                     }
-                    .padding(.bottom,5)
-                    //                    else if formVm.textIsValid && isFocusedName == true {
-                    //                        Image(systemName: "checkmark").foregroundColor(.green)
-                    //                            .padding(.horizontal,15)
-                    //                    }
+                    
                     
                     Divider()
                     
@@ -108,16 +141,19 @@ struct NewItemView: View {
                                     }
                                     , alignment: .trailing
                                 )
-                                .focused($isFocusedName)
+                                .focused($focusedField, equals: Field.itemName)
+                                .onTapGesture {
+                                    focusedField = Field.itemName
+                                }
                             
                         }.padding(.vertical, 5)
-                        if !formVm.textIsValid && isFocusedName == true{
+                        if !formVm.textIsValid && focusedField == .itemName{
                             Text("Harus diisi, tidak diawali ataupun diakhiri dengan spasi")
                                 .foregroundColor(.red)
                                 .font(.caption2)
                                 .multilineTextAlignment(.leading)
                                 .padding(.leading,60)
-                        }else if formVm.textIsValid && isFocusedName == true {
+                        }else if formVm.textIsValid && focusedField == .itemName {
                             Image(systemName: "checkmark").foregroundColor(.green)
                                 .padding(.horizontal,15)
                         }
@@ -216,9 +252,6 @@ struct NewItemView: View {
                                 .cornerRadius(25)
                                 .hoverEffect(.lift)
                                 
-                                
-                                
-                                
                                 Button{
                                     showQuestions.toggle()
                                 } label: {
@@ -308,7 +341,9 @@ struct NewItemView: View {
                 }
                 .padding(.horizontal,20)
                 .padding(.bottom, 30)
-                
+                .onTapGesture{
+                    focusedField = nil
+                }
                 
                 Spacer()
                 
@@ -328,13 +363,12 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Simpan"){
-                        
-                        viewModel.addNewItem(date: todayDateComponent, price: formVm.itemPrice, itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
+                        viewModel.addNewItem(date: todayDateComponent, price: newItemPrice.stripComma(for: newItemPrice), itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
                         
                         dateNotif.send(todayDateComponent)
                         showSheet = false
                     }
-                    .disabled(!formVm.textIsValid || !formVm.priceIsValid || newItemTag == "")
+                    .disabled(!formVm.textIsValid || !priceValid || newItemTag == "")
                 }
             }
         }

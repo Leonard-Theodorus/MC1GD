@@ -16,4 +16,12 @@ let currencyFormatter: NumberFormatter = {
     formatter.zeroSymbol = ""
     return formatter
 }()
-
+let currencyFormatterInForm: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    formatter.currencySymbol = ""
+    formatter.maximumFractionDigits = 0
+    formatter.groupingSeparator = ","
+    formatter.zeroSymbol = ""
+    return formatter
+}()

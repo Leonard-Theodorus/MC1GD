@@ -10,28 +10,16 @@ import Combine
 
 class addItemFormViewModel : ObservableObject{
     @Published var textCount : Int = 0
-    @Published var itemPrice : Double = 0
-    @Published var priceValue : Double = 0
-    @Published var priceIsValid = false
-    @Published var priceButtonDeleteOn = false
     @Published var itemName = ""
     @Published var textIsValid = false
-    
     @Published var buttonDeleteOn = false
-   
-    
     var cancellables = Set<AnyCancellable>()
     init(){
         itemNameSubsriber()
         deleteButtonSubscriber()
-        itemPriceSubscriber()
-        deleteButtonPriceSubscriber()
     }
     func deleteText(){
         self.itemName = ""
-    }
-    func deletePrice(){
-        self.itemPrice = 0
     }
     func itemNameSubsriber(){
         $itemName.map{ (text) -> Bool in
@@ -60,34 +48,6 @@ class addItemFormViewModel : ObservableObject{
                 }
                 else{
                     self.buttonDeleteOn = false
-                }
-            }
-            .store(in: &cancellables)
-    }
-    func itemPriceSubscriber(){
-        $itemPrice.map{ (price) -> Bool in
-            if price == 0{
-                return false
-            }
-            self.priceValue = price
-            return true
-        }
-        .sink { [weak self] isValid in
-            withAnimation {
-                self?.priceIsValid = isValid
-            }
-        }
-        .store(in: &cancellables)
-    }
-    func deleteButtonPriceSubscriber(){
-        $priceIsValid.combineLatest($priceValue)
-            .sink { [weak self] (isValid, newPrice) in
-                guard let self else {return}
-                if isValid && newPrice != 0{
-                    self.priceButtonDeleteOn = true
-                }
-                else{
-                    self.priceButtonDeleteOn = false
                 }
             }
             .store(in: &cancellables)

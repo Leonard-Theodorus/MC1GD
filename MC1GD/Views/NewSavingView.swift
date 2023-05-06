@@ -6,13 +6,13 @@
 //
 
 import SwiftUI
-import Combine
 struct NewSavingView: View {
     @Binding var showSheet : Bool
     @Binding var todayDateComponent : Date
     @EnvironmentObject var viewModel : coreDataViewModel
     @State var amount : Double = 0.0
-    @State var isZeroPrice: Bool = false
+    @State var newSavingsAmount : String = ""
+    @State var priceValid: Bool = false
     @State var showDeleteIcon : Bool = false
     @FocusState var isFocusedPrice : Bool
     
@@ -21,62 +21,57 @@ struct NewSavingView: View {
             VStack{
                 Spacer()
                 VStack {
-                    HStack{
-                        Spacer()
-                        Text("Rp")
-                            .font(.largeTitle)
-                        TextField("", value: $amount, format: .number)
-                            .keyboardType(.numberPad)
-                            .foregroundColor(Color.primary_gray)
-                            .font(.system(size: 52))
-                            .fixedSize()
-                            .focused($isFocusedPrice)
-                            .onReceive(Just(amount)){ newValue in
-                                isZeroPrice = isFocusedPrice && newValue <= 0
-                            }
-                            .onChange(of: isFocusedPrice){ newValue in
-                                if !newValue{
-                                    isZeroPrice = amount <= 0
-                                }
-                            }
-                        Spacer()
-                        if isZeroPrice == false && isFocusedPrice == true{
-                            Button{
-                                amount = 0
-                                showDeleteIcon.toggle()
-                            }label: {
-                                HStack(){
-                                    Image(systemName: "x.circle.fill")
-                                        .resizable()
-                                        .frame(width: 30, height: 30)
-                                        .foregroundColor(.primary_red)
+                    Group {
+                        HStack{
+                            Spacer()
+                            Text("Rp")
+                                .font(.largeTitle)
+                            TextField("", text: $newSavingsAmount)
+                                .keyboardType(.numberPad)
+                                .foregroundColor(Color.primary_gray)
+                                .font(.system(size: 52))
+                                .fixedSize()
+                                .focused($isFocusedPrice)
+                                .onChange(of: newSavingsAmount) { newValue in
+                                    withAnimation {
+                                        let numberString = newValue.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+                                        if let number = Double(numberString) {
+                                            amount = number
+                                            newSavingsAmount = currencyFormatterInForm.string(from: NSNumber(value: amount)) ?? ""
+                                        }
+                                        if (numberString != "0" && numberString != ""){
+                                            priceValid = true
+                                        }
+                                        else{
+                                            priceValid = false
+                                        }
+                                    }
                                     
                                 }
+                            Spacer()
+                            Button {
+                                withAnimation {
+                                    newSavingsAmount = ""
+                                }
+                            } label: {
+                                Image(systemName: "delete.left").foregroundColor(.red)
                             }
+                            .buttonStyle(.borderless)
+                            .clipped()
+                            .opacity(priceValid ? 1.0 : 0.0)
                         }
                     }
-                    if isZeroPrice {
+                    if !priceValid && isFocusedPrice == true{
                         Text("Harga tidak boleh 0")
-                            .foregroundColor(Color.primary_red).font(.caption)
+                            .foregroundColor(.red)
+                            .font(.caption2)
+                            .multilineTextAlignment(.leading)
+                            .padding(.leading,60)
                     }
-                    //                    else if isZeroPrice == false && isFocusedPrice == true{
-                    //                        Button{
-                    //                            amount = 0
-                    //                            showDeleteIcon.toggle()
-                    //                        }label: {
-                    //                            HStack{
-                    //                                Spacer()
-                    //                                Image(systemName: "x.circle.fill")
-                    //                                    .resizable()
-                    //                                    .frame(width: 50, height: 50)
-                    //                                    .foregroundColor(.primary_red)
-                    //
-                    //                            }.padding(.bottom, 30)
-                    //                                .background(
-                    //                                    Color.red
-                    //                                )
-                    //                        }
-                    //                    }
+                    else if priceValid && isFocusedPrice == true {
+                        Image(systemName: "checkmark").foregroundColor(.green)
+                            .padding(.horizontal,15)
+                    }
                 }
                 Spacer()
                 Button{
