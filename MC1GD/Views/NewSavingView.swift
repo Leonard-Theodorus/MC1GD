@@ -26,7 +26,7 @@ struct NewSavingView: View {
                             Spacer()
                             Text("Rp")
                                 .font(.largeTitle)
-                            TextField("", text: $newSavingsAmount)
+                            TextField("0", text: $newSavingsAmount)
                                 .keyboardType(.numberPad)
                                 .foregroundColor(Color.primary_gray)
                                 .font(.system(size: 52))
@@ -59,6 +59,7 @@ struct NewSavingView: View {
                             .buttonStyle(.borderless)
                             .clipped()
                             .opacity(priceValid ? 1.0 : 0.0)
+                            .padding(.trailing,30)
                         }
                     }
                     if !priceValid && isFocusedPrice == true{
