@@ -112,7 +112,8 @@ struct SummaryView: View {
                         .frame(width: 0,height: 0)
                     
                     if needsPercentage.isNaN && wantsPercentage.isNaN {
-                        EmptyData(desc: "Tidak ada pengeluaran")
+                        EmptyData(desc: "Belum ada pengeluaran")
+                            .foregroundColor(.secondary_gray)
                     }else{
                         VStack{
                             // MARK: Progress bar

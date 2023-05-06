@@ -362,7 +362,7 @@ struct NewItemView: View {
                     }
                 }
                 ToolbarItem(placement: .principal) {
-                    Text("Tambah Pengeluaran").font(.title3)
+                    Text("Tambah Pengeluaran").font(.headline)
                     
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
