@@ -74,6 +74,7 @@ struct ExpenseView: View {
             .padding(.top,12)
             .zIndex(1)
             
+            
         }
         .padding(.horizontal,22)
         .onAppear{

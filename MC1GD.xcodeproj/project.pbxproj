@@ -95,7 +95,7 @@
 		D4D4A7CC29FA5BEE008674F8 /* CategoryChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryChart.swift; sourceTree = "<group>"; };
 		D4F9DCA82A026800002F51B5 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		D7228C9A2A039AC8006237B9 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
-		D753EC1229F66C28007C3F31 /* MC1GD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MC1GD.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D753EC1229F66C28007C3F31 /* berUang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = berUang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D753EC1529F66C28007C3F31 /* MC1GDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MC1GDApp.swift; sourceTree = "<group>"; };
 		D753EC1929F66C29007C3F31 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D753EC1C29F66C29007C3F31 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 		D753EC1329F66C28007C3F31 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D753EC1229F66C28007C3F31 /* MC1GD.app */,
+				D753EC1229F66C28007C3F31 /* berUang.app */,
 				D753EC2729F66C29007C3F31 /* MC1GDTests.xctest */,
 				D753EC3129F66C29007C3F31 /* MC1GDUITests.xctest */,
 			);
@@ -321,7 +321,7 @@
 				D415A44A29FA0FB7004BC18E /* SwiftUICharts */,
 			);
 			productName = MC1GD;
-			productReference = D753EC1229F66C28007C3F31 /* MC1GD.app */;
+			productReference = D753EC1229F66C28007C3F31 /* berUang.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D753EC2629F66C29007C3F31 /* MC1GDTests */ = {
@@ -641,7 +641,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1GD/Preview Content\"";
-				DEVELOPMENT_TEAM = 7364983R63;
+				DEVELOPMENT_TEAM = 6H4427J3SZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -655,8 +655,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.test1.MC1GD;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.test1.berUang;
+				PRODUCT_NAME = berUang;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -671,7 +671,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1GD/Preview Content\"";
-				DEVELOPMENT_TEAM = 7364983R63;
+				DEVELOPMENT_TEAM = 6H4427J3SZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -685,8 +685,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.test1.MC1GD;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.test1.berUang;
+				PRODUCT_NAME = berUang;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
