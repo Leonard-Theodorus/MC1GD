@@ -130,6 +130,7 @@ struct CategoryChart: View {
                         viewModel.fetchItems(for: todayDateComponent)
                         data = viewModel.getChartData(for: todayDateComponent)
                         allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                        titleCard = "hari"
                     }
                     
                 }
@@ -143,6 +144,7 @@ struct CategoryChart: View {
                         viewModel.fetchItems(for: todayDateComponent)
                         data = viewModel.getChartData(for: todayDateComponent)
                         allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                        titleCard = "hari"
                     }
                     
                 }
@@ -152,6 +154,7 @@ struct CategoryChart: View {
                     DispatchQueue.main.async {
                         data = viewModel.getLastSevenDaysDonutData(startFrom: todayDateComponent)
                         allExpense = viewModel.calculateAllExpense(for: todayDateComponent, by: .byWeek)
+                        titleCard = "7 hari"
                     }
                     
                 }
@@ -175,6 +178,7 @@ struct CategoryChart: View {
                         viewModel.fetchItems(for: todayDateComponent)
                         data = viewModel.getChartData(for: todayDateComponent)
                         allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                        titleCard = "hari"
                     }
                     
                 }
