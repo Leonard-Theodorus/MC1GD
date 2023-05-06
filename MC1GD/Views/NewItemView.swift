@@ -46,10 +46,11 @@ struct NewItemView: View {
                                     .background(Color("tertiary-gray").cornerRadius(10)))
                             .foregroundColor(Color("primary-gray"))
                             .frame(width: 40)
-                        Divider().frame(height: 20)
+                        Divider().frame(height: 30)
                         TextField("Harga Barang", value: $formVm.itemPrice, format: .number)
                             .lineLimit(0)
                             .keyboardType(.numberPad)
+                            .font(.title2)
                             .overlay (
                                 ZStack{
                                     Button {
@@ -75,6 +76,7 @@ struct NewItemView: View {
                         //                                .padding(.leading,60)
                         //                        }
                     }
+                    .padding(.bottom,5)
                     //                    else if formVm.textIsValid && isFocusedName == true {
                     //                        Image(systemName: "checkmark").foregroundColor(.green)
                     //                            .padding(.horizontal,15)
@@ -83,66 +85,71 @@ struct NewItemView: View {
                     Divider()
                     
                     // MARK: nama barang
-                    HStack{
-                        Text("Aa")
-                            .font(.headline)
-                            .foregroundColor(Color.primary_gray)
-                            .padding(.horizontal,15)
-                        TextField("Nama Barang", text: $formVm.itemName).autocorrectionDisabled(true)
-                            .overlay (
-                                ZStack{
-                                    Button {
-                                        withAnimation {
-                                            formVm.deleteText()
+                    Group {
+                        HStack{
+                            Text("Aa")
+                                .font(.headline)
+                                .foregroundColor(Color.primary_gray)
+                                .padding(.horizontal,15)
+                            TextField("Nama Barang", text: $formVm.itemName).autocorrectionDisabled(true)
+                                .overlay (
+                                    ZStack{
+                                        Button {
+                                            withAnimation {
+                                                formVm.deleteText()
+                                            }
+                                        } label: {
+                                            Image(systemName: "delete.left").foregroundColor(.red)
                                         }
-                                    } label: {
-                                        Image(systemName: "delete.left").foregroundColor(.red)
+                                        .buttonStyle(.borderless)
+                                        .clipped()
+                                        .opacity(formVm.buttonDeleteOn ? 1.0 : 0.0)
+                                        
                                     }
-                                    .buttonStyle(.borderless)
-                                    .clipped()
-                                    .opacity(formVm.buttonDeleteOn ? 1.0 : 0.0)
-                                    
-                                }
-                                , alignment: .trailing
-                            )
-                            .focused($isFocusedName)
+                                    , alignment: .trailing
+                                )
+                                .focused($isFocusedName)
+                            
+                        }.padding(.vertical, 5)
+                        if !formVm.textIsValid && isFocusedName == true{
+                            Text("Harus diisi, tidak diawali ataupun diakhiri dengan spasi")
+                                .foregroundColor(.red)
+                                .font(.caption2)
+                                .multilineTextAlignment(.leading)
+                                .padding(.leading,60)
+                        }else if formVm.textIsValid && isFocusedName == true {
+                            Image(systemName: "checkmark").foregroundColor(.green)
+                                .padding(.horizontal,15)
+                        }
                         
-                    }.padding(.vertical, 5)
-                    if !formVm.textIsValid && isFocusedName == true{
-                        Text("Harus diisi, tidak diawali ataupun diakhiri dengan spasi")
-                            .foregroundColor(.red)
-                            .font(.caption2)
-                            .multilineTextAlignment(.leading)
-                            .padding(.leading,60)
-                    }else if formVm.textIsValid && isFocusedName == true {
-                        Image(systemName: "checkmark").foregroundColor(.green)
-                            .padding(.horizontal,15)
+                        Divider()
                     }
                     
-                    Divider()
-                    
                     // MARK: pilih itemCategory
-                    HStack{
-                        Image(systemName: "circle.fill")
-                            .imageScale(.large)
-                            .foregroundColor(Color.primary_gray)
-                            .padding(.horizontal,15)
-                        HStack {
-                            Picker("", selection: $newItemCategory) {
-                                ForEach(categories, id: \.self){ category in
-                                    Text(category)
+                    Group {
+                        HStack{
+                            Image(systemName: "circle.fill")
+                                .imageScale(.large)
+                                .foregroundColor(Color.primary_gray)
+                                .padding(.horizontal,15)
+                            HStack {
+                                Picker("", selection: $newItemCategory) {
+                                    ForEach(categories, id: \.self){ category in
+                                        Text(category)
+                                    }
                                 }
+                                .pickerStyle(.menu)
+                                .tint(Color.primary)
+                                .clipped()
                             }
-                            .pickerStyle(.menu)
-                            .tint(Color.primary)
-                            .clipped()
-                        }
-                    }.padding(.vertical, 5)
+                        }.padding(.vertical, 5)
+                        Divider()
+                    }
                     
                     
                     // MARK:  pilih itemTag needs/wants
                     Group {
-                        VStack {
+                        VStack (alignment: .leading){
                             HStack{
                                 Image(systemName: "tag")
                                     .imageScale(.large)
@@ -225,9 +232,14 @@ struct NewItemView: View {
                                 
                                 
                             }
+                            Text("Pilih Salah Satu")
+                                .font(.caption2)
+                                .padding(.leading,75)
+                                .italic()
+                                .foregroundColor(Color.secondary_gray)
                         }
-                        .padding(.top, 15)
-                        .padding(.bottom, 5)
+                        .padding(.top,5)
+                        Divider()
                     }
                     
                     
@@ -258,36 +270,39 @@ struct NewItemView: View {
                                     .font(.caption)
                                     .foregroundColor($newItemDesc.wrappedValue.count == maxChars ? .red : .gray)
                             }
-                        }.padding(.vertical, 10)
+                        }.padding(.top, 10)
+                        Divider()
                     }
                     
                     
                     // MARK: select tanggal
-                    HStack{
-                        Image(systemName: "calendar")
-                            .imageScale(.large)
-                            .foregroundColor(Color("secondary-gray"))
-                            .padding(.horizontal,15)
-                        
-                        Button{
-                            showDatePicker.toggle()
-                        }label:{
-                            Text(Date().formatDateFull(for: todayDateComponent))
-                                .font(.body)
-                                .padding(.vertical,8)
-                                .padding(.horizontal,10)
-                                .foregroundColor(.black)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.tertiary_gray)
-                                )
-                        }
-                        
-                    }
-                    if showDatePicker == true{
+                    Group{
                         HStack{
-                            DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
-                                .accentColor(Color.primary_purple)
+                            Image(systemName: "calendar")
+                                .imageScale(.large)
+                                .foregroundColor(Color("secondary-gray"))
+                                .padding(.horizontal,15)
+                            
+                            Button{
+                                showDatePicker.toggle()
+                            }label:{
+                                Text(Date().formatDateFull(for: todayDateComponent))
+                                    .font(.body)
+                                    .padding(.vertical,8)
+                                    .padding(.horizontal,10)
+                                    .foregroundColor(.black)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.tertiary_gray)
+                                    )
+                            }
+                            
+                        }.padding(.top,10)
+                        if showDatePicker == true{
+                            HStack{
+                                DatePicker("" ,selection: $todayDateComponent, in: ...Date(), displayedComponents: .date).datePickerStyle(.wheel)
+                                    .accentColor(Color.primary_purple)
+                            }
                         }
                     }
                 }
