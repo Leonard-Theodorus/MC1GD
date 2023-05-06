@@ -8,6 +8,7 @@ enum CategoryShow : Int{
 }
 
 struct ExpenseView: View {
+    @State private var userName : String = ""
     @State private var showSheet = false
     @EnvironmentObject var viewModel : coreDataViewModel
     @Binding var todayDateComponent : Date
@@ -28,45 +29,7 @@ struct ExpenseView: View {
                 AddItemButton(todayDateComponent: $todayDateComponent)
             }
             // MARK: Hello Card
-            VStack(alignment: .leading){
-                HStack{
-                    Image(systemName: "sun.min.fill")
-                    Text("Hai,")
-                        .font(.title2)
-                        .fontWeight(.light)
-                    Text(viewModel.getName())
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    Spacer()
-                }
-                .padding()
-                Text("Pengeluaranmu")
-                    .fontWeight(.light)
-                    .padding(.horizontal)
-                Text(currencyFormatter.string(from: NSNumber(value: allExpense)) ?? "")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.horizontal)
-                    .padding(.bottom)
-            }
-            .padding(.vertical,8)
-            .foregroundColor(.white)
-            .background(
-                ZStack{
-                    LinearGradient(colors: [Color("secondary-purple"),Color("primary-purple")], startPoint: .topLeading, endPoint: .bottomTrailing)
-                    HStack{
-                        Spacer()
-                        VStack{
-                            Spacer()
-                            Image("beruang-expense")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 150)
-                        }
-                    }
-                }
-            )
-            .cornerRadius(22)
+            HelloCard(allExpense: $allExpense, userName: $userName)
             
             // MARK: Expense Card
             VStack{
@@ -77,59 +40,9 @@ struct ExpenseView: View {
                         .frame(width: 100)
                     Spacer()
                     // MARK: Customized date picker
-                    ZStack{
-                        Button{
-                            withAnimation {
-                                showDatePicker.toggle()
-                            }
-                        }label: {
-                            Text(Date().formatDateFrom(for: todayDateComponent))
-                                .font(.caption)
-                                .padding(.vertical,8)
-                                .padding(.horizontal,10)
-                                .foregroundColor(.white)
-                                .frame(width: 85)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 30)
-                                        .stroke(lineWidth: 0)
-                                        .background(Color.primary_purple.cornerRadius(20))
-                                        .shadow(radius: 2)
-                                )
-                        }
+                    CustomDatePicker(todayDateComponent: $todayDateComponent, showDatePicker: $showDatePicker, allExpense: $allExpense)
+                        .frame(width:85,height:30)
                         .zIndex(3)
-                        
-                        HStack(alignment: .center){
-                            DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
-                                .datePickerStyle(.graphical)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(lineWidth: 0)
-                                        .background(Color.white.cornerRadius(20))
-                                        .shadow(radius: 2)
-                                    
-                                )
-                                .accentColor(Color.primary_purple)
-                                .padding(10)
-                                .opacity(showDatePicker ? 1 : 0)
-                                .offset(x: -90, y:160)
-                                .frame(width: 280)
-                                .onChange(of: todayDateComponent, perform: { newValue in
-                                    DispatchQueue.main.async {
-                                        withAnimation {
-                                            showDatePicker.toggle()
-                                            viewModel.fetchItems(for: todayDateComponent)
-                                            allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
-                                        }
-                                    }
-                                    
-                                    
-                                })
-                            
-                        }
-                        .zIndex(5)
-                    }
-                    .frame(width:85,height:30)
-                    .zIndex(3)
                 }
                 .zIndex(2)
                 // MARK: Segmented
@@ -141,180 +54,11 @@ struct ExpenseView: View {
                     }
                     .zIndex(1)
                     .pickerStyle(.segmented)
-                    // MARK: Show Empty
+                    // MARK: Item List
                     if (categoryShow == .semua && !viewModel.userItems.isEmpty) || (categoryShow == .keinginan && !viewModel.userItems.filter{$0.itemTag == "Keinginan"}.isEmpty) || (categoryShow == .kebutuhan && !viewModel.userItems.filter{$0.itemTag == "Kebutuhan"}.isEmpty) {
-                        List {
-                            ForEach(viewModel.userItems){ item in
-                                // MARK: Section Keinginan
-                                if categoryShow == .keinginan && item.itemTag == "Keinginan" {
-                                    VStack{
-                                        HStack(alignment: .top){
-                                            Image(systemName: item.itemImage!)
-                                                .resizable()
-                                                .padding(12)
-                                                .scaledToFit()
-                                                .frame(width: 54,height: 54)
-                                                .background(Color("primary-purple"))
-                                                .cornerRadius(10)
-                                                .foregroundColor(.white)
-                                            VStack(alignment: .leading){
-                                                Text(item.itemName!)
-                                                    .font(.headline)
-                                                    .padding(.bottom,-5)
-                                                Text(item.itemTag!)
-                                                //                                                .font(.caption2)
-                                                    .font(Font.custom("SF Pro", size: 8))
-                                                    .padding(8)
-                                                    .frame(height:15)
-                                                    .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
-                                                    .foregroundColor(.white)
-                                                    .textCase(.uppercase)
-                                                    .cornerRadius(3)
-                                                Text(item.itemDescription!)
-                                                    .font(.caption2)
-                                                    .italic()
-                                                    .foregroundColor(Color("primary-gray"))
-                                                    .padding(.top,1)
-                                                    .lineSpacing(2)
-                                            }
-                                            Spacer()
-                                            Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                                .foregroundColor(Color("primary-red"))
-                                                .fontWeight(.bold)
-                                        }
-                                        .padding(.horizontal,-1)
-                                        .padding(.top)
-                                        .swipeActions {
-                                            Button{
-                                                viewModel.deleteItem(for:  item.itemId!)
-                                            } label: {
-                                                Label("", systemImage: "trash")
-                                            }.tint(.red)
-                                        }
-                                        Rectangle()
-                                            .foregroundColor(Color.tertiary_gray)
-                                            .frame(height: 1)
-                                            .padding(.vertical,2)
-                                        
-                                    }
-                                    .listRowSeparator(.hidden)
-                                    .listRowInsets(EdgeInsets())
-                                }
-                                // MARK: Section Kebutuhan
-                                else if categoryShow == .kebutuhan && item.itemTag == "Kebutuhan" {
-                                    VStack{
-                                        HStack(alignment: .top){
-                                            Image(systemName: item.itemImage!)
-                                                .resizable()
-                                                .padding(12)
-                                                .scaledToFit()
-                                                .frame(width: 54,height: 54)
-                                                .background(Color("primary-purple"))
-                                                .cornerRadius(10)
-                                                .foregroundColor(.white)
-                                            VStack(alignment: .leading){
-                                                Text(item.itemName!)
-                                                    .font(.headline)
-                                                    .padding(.bottom,-5)
-                                                Text(item.itemTag!)
-                                                //                                                .font(.caption2)
-                                                    .font(Font.custom("SF Pro", size: 8))
-                                                    .padding(8)
-                                                    .frame(height:15)
-                                                    .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
-                                                    .foregroundColor(.white)
-                                                    .textCase(.uppercase)
-                                                    .cornerRadius(3)
-                                                Text(item.itemDescription!)
-                                                    .font(.caption2)
-                                                    .italic()
-                                                    .foregroundColor(Color("primary-gray"))
-                                                    .padding(.top,1)
-                                                    .lineSpacing(2)
-                                            }
-                                            Spacer()
-                                            Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                                .foregroundColor(Color("primary-red"))
-                                                .fontWeight(.bold)
-                                        }
-                                        .padding(.horizontal,-1)
-                                        .padding(.top)
-                                        .swipeActions {
-                                            Button{
-                                                viewModel.deleteItem(for:  item.itemId!)
-                                            } label: {
-                                                Label("", systemImage: "trash")
-                                            }.tint(.red)
-                                        }
-                                        Rectangle()
-                                            .foregroundColor(Color.tertiary_gray)
-                                            .frame(height: 1)
-                                            .padding(.vertical,2)
-                                        
-                                    }
-                                    .listRowSeparator(.hidden)
-                                    .listRowInsets(EdgeInsets())
-                                }
-                                // MARK: Section Semua
-                                else if categoryShow == .semua {
-                                    VStack{
-                                        HStack(alignment: .top){
-                                            Image(systemName: item.itemImage!)
-                                                .resizable()
-                                                .padding(12)
-                                                .scaledToFit()
-                                                .frame(width: 54,height: 54)
-                                                .background(Color("primary-purple"))
-                                                .cornerRadius(10)
-                                                .foregroundColor(.white)
-                                            VStack(alignment: .leading){
-                                                Text(item.itemName!)
-                                                    .font(.headline)
-                                                    .padding(.bottom,-5)
-                                                Text(item.itemTag!)
-                                                //                                                .font(.caption2)
-                                                    .font(Font.custom("SF Pro", size: 8))
-                                                    .padding(8)
-                                                    .frame(height:15)
-                                                    .background(item.itemTag! == "Kebutuhan" ? Color.tag_purple: Color.tag_pink)
-                                                    .foregroundColor(.white)
-                                                    .textCase(.uppercase)
-                                                    .cornerRadius(3)
-                                                Text(item.itemDescription!)
-                                                    .font(.caption2)
-                                                    .italic()
-                                                    .foregroundColor(Color("primary-gray"))
-                                                    .padding(.top,1)
-                                                    .lineSpacing(2)
-                                            }
-                                            Spacer()
-                                            Text("- \(currencyFormatter.string(from: NSNumber(value: item.itemPrice )) ?? "")")
-                                                .foregroundColor(Color("primary-red"))
-                                                .fontWeight(.bold)
-                                        }
-                                        .padding(.horizontal,-1)
-                                        .padding(.top)
-                                        .swipeActions {
-                                            Button{
-                                                viewModel.deleteItem(for:  item.itemId!)
-                                            } label: {
-                                                Label("", systemImage: "trash")
-                                            }.tint(.red)
-                                        }
-                                        Rectangle()
-                                            .foregroundColor(Color.tertiary_gray)
-                                            .frame(height: 1)
-                                            .padding(.vertical,2)
-                                        
-                                    }
-                                    .listRowSeparator(.hidden)
-                                    .listRowInsets(EdgeInsets())
-                                }
-                            }
-                        }
-                        .listStyle(.plain)
-                        .clipped()
+                        ItemListView(categoryShow: $categoryShow)
                     } else {
+                        // MARK: Show Empty
                         EmptyData(desc: "Belum ada pengeluaran")
                             .foregroundColor(Color.secondary_gray)
                             .background(.white)
@@ -336,6 +80,7 @@ struct ExpenseView: View {
             DispatchQueue.main.async {
                 withAnimation{
                     allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                    userName = viewModel.getName()
                 }
             }
         }.onChange(of: viewModel.calculateAllExpense(for: todayDateComponent), perform: { newValue in

@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 let dateNotif = PassthroughSubject<Date, Never>()
 struct NewItemView: View {
+    private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @Binding var showSheet : Bool
     @StateObject var formVm = addItemFormViewModel()
     @State var newItemImage = UIImage()
@@ -16,7 +17,6 @@ struct NewItemView: View {
     @State var newItemCategory = ""
     @State var newItemTag : String = ""
     @State var newItemDesc : String = ""
-    private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @EnvironmentObject var viewModel : coreDataViewModel
     @FocusState var isFocusedName : Bool
     @FocusState var isFocusedPrice : Bool
@@ -36,6 +36,7 @@ struct NewItemView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .center){
+
                 ScrollView {
                     VStack(alignment: .leading){
                         //                    TextField("SS", text: $const).hidden().focused($isFocusedPrice)
@@ -117,6 +118,17 @@ struct NewItemView: View {
                         
                         
                         Divider()
+                    }
+                    
+                    // MARK: pilih itemCategory
+                    Group {
+                        itemCategoryPicker(newItemCategory: $newItemCategory)
+                    }
+                    
+                    
+                    // MARK:  pilih itemTag needs/wants
+                    Group {
+                        itemTagField(isNeeds: $isNeeds, isWants: $isWants, showQuestions: $showQuestions, newItemTag: $newItemTag)
                         
                         // MARK: nama barang
                         Group {
@@ -346,6 +358,7 @@ struct NewItemView: View {
                         focusedField = nil
                     }
                     
+
                     Spacer()
                 }
                 
@@ -354,7 +367,8 @@ struct NewItemView: View {
                 
             }
             .onAppear{
-                newItemCategory = categories.first!}
+                newItemCategory = categories.first!
+            }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Kembali"){
