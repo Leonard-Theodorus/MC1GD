@@ -14,6 +14,7 @@ struct CategoryChart: View {
     @State var allExpense : Double = 0
     @State var cropedFNB = category.FNB.rawValue.prefix(7)
     @Binding var caseDisplayRange : displayRange
+    @State var titleCard : String = "hari"
     var body: some View {
         
         VStack(alignment: .center) {
@@ -28,13 +29,13 @@ struct CategoryChart: View {
                     .padding(.horizontal,10)
                 
                 VStack(alignment: .trailing){
-                    Text("Pengeluaran hari ini")
+                    Text("Pengeluaran \(titleCard) ini")
                         .foregroundColor(.black)
                         .font(.caption)
                         .fontWeight(.thin)
                     Text(currencyFormatter.string(from: NSNumber(value: allExpense)) ?? "")
                         .foregroundColor(.primary_purple)
-                        .font(.title)
+                        .font(.title2)
                         .fontWeight(.bold)
                         .padding(.bottom,2)
                     HStack(alignment:.top){
@@ -163,6 +164,7 @@ struct CategoryChart: View {
                     DispatchQueue.main.async {
                         data = viewModel.getLastSevenDaysDonutData(startFrom: todayDateComponent)
                         allExpense = viewModel.calculateAllExpense(for: todayDateComponent, by: .byWeek)
+                        titleCard = "7 hari"
                     }
                     
                 }
