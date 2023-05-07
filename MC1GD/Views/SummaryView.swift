@@ -76,7 +76,7 @@ struct SummaryView: View {
                                     .foregroundColor(.primary_purple)
                             }
                             HStack{
-                                DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
+                                DatePicker("",selection: $todayDateComponent,  in: ...Date(), displayedComponents: .date)
                                     .datePickerStyle(.graphical)
                                     .background(
                                         RoundedRectangle(cornerRadius: 20)
@@ -98,6 +98,7 @@ struct SummaryView: View {
                                             }
                                         }
                                     })
+                                    
                                 
                             }.zIndex(4)
                         }
@@ -111,7 +112,7 @@ struct SummaryView: View {
                         .hidden()
                         .frame(width: 0,height: 0)
                     
-                    if needsPercentage.isNaN && wantsPercentage.isNaN {
+                    if viewModel.calculateAllExpense(for: todayDateComponent) == 0 {
                         EmptyData(desc: "Belum ada pengeluaran")
                             .foregroundColor(.secondary_gray)
                     }else{
