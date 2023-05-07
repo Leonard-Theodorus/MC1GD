@@ -10,6 +10,8 @@ import SwiftUI
 struct ItemListView: View {
     @EnvironmentObject var viewModel : coreDataViewModel
     @Binding var categoryShow : CategoryShow
+    @State var confirmButton : Bool
+    
     var body: some View {
         List {
             ForEach(viewModel.userItems){ item in
@@ -57,6 +59,7 @@ struct ItemListView: View {
                             } label: {
                                 Label("", systemImage: "trash")
                             }.tint(.red)
+                            
                         }
                         Rectangle()
                             .foregroundColor(Color.tertiary_gray)
@@ -162,10 +165,24 @@ struct ItemListView: View {
                         .padding(.top)
                         .swipeActions {
                             Button{
-                                viewModel.deleteItem(for:  item.itemId!)
+                                confirmButton.toggle()
                             } label: {
                                 Label("", systemImage: "trash")
-                            }.tint(.red)
+                            }
+                            .tint(.red)
+                        }
+                        .alert(isPresented: self.$confirmButton){
+                            Alert(
+                                title: Text("Apakah kamu yakin?"),
+                                message: Text("Kamu tidak bisa mengubahnya lagi nanti"),
+                                primaryButton: .destructive(Text("Hapus")) {
+                                    viewModel.deleteItem(for: item.itemId!)
+                                },
+                                secondaryButton: .cancel(
+                                    Text("Batal")
+                                        .fontWeight(.regular)
+                                )
+                            )
                         }
                         Rectangle()
                             .foregroundColor(Color.tertiary_gray)
@@ -185,6 +202,6 @@ struct ItemListView: View {
 
 struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemListView(categoryShow: .constant(.semua))
+        ItemListView(categoryShow: .constant(.semua), confirmButton: false)
     }
 }

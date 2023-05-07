@@ -15,6 +15,7 @@ struct NewSavingView: View {
     @State var priceValid: Bool = false
     @State var showDeleteIcon : Bool = false
     @FocusState var isFocusedPrice : Bool
+    @State var confirmButton : Bool = false
     
     var body: some View {
         NavigationView{
@@ -76,8 +77,7 @@ struct NewSavingView: View {
                 }
                 Spacer()
                 Button{
-                    viewModel.addSaving(money: amount, date: todayDateComponent)
-                    showSheet = false
+                    confirmButton.toggle()
                 }label: {
                     Text("+ Tambah")
                         .foregroundColor(Color.white)
@@ -90,7 +90,21 @@ struct NewSavingView: View {
                         .padding()
                 }
                 .disabled(amount == 0)
-                
+                .alert(isPresented: self.$confirmButton){
+                    Alert(
+                        title: Text("Apakah kamu yakin?"),
+                        message: Text("Kamu tidak bisa mengubahnya lagi nanti"),
+                        primaryButton: .default(Text("Tambah").foregroundColor(.blue).fontWeight(.bold)) {
+                            // Perform the actual delete action here
+                            viewModel.addSaving(money: amount, date: todayDateComponent)
+                            showSheet = false
+                        },
+                        secondaryButton: .cancel(
+                            Text("Batal")
+                                .fontWeight(.regular)
+                        )
+                    )
+                }
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {

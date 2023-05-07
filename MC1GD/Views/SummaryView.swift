@@ -135,27 +135,26 @@ struct SummaryView: View {
                                 NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent, caseDisplayRange: $caseDisplayRange).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
                                     .opacity(caseDisplayRange == .byWeek ? 1 : 0)
                             }
-                            
-                            
-                            NavigationLink(destination: TipsView(todayDateComponent: $todayDateComponent, data: $data)) {
-                                Text("Beberapa tips yang dapat Anda ikuti")
-                                    .font(.caption2)
-                                    .fontWeight(.bold)
-                                    .padding(.vertical,8)
-                                    .padding(.horizontal,20)
-                                    .foregroundColor(.white)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 30)
-                                            .stroke(lineWidth: 0)
-                                            .background(Color.primary_purple.cornerRadius(20))
-                                            .shadow(radius: 2, y:2)
-                                            .frame(width:280)
-                                    )
-                                    .padding(.vertical,15)
-                            }
                         }
                         .padding(.top,10)
                         .zIndex(1)
+                    }
+                    
+                    NavigationLink(destination: TipsView(todayDateComponent: $todayDateComponent, data: $data)) {
+                        Text("Beberapa tips yang dapat Anda ikuti")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .padding(.vertical,8)
+                            .padding(.horizontal,20)
+                            .foregroundColor(.white)
+                            .background(
+                                RoundedRectangle(cornerRadius: 30)
+                                    .stroke(lineWidth: 0)
+                                    .background(Color.primary_purple.cornerRadius(20))
+                                    .shadow(radius: 2, y:2)
+                                    .frame(width:280)
+                            )
+                            .padding(.vertical,15)
                     }
                 }
             }

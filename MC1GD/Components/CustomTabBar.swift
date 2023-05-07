@@ -31,6 +31,12 @@ struct CustomTabBar: View {
             }label: {
                 TabBarButton(buttonText: "Tabungan", imageName: "rupiah", isActive: selectedTab == .tabungan)
             }
+            
+//            Button{
+//                selectedTab = .wishlist
+//            }label: {
+//                TabBarButton(buttonText: "Impian", imageName: "moon.stars.fill", isActive: selectedTab == .wishlist)
+//            }
         }
         .frame(height: 58)
         .background(Color.primary_white)

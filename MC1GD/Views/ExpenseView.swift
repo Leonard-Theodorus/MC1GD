@@ -56,7 +56,7 @@ struct ExpenseView: View {
                     .pickerStyle(.segmented)
                     // MARK: Item List
                     if (categoryShow == .semua && !viewModel.userItems.isEmpty) || (categoryShow == .keinginan && !viewModel.userItems.filter{$0.itemTag == "Keinginan"}.isEmpty) || (categoryShow == .kebutuhan && !viewModel.userItems.filter{$0.itemTag == "Kebutuhan"}.isEmpty) {
-                        ItemListView(categoryShow: $categoryShow)
+                        ItemListView(categoryShow: $categoryShow, confirmButton: false)
                     } else {
                         // MARK: Show Empty
                         EmptyData(desc: "Belum ada pengeluaran")
