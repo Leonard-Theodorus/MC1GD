@@ -140,9 +140,6 @@ struct SavingsView: View {
                     .padding(.top)
                     .shadow(color: Color.gray, radius: 4, y: 2)
             }
-            
-            
-            
         }
         .padding(.horizontal,22)
         
