@@ -7,7 +7,6 @@
 
 import Foundation
 import CoreData
-import UIKit
 import SwiftUI
 import SwiftUICharts
 
@@ -22,6 +21,7 @@ class coreDataViewModel : ObservableObject{
     let categoryBarang = category.barang.rawValue
     let dateFormatter = DateFormatter()
     
+    //TODO: Refactor (ini jadi service bkn ViewModel)
     func fetchUser(){
         let request = NSFetchRequest<UserEntity>(entityName: "UserEntity")
         
@@ -239,7 +239,7 @@ class coreDataViewModel : ObservableObject{
         )
     }
     
-    func getLastSevenDaysData(startFrom date : Date) -> [barChartData]{
+    func getLastSevenDaysData(startFrom date : Date) -> [BarchartData]{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         let validDates = date.getDatesForLastNDays(startDate: date, nDays: 7)
@@ -255,7 +255,7 @@ class coreDataViewModel : ObservableObject{
             }
         }
         let containingDates = itemForChart.map({$0.itemAddedDate})
-        var barChartData : [barChartData] = []
+        var barChartData : [BarchartData] = []
         for validDate in validDates {
             if !containingDates.contains(validDate){
                 barChartData.append(.init(day: validDate, expense: 0, tag: "Keinginan"))
@@ -285,8 +285,9 @@ class coreDataViewModel : ObservableObject{
         }
         return barChartData
     }
-    func getAllDataBarChart(for date : Date) -> [barChartData]{
-        var barChartData : [barChartData] = []
+    
+    func getAllDataBarChart(for date : Date) -> [BarchartData]{
+        var barChartData : [BarchartData] = []
         for item in userItems{
             barChartData.append(.init(day: item.itemAddedDate ?? Date().formatDateFrom(for: Date()), expense: item.itemPrice, tag: item.itemTag ?? ""))
         }
@@ -315,7 +316,6 @@ class coreDataViewModel : ObservableObject{
         
     }
     
-    
     func fetchAllItem(){
         let request = NSFetchRequest<ItemEntity>(entityName: "ItemEntity")
         withAnimation(Animation.default) {
@@ -327,6 +327,7 @@ class coreDataViewModel : ObservableObject{
             }
         }
     }
+    
     func addNewItem(date: Date, price : Double, itemName : String, itemDescription : String, itemCategory : String, itemTag : String){
         withAnimation(Animation.default) {
             let newItem = ItemEntity(context: manager.container.viewContext)
@@ -373,6 +374,7 @@ class coreDataViewModel : ObservableObject{
         }
         
     }
+    
     func deleteItem(for itemId : String){
         withAnimation {
             let itemToBeDeleted = userItems.first(where: {$0.itemId == itemId})
@@ -381,10 +383,12 @@ class coreDataViewModel : ObservableObject{
             save()
         }
     }
+    
     func encodeImage(for selectedImage : UIImage) -> Data {
         let convertedImage = selectedImage.jpegData(compressionQuality: 1.0)
         return convertedImage!
     }
+    
     func save(){
         withAnimation(Animation.default) {
             do{
@@ -395,6 +399,7 @@ class coreDataViewModel : ObservableObject{
             }
         }
     }
+    
     public func chartDummyData() -> DoughnutChartData{
         let data = PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: "")
         
@@ -454,6 +459,7 @@ class coreDataViewModel : ObservableObject{
             noDataText     : Text("No Data")
         )
     }
+    
     public init(){
         fetchItems(for: Date())
     }

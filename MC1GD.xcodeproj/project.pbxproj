@@ -40,6 +40,7 @@
 		D753EC5829F66E79007C3F31 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5729F66E79007C3F31 /* CurrencyFormatter.swift */; };
 		D753EC5A29F66E92007C3F31 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D753EC5929F66E92007C3F31 /* DateExtension.swift */; };
 		D755B0272A0286A10013C7FA /* NoBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D755B0262A0286A10013C7FA /* NoBarChartView.swift */; };
+		D7638B452B35D5C7007013CA /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7638B442B35D5C7007013CA /* EditItemView.swift */; };
 		D780C6D729FA584F007BF480 /* AddItemFromViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C6D629FA584F007BF480 /* AddItemFromViewModel.swift */; };
 		D780C6DB29FD233D007BF480 /* CategoryEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C6DA29FD233D007BF480 /* CategoryEnum.swift */; };
 		D780C6DF29FE8411007BF480 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C6DE29FE8411007BF480 /* ColorExtension.swift */; };
@@ -47,6 +48,7 @@
 		D780C71F29FEA41F007BF480 /* BarChartDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C71E29FEA41F007BF480 /* BarChartDataModel.swift */; };
 		D780C72129FEF6EA007BF480 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C72029FEF6EA007BF480 /* ArrayExtension.swift */; };
 		D780C72329FF0BE2007BF480 /* QuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D780C72229FF0BE2007BF480 /* QuestionsView.swift */; };
+		D796F7512B35D169005CEE9E /* CoreData+CRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D796F7502B35D169005CEE9E /* CoreData+CRUD.swift */; };
 		D7B81C1729F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */; };
 		D7C4AB3B2A014F6C00FD76BF /* HorizontalProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C4AB3A2A014F6C00FD76BF /* HorizontalProgressBar.swift */; };
 		D7F9023F2A06509200D842AA /* CurrencyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F9023E2A06509200D842AA /* CurrencyExtension.swift */; };
@@ -114,6 +116,7 @@
 		D753EC5729F66E79007C3F31 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		D753EC5929F66E92007C3F31 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		D755B0262A0286A10013C7FA /* NoBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBarChartView.swift; sourceTree = "<group>"; };
+		D7638B442B35D5C7007013CA /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
 		D780C6D629FA584F007BF480 /* AddItemFromViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemFromViewModel.swift; sourceTree = "<group>"; };
 		D780C6DA29FD233D007BF480 /* CategoryEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEnum.swift; sourceTree = "<group>"; };
 		D780C6DE29FE8411007BF480 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -121,6 +124,7 @@
 		D780C71E29FEA41F007BF480 /* BarChartDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDataModel.swift; sourceTree = "<group>"; };
 		D780C72029FEF6EA007BF480 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		D780C72229FF0BE2007BF480 /* QuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsView.swift; sourceTree = "<group>"; };
+		D796F7502B35D169005CEE9E /* CoreData+CRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreData+CRUD.swift"; sourceTree = "<group>"; };
 		D7B81C1629F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerAndCamera.swift; sourceTree = "<group>"; };
 		D7C4AB3A2A014F6C00FD76BF /* HorizontalProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalProgressBar.swift; sourceTree = "<group>"; };
 		D7F9023E2A06509200D842AA /* CurrencyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyExtension.swift; sourceTree = "<group>"; };
@@ -238,6 +242,7 @@
 				B18990402A021BD500260C10 /* WelcomeScreen.swift */,
 				D755B0262A0286A10013C7FA /* NoBarChartView.swift */,
 				D45D2D5B2A03A07C0098BFB6 /* SavingsView.swift */,
+				D7638B442B35D5C7007013CA /* EditItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -245,7 +250,7 @@
 		D753EC4529F66C4B007C3F31 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				D753EC4829F66DAC007C3F31 /* CoreDataViewModel.swift */,
+				D796F74F2B35D15A005CEE9E /* CoreData */,
 				D780C6D629FA584F007BF480 /* AddItemFromViewModel.swift */,
 			);
 			path = ViewModel;
@@ -299,6 +304,15 @@
 				D7F902402A06614200D842AA /* TextFieldEnum.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		D796F74F2B35D15A005CEE9E /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				D753EC4829F66DAC007C3F31 /* CoreDataViewModel.swift */,
+				D796F7502B35D169005CEE9E /* CoreData+CRUD.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -456,6 +470,7 @@
 				D780C71F29FEA41F007BF480 /* BarChartDataModel.swift in Sources */,
 				D755B0272A0286A10013C7FA /* NoBarChartView.swift in Sources */,
 				B13ED56229F856A000491CFF /* RootView.swift in Sources */,
+				D796F7512B35D169005CEE9E /* CoreData+CRUD.swift in Sources */,
 				D45D2D5C2A03A07C0098BFB6 /* SavingsView.swift in Sources */,
 				D780C72129FEF6EA007BF480 /* ArrayExtension.swift in Sources */,
 				B18990412A021BD500260C10 /* WelcomeScreen.swift in Sources */,
@@ -465,6 +480,7 @@
 				D753EC4B29F66DDA007C3F31 /* AddItemButton.swift in Sources */,
 				B1475EF62A03567A00D41BED /* PageEnum.swift in Sources */,
 				D753EC2229F66C29007C3F31 /* MC1GD.xcdatamodeld in Sources */,
+				D7638B452B35D5C7007013CA /* EditItemView.swift in Sources */,
 				D7F902412A06614200D842AA /* TextFieldEnum.swift in Sources */,
 				D465C76D2A017CDE00447757 /* TipsView.swift in Sources */,
 				D7B81C1729F8F0F0002E5EF9 /* PhotoPickerAndCamera.swift in Sources */,
@@ -655,7 +671,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.test1.berUang;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Leee.berUang;
 				PRODUCT_NAME = berUang;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -685,7 +701,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.test1.berUang;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Leee.berUang;
 				PRODUCT_NAME = berUang;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

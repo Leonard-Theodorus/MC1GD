@@ -19,7 +19,7 @@ struct AddItemButton: View {
         }
         .controlSize(.large)
         .sheet(isPresented: $showSheet) {
-            NewItemView(showSheet: $showSheet, todayDateComponent: $todayDateComponent)
+            NewItemView(edit: .constant(false), showSheet: $showSheet, todayDateComponent: $todayDateComponent)
         }
     }
 }

@@ -5,10 +5,11 @@
 //  Created by Leonard Theodorus on 04/05/23.
 //
 
-import Foundation
 import UserNotifications
-struct notificationModel {
-    static let instance = notificationModel()
+
+struct NotificationManager {
+    static let instance = NotificationManager()
+    
     func setupNotifications(username : String){
         let notifId = "Notif1"
         let center = UNUserNotificationCenter.current()

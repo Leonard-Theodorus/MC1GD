@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class addItemFormViewModel : ObservableObject{
+class FormViewModel : ObservableObject {
     @Published var textCount : Int = 0
     @Published var itemName = ""
     @Published var textIsValid = false
@@ -21,6 +21,7 @@ class addItemFormViewModel : ObservableObject{
     func deleteText(){
         self.itemName = ""
     }
+    
     func itemNameSubsriber(){
         $itemName.map{ (text) -> Bool in
             if text.first == " " || text.last == " "{
@@ -39,6 +40,7 @@ class addItemFormViewModel : ObservableObject{
         })
         .store(in: &cancellables)
     }
+    
     func deleteButtonSubscriber(){
         $textIsValid.combineLatest($textCount)
             .sink { [weak self] (isValid, count) in

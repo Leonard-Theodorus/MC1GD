@@ -24,12 +24,13 @@ struct YTView_Previews: PreviewProvider {
     }
 }
 
-struct Video:UIViewRepresentable{
+struct Video: UIViewRepresentable{
     let videoID: String
     
     func makeUIView(context: Context) -> some WKWebView {
         return WKWebView()
     }
+    
     func updateUIView(_ uiView: UIViewType, context: Context) {
         guard let YoutubeURL = URL(string: "https://www.youtube.com/embed/\(videoID)")else
         {return}

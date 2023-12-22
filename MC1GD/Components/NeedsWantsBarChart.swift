@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 struct NeedsWantsBarChart: View {
     @EnvironmentObject var viewModel : coreDataViewModel
-    @State var chartData : [barChartData] = []
+    @State var chartData : [BarchartData] = []
     @State var uniqueDates : [Date] = []
     @State var chartDate : [Date] = []
     @Binding var needsPercentage : Double

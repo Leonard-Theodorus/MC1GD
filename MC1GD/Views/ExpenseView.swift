@@ -85,8 +85,10 @@ struct ExpenseView: View {
                 }
             }
         }.onChange(of: viewModel.calculateAllExpense(for: todayDateComponent), perform: { newValue in
-            withAnimation {
-                allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+            DispatchQueue.main.async {
+                withAnimation {
+                    allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
+                }
             }
         })
         

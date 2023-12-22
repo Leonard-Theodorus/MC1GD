@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct itemNameTextField: View {
-    @StateObject var formVm : addItemFormViewModel
+    @StateObject var formVm : FormViewModel
     var body: some View {
         Text("Aa")
             .font(.headline)
@@ -36,6 +36,6 @@ struct itemNameTextField: View {
 
 struct itemNameTextField_Previews: PreviewProvider {
     static var previews: some View {
-        itemNameTextField(formVm: addItemFormViewModel())
+        itemNameTextField(formVm: FormViewModel())
     }
 }

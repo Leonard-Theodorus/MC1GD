@@ -11,6 +11,15 @@ struct ItemListView: View {
     @EnvironmentObject var viewModel : coreDataViewModel
     @Binding var categoryShow : CategoryShow
     @State var confirmButton : Bool
+    @State var showSheet : Bool = false
+    @State var selectedDateComponent : Date = Date()
+    
+    @State var newItemName : String = ""
+    @State var newItemPrice : String = ""
+    @State var newItemCategory : String = ""
+    @State var newItemTag : String = ""
+    @State var newItemDesc : String = ""
+    @State var itemPriceInDouble : Double = 0
     
     var body: some View {
         List {
@@ -55,10 +64,34 @@ struct ItemListView: View {
                         .padding(.top)
                         .swipeActions {
                             Button{
+                                //TODO: Add view model edit
+                                showSheet.toggle()
+                                let formatter = DateFormatter()
+                                formatter.dateFormat = "yyyyMMdd"
+                                if let itemDate = item.itemAddedDate ,let currentItemDate = formatter.date(from: itemDate){
+                                    selectedDateComponent = currentItemDate
+                                }
+                                newItemPrice = String(item.itemPrice)
+                                newItemCategory = item.itemCategory!
+                                newItemTag = item.itemTag!
+                                newItemDesc = item.itemDescription!
+                                newItemName = item.itemName!
+                                itemPriceInDouble = item.itemPrice
+                                
+                            } label: {
+                                Label("", systemImage: "pencil")
+                            }
+                            .tint(.yellow)
+                            Button{
                                 viewModel.deleteItem(for:  item.itemId!)
                             } label: {
                                 Label("", systemImage: "trash")
                             }.tint(.red)
+                            
+                            
+                        }
+                        .sheet(isPresented: $showSheet) {
+                            EditItemView(showSheet: $showSheet, newItemPrice: $newItemPrice, num: $itemPriceInDouble, newItemCategory: $newItemCategory, newItemTag: $newItemTag, newItemDesc: $newItemDesc, newItemName: $newItemName, itemId: item.itemId!, todayDateComponent: $selectedDateComponent)
                             
                         }
                         Rectangle()
@@ -110,10 +143,33 @@ struct ItemListView: View {
                         .padding(.top)
                         .swipeActions {
                             Button{
+                                //TODO: Add view model edit
+                                showSheet.toggle()
+                                let formatter = DateFormatter()
+                                formatter.dateFormat = "yyyyMMdd"
+                                if let itemDate = item.itemAddedDate ,let currentItemDate = formatter.date(from: itemDate){
+                                    selectedDateComponent = currentItemDate
+                                }
+                                newItemPrice = String(item.itemPrice)
+                                newItemCategory = item.itemCategory!
+                                newItemTag = item.itemTag!
+                                newItemDesc = item.itemDescription!
+                                newItemName = item.itemName!
+                                itemPriceInDouble = item.itemPrice
+                            } label: {
+                                Label("", systemImage: "pencil")
+                            }
+                            .tint(.yellow)
+                            
+                            Button{
                                 viewModel.deleteItem(for:  item.itemId!)
                             } label: {
                                 Label("", systemImage: "trash")
                             }.tint(.red)
+                        }
+                        .sheet(isPresented: $showSheet) {
+                            EditItemView(showSheet: $showSheet, newItemPrice: $newItemPrice, num: $itemPriceInDouble, newItemCategory: $newItemCategory, newItemTag: $newItemTag, newItemDesc: $newItemDesc, newItemName: $newItemName, itemId: item.itemId!, todayDateComponent: $selectedDateComponent)
+                            
                         }
                         Rectangle()
                             .foregroundColor(Color.tertiary_gray)
@@ -165,11 +221,35 @@ struct ItemListView: View {
                         .padding(.top)
                         .swipeActions {
                             Button{
+                                //TODO: Add view model edit
+                                showSheet.toggle()
+                                let formatter = DateFormatter()
+                                formatter.dateFormat = "yyyyMMdd"
+                                if let itemDate = item.itemAddedDate ,let currentItemDate = formatter.date(from: itemDate){
+                                    selectedDateComponent = currentItemDate
+                                }
+                                newItemPrice = String(Int(item.itemPrice))
+                                newItemCategory = item.itemCategory!
+                                newItemTag = item.itemTag!
+                                newItemDesc = item.itemDescription!
+                                newItemName = item.itemName!
+                                itemPriceInDouble = item.itemPrice
+                                
+                            } label: {
+                                Label("", systemImage: "pencil")
+                            }
+                            .tint(.yellow)
+                            
+                            Button{
                                 confirmButton.toggle()
                             } label: {
                                 Label("", systemImage: "trash")
                             }
                             .tint(.red)
+                        }
+                        .sheet(isPresented: $showSheet) {
+                            EditItemView(showSheet: $showSheet, newItemPrice: $newItemPrice, num: $itemPriceInDouble, newItemCategory: $newItemCategory, newItemTag: $newItemTag, newItemDesc: $newItemDesc, newItemName: $newItemName, itemId: item.itemId!, todayDateComponent: $selectedDateComponent)
+                            
                         }
                         .alert(isPresented: self.$confirmButton){
                             Alert(

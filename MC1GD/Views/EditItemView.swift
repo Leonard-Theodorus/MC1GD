@@ -1,38 +1,42 @@
 //
-//  NewItemView.swift
+//  EditItemView.swift
 //  MC1GD
 //
-//  Created by Leonard Theodorus on 24/04/23.
+//  Created by Alonica🐦‍⬛🐺 on 22/12/23.
 //
 
 import SwiftUI
 import Combine
-let dateNotif = PassthroughSubject<Date, Never>()
-struct NewItemView: View {
-    @Binding var edit : Bool
+struct EditItemView: View {
     private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
+    @FocusState private var focusedField: Field?
     @Binding var showSheet : Bool
     @StateObject var formVm = FormViewModel()
     @State var newItemImage = UIImage()
-    @State var newItemPrice = ""
-    @State var newItemCategory = ""
-    @State var newItemTag : String = ""
-    @State var newItemDesc : String = ""
+    
+    @Binding var newItemPrice : String
+    @Binding var num : Double
+    @Binding var newItemCategory : String
+    @Binding var newItemTag : String
+    @Binding var newItemDesc : String
+    @Binding var newItemName : String
+    var itemId : String
+
+    
     @EnvironmentObject var viewModel : coreDataViewModel
     @FocusState var isFocusedName : Bool
     @FocusState var isFocusedPrice : Bool
     @FocusState var isFocusedDesc : Bool
-    @State var isNeeds = false
-    @State var isWants = false
+    @State var isNeeds : Bool = false
+    @State var isWants : Bool = false
     @State private var maxChars: Int = 50
     @State var isZeroPrice: Bool = false
     @State var showQuestions = false
     @Binding var todayDateComponent : Date
     @State var showDatePicker : Bool = false
     @State var showDeleteIcon : Bool = false
-    @State var priceValid : Bool = false
-    @State var num : Double = 0
-    @FocusState private var focusedField: Field?
+    @State var priceValid : Bool = true
+    
     
     var body: some View {
         NavigationView {
@@ -85,7 +89,7 @@ struct NewItemView: View {
                             }
                         }
                         Divider()
-                                               
+                        
                         
                         // MARK: pilih itemCategory
                         Group {
@@ -142,7 +146,16 @@ struct NewItemView: View {
                 }
             }
             .onAppear{
-                newItemCategory = categories.first!
+                formVm.itemName = newItemName
+                formVm.textIsValid = true
+                formVm.buttonDeleteOn = true
+                if newItemTag == "Kebutuhan"{
+                    isNeeds.toggle()
+                }
+                else{
+                    isWants.toggle()
+                }
+                
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -156,8 +169,8 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Simpan"){
-                        viewModel.addNewItem(date: todayDateComponent, price: newItemPrice.stripComma(for: newItemPrice), itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
-                        
+                        viewModel.editExpense(itemId: itemId, newDate: todayDateComponent, newPrice: newItemPrice, newName: formVm.itemName, newDescription: newItemDesc, newCategory: newItemCategory, newItemTag: newItemTag)
+                       
                         dateNotif.send(todayDateComponent)
                         showSheet = false
                     }
@@ -165,13 +178,9 @@ struct NewItemView: View {
                 }
             }
         }
-        
     }
-    
-    
-//    struct NewItemView_Previews: PreviewProvider {
-//        static var previews: some View {
-//            NewItemView(showSheet: .constant(false), todayDateComponent: .constant(Date()))
-//        }
-//    }
 }
+
+//#Preview {
+//    EditItemView()
+//}

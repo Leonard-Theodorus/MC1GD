@@ -21,7 +21,7 @@ struct RootView: View {
                         viewModel.fetchUser()
                     }
                     .onDisappear{
-                        notificationModel.instance.setupNotifications(username: viewModel.getName())
+                        NotificationManager.instance.setupNotifications(username: viewModel.getName())
                     }
                     
             }else{

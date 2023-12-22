@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct barChartData : Identifiable{
+struct BarchartData : Identifiable{
     let id = UUID()
     let date : Date
     let expense : Double
