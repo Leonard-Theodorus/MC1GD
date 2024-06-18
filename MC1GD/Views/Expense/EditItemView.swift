@@ -164,7 +164,7 @@ struct EditItemView: View {
                     }
                 }
                 ToolbarItem(placement: .principal) {
-                    Text("Tambah Pengeluaran").font(.headline)
+                    Text("Sunting Pengeluaran").font(.headline)
                     
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
