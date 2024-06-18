@@ -36,7 +36,7 @@ struct HelloCard: View {
         .foregroundColor(.white)
         .background(
             ZStack{
-                LinearGradient(colors: [Color("secondary-purple"),Color("primary-purple")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                LinearGradient(colors: [Color.secondary_purple, Color.primary_purple], startPoint: .topLeading, endPoint: .bottomTrailing)
                 HStack{
                     Spacer()
                     VStack{

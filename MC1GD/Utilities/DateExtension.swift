@@ -21,6 +21,7 @@ extension Date{
         let calendar = Calendar.current
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "LLLL"
+        dateFormatter.locale = Locale(identifier: "ID")
         let day = calendar.component(.day, from: date)
         let month = dateFormatter.string(from: date)
         var cropedMonth :String = ""
@@ -34,6 +35,7 @@ extension Date{
     func formatDateFull(for date : Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMM yyyy"
+        dateFormatter.locale = Locale(identifier: "ID")
         let dateFormatted = dateFormatter.string(from: date)
         return dateFormatted
     }
@@ -53,6 +55,7 @@ extension Date{
             date = cal.date(byAdding: Calendar.Component.day, value: -1, to: date)!
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyyMMdd"
+            dateFormatter.locale = Locale(identifier: "ID")
             let dateString = dateFormatter.string(from: date)
             arrDates.append(dateString)
         }

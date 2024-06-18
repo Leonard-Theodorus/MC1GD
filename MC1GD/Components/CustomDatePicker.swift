@@ -37,6 +37,7 @@ struct CustomDatePicker: View {
             HStack(alignment: .center){
                 DatePicker("",selection: $todayDateComponent, displayedComponents: .date)
                     .datePickerStyle(.graphical)
+                    .environment(\.locale, Locale.init(identifier: "ID"))
                     .background(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(lineWidth: 0)

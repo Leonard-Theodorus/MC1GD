@@ -283,5 +283,6 @@ struct ItemListView: View {
 struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
         ItemListView(categoryShow: .constant(.semua), confirmButton: false)
+            .environmentObject(coreDataViewModel())
     }
 }
