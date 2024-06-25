@@ -7,35 +7,33 @@
 
 import SwiftUI
 import Combine
-struct EditItemView: View {
-    private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
-    @FocusState private var focusedField: Field?
-    @Binding var showSheet : Bool
-    @StateObject var formVm = FormViewModel()
-    @State var newItemImage = UIImage()
-    
-    @Binding var newItemPrice : String
-    @Binding var num : Double
-    @Binding var newItemCategory : String
-    @Binding var newItemTag : String
-    @Binding var newItemDesc : String
-    @Binding var newItemName : String
-    var itemId : String
 
+struct EditItemView: View {
     
-    @EnvironmentObject var viewModel : coreDataViewModel
+    @FocusState private var focusedField: Field?
     @FocusState var isFocusedName : Bool
     @FocusState var isFocusedPrice : Bool
     @FocusState var isFocusedDesc : Bool
+
+    @Binding var showSheet : Bool
+    
+    @Binding var num : Double
+    
+    @Binding var newItemDesc : String
+
+    @Binding var presenter : ExpenseListPresenter
+    
+    @State var inputValid : Bool = true
     @State var isNeeds : Bool = false
     @State var isWants : Bool = false
     @State private var maxChars: Int = 50
     @State var isZeroPrice: Bool = false
     @State var showQuestions = false
-    @Binding var todayDateComponent : Date
     @State var showDatePicker : Bool = false
     @State var showDeleteIcon : Bool = false
     @State var priceValid : Bool = true
+    
+    @State var updatedExpense : UserExpense
     
     
     var body: some View {
@@ -46,11 +44,17 @@ struct EditItemView: View {
                         // MARK: harga barang
                         Group{
                             HStack{
-                                ItemPriceTextField(newItemPrice: $newItemPrice, num: $num, priceValid: $priceValid)
-                                    .focused($focusedField, equals: Field.itemPrice)
-                                    .onTapGesture {
-                                        focusedField = Field.itemPrice
-                                    }
+                                ItemPriceTextField(newItemPrice: Binding(
+                                    get: {
+                                        updatedExpense.expensePrice
+                                    },
+                                    set: { newExpense in
+                                        updatedExpense.expensePrice = newExpense
+                                    }),num: $num, priceValid: $priceValid)
+                                .focused($focusedField, equals: Field.itemPrice)
+                                .onTapGesture {
+                                    focusedField = Field.itemPrice
+                                }
                             }
                             .padding(.bottom, 5)
                             if !priceValid && focusedField == .itemPrice{
@@ -71,19 +75,25 @@ struct EditItemView: View {
                         // MARK: Nama Barang
                         Group{
                             HStack {
-                                itemNameTextField(formVm: formVm)
+                                //TODO: Benerin FORM VM (Mungkin refactor jadi plain SwiftUI
+                                ItemNameTextField(expenseName : Binding(
+                                    get: {
+                                        updatedExpense.expenseName
+                                    }, set: { newExpenseName in
+                                        updatedExpense.expenseName = newExpenseName
+                                    }), inputValid: $inputValid)
                                     .focused($focusedField, equals: Field.itemName)
                                     .onTapGesture {
                                         focusedField = Field.itemName
                                     }
                             }.padding(.vertical, 5)
-                            if !formVm.textIsValid && focusedField == .itemName{
+                            if !inputValid && focusedField == .itemName{
                                 Text("Harus diisi, tidak diawali ataupun diakhiri dengan spasi")
                                     .foregroundColor(.red)
                                     .font(.caption2)
                                     .multilineTextAlignment(.leading)
                                     .padding(.leading,60)
-                            }else if formVm.textIsValid && focusedField == .itemName {
+                            }else if inputValid && focusedField == .itemName {
                                 Image(systemName: "checkmark").foregroundColor(.green)
                                     .padding(.horizontal,15)
                             }
@@ -93,11 +103,38 @@ struct EditItemView: View {
                         
                         // MARK: pilih itemCategory
                         Group {
-                            itemCategoryPicker(newItemCategory: $newItemCategory)
+                            ExpenseCategoryPicker(newItemCategory: Binding(
+                                get: {
+                                    guard let editingExpenseCategory = ExpenseCategory(rawValue: updatedExpense.expenseCategory)
+                                    else { return .fnb}
+                                    return editingExpenseCategory
+                                },
+                                set: { newCategory in
+                                    switch newCategory{
+                                        case .fnb:
+                                            updatedExpense.imageString = "fork.knife"
+                                        case .transport:
+                                            updatedExpense.imageString = "tram.fill"
+                                        case .item:
+                                            updatedExpense.imageString = "bag"
+                                            
+                                    }
+                                    updatedExpense.expenseCategory = newCategory.rawValue
+                                }
+                            ))
                         }
                         // MARK:  pilih itemTag needs/wants
                         Group {
-                            itemTagField(isNeeds: $isNeeds, isWants: $isWants, showQuestions: $showQuestions, newItemTag: $newItemTag)
+                            ItemTagField(
+                                isNeeds: $isNeeds,
+                                isWants: $isWants,
+                                showQuestions: $showQuestions,
+                                newItemTag: Binding(
+                                    get: {
+                                        updatedExpense.expenseTag
+                                    }, set: { newTag in
+                                        updatedExpense.expenseTag = newTag
+                                    }))
                         }
                         // MARK:  input deskripsi item
                         Group {
@@ -107,7 +144,16 @@ struct EditItemView: View {
                                         .imageScale(.large)
                                         .foregroundColor(Color.primary_gray)
                                         .padding(.horizontal,15)
-                                    TextField("Deskripsi (50 Karakter)", text: $newItemDesc, axis: .vertical)
+                                    TextField(
+                                        "Deskripsi (50 Karakter)",
+                                        text: Binding(
+                                            get: {
+                                                updatedExpense.expenseDescription
+                                            }, set: { newDesc in
+                                                updatedExpense.expenseDescription = newDesc
+                                            }),
+                                        axis: .vertical
+                                    )
                                         .focused($isFocusedDesc)
                                         .lineLimit(5, reservesSpace: true)
                                         .disableAutocorrection(true)
@@ -133,7 +179,18 @@ struct EditItemView: View {
                         
                         // MARK: select tanggal
                         Group{
-                            datePickerField(showDatePicker: $showDatePicker, todayDateComponent: $todayDateComponent)
+                            DatePickerFormField(
+                                showDatePicker: $showDatePicker,
+                                todayDateComponent: Binding(
+                                    get: {
+                                        let formatter = DateFormatter()
+                                        formatter.dateFormat = "yyyyMMdd"
+                                        let expenseDate = formatter.date(from: updatedExpense.expenseDate)
+                                        return expenseDate!
+                                    }, set: { newDate  in
+                                        updatedExpense.expenseDate = newDate.formatExpenseDate(for: newDate)
+                                    })
+                            )
                         }
                     }
                     .padding(.horizontal,20)
@@ -146,10 +203,11 @@ struct EditItemView: View {
                 }
             }
             .onAppear{
-                formVm.itemName = newItemName
-                formVm.textIsValid = true
-                formVm.buttonDeleteOn = true
-                if newItemTag == "Kebutuhan"{
+                let currencyCodeIndex = updatedExpense.expensePrice.index(
+                    updatedExpense.expensePrice.startIndex, offsetBy: 2)
+                updatedExpense.expensePrice = String(updatedExpense.expensePrice[currencyCodeIndex...])
+
+                if updatedExpense.expenseTag == "Kebutuhan"{
                     isNeeds.toggle()
                 }
                 else{
@@ -169,12 +227,13 @@ struct EditItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Simpan"){
-                        viewModel.editExpense(itemId: itemId, newDate: todayDateComponent, newPrice: newItemPrice, newName: formVm.itemName, newDescription: newItemDesc, newCategory: newItemCategory, newItemTag: newItemTag)
-                       
-                        dateNotif.send(todayDateComponent)
+                        presenter.editExpense(expense: updatedExpense)
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "yyyyMMdd"
+                        dateNotif.send(formatter.date(from: updatedExpense.expenseDate)!)
                         showSheet = false
                     }
-                    .disabled(!formVm.textIsValid || !priceValid || newItemTag == "")
+                    .disabled(!inputValid || !priceValid || updatedExpense.expenseTag == "")
                 }
             }
         }

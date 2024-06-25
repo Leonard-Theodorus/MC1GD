@@ -1,22 +1,23 @@
 
 import SwiftUI
 
-enum CategoryShow : Int{
-    case semua = 0
-    case keinginan = 1
-    case kebutuhan = 2
-}
 
 struct ExpenseView: View {
-    @State private var userName : String = ""
+    
+    @State var presenter : ExpenseListPresenter
+    
     @State private var showSheet = false
-    @EnvironmentObject var viewModel : coreDataViewModel
     @Binding var todayDateComponent : Date
+    @Binding var userName : String
+
     @State private var stringDate = ""
     @State private var showDatePicker = false
-    @State private var categoryShow : CategoryShow = .semua
+    @State private var categoryShow : CategoryPicker = .semua
     @State var allExpense : Double = 0
     @State var datebutton : Double = 0
+    
+    @State var userExpenses : [UserExpense] = []
+    
     
     var body: some View {
         VStack(alignment: .leading){
@@ -26,7 +27,7 @@ struct ExpenseView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 Spacer()
-                AddItemButton(todayDateComponent: $todayDateComponent)
+                AddItemButton(todayDateComponent: $todayDateComponent, presenter: $presenter)
             }
             // MARK: Hello Card
             HelloCard(allExpense: $allExpense, userName: $userName)
@@ -40,7 +41,7 @@ struct ExpenseView: View {
                         .frame(width: 100)
                     Spacer()
                     // MARK: Customized date picker
-                    CustomDatePicker(todayDateComponent: $todayDateComponent, showDatePicker: $showDatePicker, allExpense: $allExpense)
+                    CustomDatePicker(todayDateComponent: $todayDateComponent, showDatePicker: $showDatePicker, allExpense: $allExpense, presenter: $presenter)
                         .frame(width:85,height:30)
                         .zIndex(3)
                 }
@@ -48,22 +49,32 @@ struct ExpenseView: View {
                 // MARK: Segmented
                 VStack{
                     Picker("Category", selection: $categoryShow){
-                        Text("Semua").tag(CategoryShow.semua)
-                        Text("Keinginan").tag(CategoryShow.keinginan)
-                        Text("Kebutuhan").tag(CategoryShow.kebutuhan)
+                        Text("Semua").tag(CategoryPicker.semua)
+                        Text("Keinginan").tag(CategoryPicker.keinginan)
+                        Text("Kebutuhan").tag(CategoryPicker.kebutuhan)
                     }
                     .zIndex(1)
                     .pickerStyle(.segmented)
                     // MARK: Item List
-                    if (categoryShow == .semua && !viewModel.userItems.isEmpty) || (categoryShow == .keinginan && !viewModel.userItems.filter{$0.itemTag == "Keinginan"}.isEmpty) || (categoryShow == .kebutuhan && !viewModel.userItems.filter{$0.itemTag == "Kebutuhan"}.isEmpty) {
-                        ItemListView(categoryShow: $categoryShow, confirmButton: false)
-                    } else {
+                    if userExpenses.isEmpty {
                         // MARK: Show Empty
                         EmptyData(desc: "Belum ada pengeluaran")
                             .foregroundColor(Color.secondary_gray)
                             .background(.white)
                             .padding(.top)
                     }
+                    switch categoryShow {
+                        case .semua:
+                            ItemListView(expenses: $userExpenses, presenter: $presenter)
+                        case .keinginan:
+                            @State var expensesTaggedWants = userExpenses.filter{$0.expenseTag == "Keinginan"}
+                            ItemListView(expenses: $expensesTaggedWants, presenter: $presenter )
+                        case .kebutuhan:
+                            @State var expensesTaggedNeeds = userExpenses.filter{$0.expenseTag == "Kebutuhan"}
+                            ItemListView(expenses: $expensesTaggedNeeds, presenter: $presenter)
+                    }
+                    
+                    
                 }
                 Spacer()
             }
@@ -78,28 +89,28 @@ struct ExpenseView: View {
         }
         .padding(.horizontal,22)
         .onAppear{
-            DispatchQueue.main.async {
-                withAnimation{
-                    allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
-                    userName = viewModel.getName()
+            if userExpenses.isEmpty{
+                //FIXME: Kalo bisa jangan ditaro sini
+                let expenseInteractor = ExpenseInteractorImplementation()
+                presenter.view = self
+                presenter.interactor = expenseInteractor
+                presenter.interactor?.output = presenter as? ExpenseListPresenterImplementation
+                DispatchQueue.main.async {
+                    withAnimation {
+                        presenter.fetchExpense(date : todayDateComponent.formatExpenseDate(for: todayDateComponent))
+                    }
                 }
+       
             }
-        }.onChange(of: viewModel.calculateAllExpense(for: todayDateComponent), perform: { newValue in
-            DispatchQueue.main.async {
-                withAnimation {
-                    allExpense = viewModel.calculateAllExpense(for: todayDateComponent)
-                }
-            }
-        })
-        
+        }
     }
 }
 
-struct ExpenseView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExpenseView(todayDateComponent: .constant(Date()))
-            .environmentObject(coreDataViewModel())
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-        
+extension ExpenseView : ExpensePresenterToView {
+    func finishLoading(expenses: [UserExpense], totalExpense : Double) {
+        withAnimation {
+            userExpenses = expenses
+            allExpense = totalExpense
+        }
     }
 }

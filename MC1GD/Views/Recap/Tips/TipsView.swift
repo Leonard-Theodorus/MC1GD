@@ -9,10 +9,7 @@ import WebKit
 import SwiftUICharts
 
 struct TipsView: View {
-    //    @Binding var showTips: Bool
     @Environment(\.presentationMode) var presentationMode
-    @Binding var todayDateComponent : Date
-    @Binding var data : DoughnutChartData
     var body: some View {
         NavigationView {
             VStack(spacing: 20){
@@ -23,7 +20,6 @@ struct TipsView: View {
                             Text("5 Tips Menabung Untuk Anak")
                                 .padding(.trailing, 60)
                             Text("12.34")
-                            //                            .padding(.trailing, 40)
                         }
                         .foregroundColor(.white)
                         .bold()
@@ -43,7 +39,6 @@ struct TipsView: View {
                             Text("5 Tips Menabung Untuk Anak")
                                 .padding(.trailing, 60)
                             Text("12.34")
-                            //                            .padding(.trailing, 40)
                         }
                         .foregroundColor(.white)
                         .bold()
@@ -97,12 +92,12 @@ struct TipsView: View {
     }
 }
 
-struct TipsView_Previews: PreviewProvider {
-    static var previews: some View {
-        TipsView(
-            todayDateComponent: .constant(Date()), data: .constant(DoughnutChartData(
-                dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text("")))
-            
-        )
-    }
-}
+//struct TipsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TipsView(
+//            todayDateComponent: .constant(Date()), data: .constant(DoughnutChartData(
+//                dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text("")))
+//            
+//        )
+//    }
+//}

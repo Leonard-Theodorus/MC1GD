@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct SavingsView: View {
+    
     @State private var showSheet = false
-    @EnvironmentObject var viewModel : coreDataViewModel
+    @State var presenter : SavingsListPresenter
     @Binding var todayDateComponent : Date
     @State private var stringDate = ""
-    @State private var showDatePicker = false
+    @State var userSavings : [UserSaving] = []
+    @State var userTotalSavings : Double = 0
+    @State var userTotalSavingsToday : Double = 0
     
     var body: some View {
         VStack(alignment: .leading){
@@ -22,10 +25,7 @@ struct SavingsView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 Spacer()
-                AddSavingButton(todayDateComponent: $todayDateComponent)
-            }
-            .onAppear(){
-                viewModel.fetchSaving()
+                AddSavingButton(todayDateComponent: $todayDateComponent, presenter: $presenter)
             }
             // MARK: Hello Card
             VStack(alignment: .leading){
@@ -41,12 +41,13 @@ struct SavingsView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
-                Text(currencyFormatter.string(from: NSNumber(value: viewModel.getUserMoney())) ?? "")
+                Text(currencyFormatter.string(from: NSNumber(value: userTotalSavings )) ?? "")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.horizontal)
                     .padding(.bottom,5)
-                if viewModel.getUserMoneyToday() == 0 {
+                
+                if userTotalSavingsToday == 0 {
                     Text("Ayo semangat menabung!")
                         .font(.body)
                         .fontWeight(.light)
@@ -63,7 +64,7 @@ struct SavingsView: View {
                             .resizable()
                             .frame(width: 10,height: 10)
                             .padding(0)
-                        Text("\(currencyFormatter.string(from: NSNumber(value: viewModel.getUserMoneyToday())) ?? "") Hari ini")
+                        Text("\(currencyFormatter.string(from: NSNumber(value: userTotalSavingsToday )) ?? "") Hari ini")
                     }
                     .padding(.horizontal,12)
                     .padding(.vertical,3)
@@ -98,39 +99,7 @@ struct SavingsView: View {
             .cornerRadius(22)
             
             // MARK: Tabungan History Card
-            if !viewModel.savingList.isEmpty{
-                List{
-                    ForEach(viewModel.savingList.suffix(10).reversed()) { saving in
-                        VStack{
-                            HStack(alignment: .top){
-                                VStack(alignment: .leading){
-                                    Text(viewModel.getSavingDate(date: saving.savingDate!))
-                                        .font(.headline)
-                                        .padding(.bottom,-5)
-                                }
-                                Spacer()
-                                Text("+ \(currencyFormatter.string(from: NSNumber(value: saving.savingAmount)) ?? "")")
-                                    .foregroundColor(Color.primary_green)
-                                    .fontWeight(.bold)
-                            }
-                            .padding(.horizontal,3)
-                            .padding(.vertical)
-                        }
-                    }
-                    .listRowInsets(EdgeInsets())
-                }
-                .padding()
-                .padding(.top,3)
-                .background(.white)
-                .cornerRadius(22)
-                .onAppear(){
-                    viewModel.fetchSaving()
-                }
-                .listStyle(.plain)
-                .clipped()
-                .shadow(color: Color.gray, radius: 4, y: 2)
-                .padding(.top)
-            }else {
+            if userSavings.isEmpty{
                 EmptyData(desc: "Belum ada tabungan")
                     .foregroundColor(Color.secondary_gray)
                     .padding()
@@ -140,16 +109,41 @@ struct SavingsView: View {
                     .padding(.top)
                     .shadow(color: Color.gray, radius: 4, y: 2)
             }
+            else{
+                SavingListView(userSavings: $userSavings)
+            }
         }
         .padding(.horizontal,22)
+        .onAppear{
+            presenter.view = self
+            presenter.interactor = SavingsListInteractorImplementation()
+            presenter.interactor?.output = presenter as? SavingsListPresenterImplementation
+            DispatchQueue.main.async {
+                presenter.fetchSavings()
+            }
+        }
         
         
     }
 }
 
-struct SavingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SavingsView(todayDateComponent: .constant(Date()))
-            .environmentObject(coreDataViewModel())
+//struct SavingsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SavingsView(todayDateComponent: .constant(Date()))
+//            .environmentObject(coreDataViewModel())
+//    }
+//}
+
+extension SavingsView : SavingPresenterToView{
+    func finishLoading(savings: [UserSaving], totalSavings: Double) {
+        withAnimation {
+            userSavings = savings
+            userTotalSavings = totalSavings
+        }
+        for saving in userSavings {
+            if saving.dateAdded == todayDateComponent.formateSavingsDate(for: todayDateComponent){
+                userTotalSavingsToday += saving.savingAmount
+            }
+        }
     }
 }

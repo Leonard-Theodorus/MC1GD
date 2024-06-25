@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum category : String{
-    case FNB = "Makanan dan Minuman"
+enum ExpenseCategory : String, CaseIterable{
+    case fnb = "Makanan dan Minuman"
     case transport = "Transportasi"
-    case barang = "Barang"
+    case item = "Barang"
 }

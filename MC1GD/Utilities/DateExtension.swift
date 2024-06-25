@@ -8,15 +8,6 @@
 import Foundation
 
 extension Date{
-    func formatDate() -> String {
-        let date = Date()
-        let calendar = Calendar.current
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "LLLL"
-        let day = calendar.component(.day, from: date)
-        let month = dateFormatter.string(from: date)
-        return String(day) + " " + month
-    }
     func formatDateFrom(for date : Date) -> String {
         let calendar = Calendar.current
         let dateFormatter = DateFormatter()
@@ -32,6 +23,21 @@ extension Date{
             return String(day) + " " + month
         }
     }
+    
+    func formatExpenseDate(for date : Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let expenseDate = dateFormatter.string(from: date)
+        return expenseDate
+    }
+    
+    func formateSavingsDate(for date : Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMMM yyyy"
+        let savingsDate = dateFormatter.string(from: date)
+        return savingsDate
+    }
+    
     func formatDateFull(for date : Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMM yyyy"
@@ -40,13 +46,6 @@ extension Date{
         return dateFormatted
     }
     
-    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
-        return calendar.dateComponents(Set(components), from: self)
-    }
-
-    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
-        return calendar.component(component, from: self)
-    }
     func getDatesForLastNDays(startDate : Date ,nDays : Int) -> [String]{
         let cal = NSCalendar.current
         var date = Calendar.current.date(byAdding: .day, value: 1, to: startDate)!

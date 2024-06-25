@@ -9,28 +9,30 @@ import SwiftUI
 import SwiftUICharts
 struct RootView: View {
     
-    @State var selectedTab : Tabs = .expense
+    @State var selectedTab : PageEnum = .expense
     @State private var todayDateComponent = Date()
-    @EnvironmentObject var viewModel: coreDataViewModel
-    @State var data : DoughnutChartData
+    @State var username : String = ""
+    
+    var userCredentialsPresenter : UserCredentialsPresenter = UserCredentialsPresenterImplementation()
+    var expenseFeaturePresenter : ExpenseListPresenter = ExpenseListPresenterImplementation()
+    var savingsFeaturePresenter : SavingsListPresenter = SavingsListPresenterImplementation()
+    var recapFeaturePresenter : RecapFeaturePresenter = RecapPresenterImplementation()
+    
     var body: some View {
         VStack{
-            if(viewModel.checkEmptyUsername()){
-                WelcomeScreen()
-                    .onAppear{
-                        viewModel.fetchUser()
-                    }
+            if(username == ""){
+                WelcomeScreen(presenter: userCredentialsPresenter)
                     .onDisappear{
-                        NotificationManager.instance.setupNotifications(username: viewModel.getName())
+                        NotificationManager.instance.setupNotifications(username: username)
                     }
                     
             }else{
                 if selectedTab == .summary {
-                    SummaryView(todayDateComponent: $todayDateComponent, data: $data)
+                    SummaryView(todayDateComponent: $todayDateComponent, presenter: recapFeaturePresenter)
                 }else if selectedTab == .expense {
-                    ExpenseView(todayDateComponent: $todayDateComponent)
+                    ExpenseView(presenter: expenseFeaturePresenter, todayDateComponent: $todayDateComponent, userName: $username)
                 }else if selectedTab == .tabungan{
-                    SavingsView(todayDateComponent: $todayDateComponent)
+                    SavingsView(presenter: savingsFeaturePresenter,todayDateComponent: $todayDateComponent)
                 }
                 Spacer()
                 
@@ -38,17 +40,29 @@ struct RootView: View {
             }
         }
         .onAppear{
-            data = viewModel.chartDummyData()
+            userCredentialsPresenter.view = self
+            userCredentialsPresenter.interactor = UserCredentialsInteractorImplementation()
+            userCredentialsPresenter.interactor?.output = userCredentialsPresenter as? UserCredentialsPresenterImplementation
+            DispatchQueue.main.async {
+                userCredentialsPresenter.fetchUserCredentials()
+            }
         }
         
     }
 }
-
-struct RootView_Previews: PreviewProvider {
-    static var previews: some View {
-        RootView(data:
-                    DoughnutChartData(
-                        dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text("")))
-        .environmentObject(coreDataViewModel())
+extension RootView : UserPresenterToView {
+    func finishLoading(username: String) {
+        withAnimation {
+            self.username = username
+        }
     }
 }
+
+//struct RootView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RootView(data:
+//                    DoughnutChartData(
+//                        dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text("")))
+//        .environmentObject(coreDataViewModel())
+//    }
+//}

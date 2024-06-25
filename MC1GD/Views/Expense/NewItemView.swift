@@ -7,32 +7,39 @@
 
 import SwiftUI
 import Combine
+
 let dateNotif = PassthroughSubject<Date, Never>()
+
 struct NewItemView: View {
+    
     @Binding var edit : Bool
-    private let categories = ["Makanan dan Minuman", "Transportasi", "Barang"]
     @Binding var showSheet : Bool
-    @StateObject var formVm = FormViewModel()
+    @Binding var newItemAddedDate : Date
+    @Binding var presenter : ExpenseListPresenter
+    
+    @State var inputValid : Bool = false
+    @State var newItemName : String = ""
     @State var newItemImage = UIImage()
     @State var newItemPrice = ""
-    @State var newItemCategory = ""
+    @State var newItemCategory : ExpenseCategory = .fnb
     @State var newItemTag : String = ""
     @State var newItemDesc : String = ""
-    @EnvironmentObject var viewModel : coreDataViewModel
-    @FocusState var isFocusedName : Bool
-    @FocusState var isFocusedPrice : Bool
-    @FocusState var isFocusedDesc : Bool
     @State var isNeeds = false
     @State var isWants = false
     @State private var maxChars: Int = 50
     @State var isZeroPrice: Bool = false
     @State var showQuestions = false
-    @Binding var todayDateComponent : Date
     @State var showDatePicker : Bool = false
     @State var showDeleteIcon : Bool = false
     @State var priceValid : Bool = false
     @State var num : Double = 0
+    
+    
     @FocusState private var focusedField: Field?
+    @FocusState var isFocusedName : Bool
+    @FocusState var isFocusedPrice : Bool
+    @FocusState var isFocusedDesc : Bool
+    
     
     var body: some View {
         NavigationView {
@@ -67,19 +74,19 @@ struct NewItemView: View {
                         // MARK: Nama Barang
                         Group{
                             HStack {
-                                itemNameTextField(formVm: formVm)
+                                ItemNameTextField(expenseName: $newItemName, inputValid: $inputValid)
                                     .focused($focusedField, equals: Field.itemName)
                                     .onTapGesture {
                                         focusedField = Field.itemName
                                     }
                             }.padding(.vertical, 5)
-                            if !formVm.textIsValid && focusedField == .itemName{
+                            if !inputValid && focusedField == .itemName{
                                 Text("Harus diisi, tidak diawali ataupun diakhiri dengan spasi")
                                     .foregroundColor(.red)
                                     .font(.caption2)
                                     .multilineTextAlignment(.leading)
                                     .padding(.leading,60)
-                            }else if formVm.textIsValid && focusedField == .itemName {
+                            }else if inputValid && focusedField == .itemName {
                                 Image(systemName: "checkmark").foregroundColor(.green)
                                     .padding(.horizontal,15)
                             }
@@ -89,11 +96,11 @@ struct NewItemView: View {
                         
                         // MARK: pilih itemCategory
                         Group {
-                            itemCategoryPicker(newItemCategory: $newItemCategory)
+                            ExpenseCategoryPicker(newItemCategory: $newItemCategory)
                         }
                         // MARK:  pilih itemTag needs/wants
                         Group {
-                            itemTagField(isNeeds: $isNeeds, isWants: $isWants, showQuestions: $showQuestions, newItemTag: $newItemTag)
+                            ItemTagField(isNeeds: $isNeeds, isWants: $isWants, showQuestions: $showQuestions, newItemTag: $newItemTag)
                         }
                         // MARK:  input deskripsi item
                         Group {
@@ -129,7 +136,7 @@ struct NewItemView: View {
                         
                         // MARK: select tanggal
                         Group{
-                            datePickerField(showDatePicker: $showDatePicker, todayDateComponent: $todayDateComponent)
+                            DatePickerFormField(showDatePicker: $showDatePicker, todayDateComponent: $newItemAddedDate)
                         }
                     }
                     .padding(.horizontal,20)
@@ -140,9 +147,6 @@ struct NewItemView: View {
                     
                     Spacer()
                 }
-            }
-            .onAppear{
-                newItemCategory = categories.first!
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -156,12 +160,15 @@ struct NewItemView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Simpan"){
-                        viewModel.addNewItem(date: todayDateComponent, price: newItemPrice.stripComma(for: newItemPrice), itemName: formVm.itemName, itemDescription: newItemDesc, itemCategory: newItemCategory, itemTag: newItemTag)
+                        //MARK: Call to save
+                        let newExpense = UserExpense(id: UUID().uuidString, expenseName: newItemName, expensePrice: newItemPrice, expenseDate: newItemAddedDate, expenseCategory: newItemCategory, expenseDesc: newItemDesc, expenseTag: newItemTag)
                         
-                        dateNotif.send(todayDateComponent)
+                        presenter.writeExpense(expense: newExpense)
+                        
+                        dateNotif.send(newItemAddedDate)
                         showSheet = false
                     }
-                    .disabled(!formVm.textIsValid || !priceValid || newItemTag == "")
+                    .disabled(!inputValid || !priceValid || newItemTag == "")
                 }
             }
         }

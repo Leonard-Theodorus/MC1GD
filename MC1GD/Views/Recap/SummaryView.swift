@@ -7,22 +7,22 @@
 
 import SwiftUI
 import SwiftUICharts
-enum displayRange : Int{
-    case day = 0
-    case byWeek = 1
-}
+
 struct SummaryView: View {
     @Binding var todayDateComponent : Date
-    @Binding var data : DoughnutChartData
     @State private var showDate = false
-    @EnvironmentObject var viewModel : coreDataViewModel
     @State var showTips = false
     @State var needsPercentage : Double = 0.0
     @State var wantsPercentage : Double = 0.0
     @State private var showPicker = false
-    @State private var caseDisplayRange : displayRange = .day
+    @State private var chartDisplayRange : ChartDisplayRange = .day
     @State var selectedMenu = "Harian"
     @State var showEmpty : Bool = false
+    
+    @State var presenter : RecapFeaturePresenter
+    @State var totalExpense : Double = 0
+    @State var doughnutChartData : DoughnutChartData = DoughnutChartData.dummy()
+    @State var barChartData : [BarchartData] = []
     
     var body: some View {
         NavigationView {
@@ -40,7 +40,7 @@ struct SummaryView: View {
                         Menu(selectedMenu) {
                             Button {
                                 selectedMenu = "Harian"
-                                caseDisplayRange = .day
+                                chartDisplayRange = .day
                                 showPicker.toggle()
                                 
                             } label :{
@@ -48,7 +48,7 @@ struct SummaryView: View {
                             }
                             Button{
                                 selectedMenu = "Per 7 Hari"
-                                caseDisplayRange = .byWeek
+                                chartDisplayRange = .byWeek
                                 showPicker.toggle()
                             }label:{
                                 Text("Per 7 Hari")
@@ -94,7 +94,14 @@ struct SummaryView: View {
                                         DispatchQueue.main.async {
                                             withAnimation {
                                                 showDate.toggle()
-                                                viewModel.fetchItems(for: todayDateComponent)
+                                                presenter.fetchChartData(for: todayDateComponent, displayRange: chartDisplayRange)
+                                            }
+                                        }
+                                    })
+                                    .onChange(of: chartDisplayRange, perform: { newValue in
+                                        DispatchQueue.main.async {
+                                            withAnimation {
+                                                presenter.fetchChartData(for: todayDateComponent, displayRange: chartDisplayRange)
                                             }
                                         }
                                     })
@@ -107,12 +114,7 @@ struct SummaryView: View {
                     .zIndex(2)
                     .padding(.top,5)
                     
-                    // MARK: Narik Data
-                    NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent, caseDisplayRange: $caseDisplayRange).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
-                        .hidden()
-                        .frame(width: 0,height: 0)
-                    
-                    if viewModel.calculateAllExpense(for: todayDateComponent) == 0 {
+                    if totalExpense == 0 {
                         EmptyData(desc: "Belum ada pengeluaran")
                             .foregroundColor(.secondary_gray)
                     }else{
@@ -122,26 +124,25 @@ struct SummaryView: View {
                                 .padding(.top,5)
                             
                             // MARK: Category Donut chart
-                            CategoryChart(todayDateComponent: $todayDateComponent, data: $data, caseDisplayRange: $caseDisplayRange)
+                            CategoryChart(todayDateComponent: $todayDateComponent, doughnutChartData: $doughnutChartData, totalExpense: $totalExpense, chartDisplayRange: $chartDisplayRange, presenter: $presenter)
                                 .padding(.vertical,15)
                             
                             // MARK: Last7days bar chart
-                            if caseDisplayRange == .day{
+                            if chartDisplayRange == .day{
                                 NoBarChartView()
                                     .frame(height: 200)
-                                NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent, caseDisplayRange: $caseDisplayRange).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
-                                    .opacity(caseDisplayRange == .byWeek ? 1 : 0)
                                 
                             }else{
-                                NeedsWantsBarChart(needsPercentage: $needsPercentage, wantsPercentage: $wantsPercentage, todayDateComponent: $todayDateComponent, caseDisplayRange: $caseDisplayRange).frame(height: caseDisplayRange == .byWeek ? 200 : 0)
-                                    .opacity(caseDisplayRange == .byWeek ? 1 : 0)
+                                NeedsWantsBarChart(chartData: $barChartData, todayDateComponent: $todayDateComponent, chartDisplayRange: $chartDisplayRange, presenter: $presenter)
+                                    .frame(height: chartDisplayRange == .byWeek ? 200 : 0)
+                                    .opacity(chartDisplayRange == .byWeek ? 1 : 0)
                             }
                         }
                         .padding(.top,10)
                         .zIndex(1)
                     }
                     
-                    NavigationLink(destination: TipsView(todayDateComponent: $todayDateComponent, data: $data)) {
+                    NavigationLink(destination: TipsView()) {
                         Text("Beberapa tips yang dapat Anda ikuti")
                             .font(.caption2)
                             .fontWeight(.bold)
@@ -161,18 +162,36 @@ struct SummaryView: View {
             }
             .padding(.horizontal,22)
             .onAppear{
-                data = viewModel.chartDummyData()
+                presenter.view = self
+                presenter.interactor = RecapInteractorImplementation()
+                presenter.interactor?.output = presenter as? RecapPresenterImplementation
+                DispatchQueue.main.async {
+                    presenter.fetchChartData(for: todayDateComponent, displayRange: chartDisplayRange)
+                }
             }
         }
         
     }
 }
-
-struct SummaryView_Previews: PreviewProvider {
-    static var previews: some View {
-        SummaryView(todayDateComponent: .constant(Date()), data: .constant(DoughnutChartData(
-            dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text("")))
-        )
-        .environmentObject(coreDataViewModel())
+extension SummaryView : RecapPresenterToView{
+    func finishLoading(doughnutChartData: DoughnutChartData, barChartData: [BarchartData],
+                       totalExpense: Double, wantsPercentage : Double, needsPercentage : Double
+    ) {
+        withAnimation {
+            self.totalExpense = totalExpense
+            self.doughnutChartData = doughnutChartData
+            self.barChartData = barChartData
+            self.needsPercentage = needsPercentage
+            self.wantsPercentage = wantsPercentage
+        }
     }
 }
+
+//struct SummaryView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SummaryView(todayDateComponent: .constant(Date()), data: .constant(DoughnutChartData(
+//            dataSets: PieDataSet(dataPoints: Array<PieChartDataPoint>(), legendTitle: ""), metadata: ChartMetadata(title: "", subtitle: ""), noDataText: Text("")))
+//        )
+//        .environmentObject(coreDataViewModel())
+//    }
+//}

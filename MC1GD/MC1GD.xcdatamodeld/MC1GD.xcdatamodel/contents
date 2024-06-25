@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22A380" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="23A344" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ItemEntity" representedClassName="ItemEntity" syncable="YES" codeGenerationType="class">
         <attribute name="itemAddedDate" optional="YES" attributeType="String"/>
         <attribute name="itemCategory" optional="YES" attributeType="String"/>
@@ -13,6 +13,7 @@
     <entity name="SavingEntity" representedClassName="SavingEntity" syncable="YES" codeGenerationType="class">
         <attribute name="savingAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="savingDate" optional="YES" attributeType="String"/>
+        <attribute name="savingId" optional="YES" attributeType="String"/>
     </entity>
     <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
         <attribute name="money" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

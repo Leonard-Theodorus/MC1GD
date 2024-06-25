@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct WelcomeScreen: View {
-    @State var nicknameUser = ""
-    @EnvironmentObject var viewModel : coreDataViewModel
+    @State var newUsername = ""
     @FocusState var focusName: Bool
     @State var showDelete : Bool = false
+    @State var presenter : UserCredentialsPresenter
     
     var body: some View {
         VStack{
@@ -23,15 +23,15 @@ struct WelcomeScreen: View {
                 .padding(.vertical,50)
             HStack {
                 ZStack {
-                    TextField("Ketik Namamu", text: $nicknameUser).disableAutocorrection(true)
+                    TextField("Ketik Namamu", text: $newUsername).disableAutocorrection(true)
                         .padding()
                         .background(.white)
                         .cornerRadius(12)
                         .padding(.horizontal,37)
                         .foregroundColor(.black)
-                    if nicknameUser != "" {
+                    if newUsername != "" {
                         Button{
-                            nicknameUser = ""
+                            newUsername = ""
                             showDelete.toggle()
                         }label: {
                             HStack{
@@ -46,21 +46,19 @@ struct WelcomeScreen: View {
                 }
             }
             
-            
-            
             Button{
-                viewModel.addName(name: nicknameUser)
+                presenter.writeUserCredentials(username: newUsername)
             }label: {
                 Text("Mulai Perjalananmu")
                     .padding(.vertical)
                     .padding(.horizontal, 30)
                     .font(.callout)
-                    .foregroundColor(nicknameUser != "" ? Color.primary_white : Color.secondary_gray)
-                    .background(nicknameUser != "" ? Color.secondary_purple : Color.primary_white)
+                    .foregroundColor(newUsername != "" ? Color.primary_white : Color.secondary_gray)
+                    .background(newUsername != "" ? Color.secondary_purple : Color.primary_white)
                     .cornerRadius(32)
                     .shadow(radius: 4, y:2)
                     .padding(.top,10)
-            }.disabled(nicknameUser == "")
+            }.disabled(newUsername == "")
             
             Spacer()
             
@@ -89,9 +87,8 @@ struct WelcomeScreen: View {
     }
 }
 
-struct WelcomeScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        WelcomeScreen()
-            .environmentObject(coreDataViewModel())
-    }
-}
+//struct WelcomeScreen_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WelcomeScreen()
+//    }
+//}

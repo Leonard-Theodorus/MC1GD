@@ -7,15 +7,15 @@
 
 import SwiftUI
 struct NewSavingView: View {
+    
     @Binding var showSheet : Bool
     @Binding var todayDateComponent : Date
-    @EnvironmentObject var viewModel : coreDataViewModel
     @State var amount : Double = 0.0
     @State var newSavingsAmount : String = ""
     @State var priceValid: Bool = false
-    @State var showDeleteIcon : Bool = false
     @FocusState var isFocusedPrice : Bool
     @State var confirmButton : Bool = false
+    @Binding var presenter : SavingsListPresenter
     
     var body: some View {
         NavigationView{
@@ -95,8 +95,9 @@ struct NewSavingView: View {
                         title: Text("Apakah kamu yakin?"),
                         message: Text("Kamu tidak bisa mengubahnya lagi nanti"),
                         primaryButton: .default(Text("Tambah").foregroundColor(.blue).fontWeight(.bold)) {
-                            // Perform the actual delete action here
-                            viewModel.addSaving(money: amount, date: todayDateComponent)
+                            //TODO: Write Savings
+                            let newSavingData = UserSaving(savingAmount: amount, dateAdded: todayDateComponent)
+                            presenter.writeSavings(savingData: newSavingData)
                             showSheet = false
                         },
                         secondaryButton: .cancel(
@@ -121,8 +122,8 @@ struct NewSavingView: View {
     }
 }
 
-struct NewSavingView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewSavingView(showSheet: .constant(true), todayDateComponent: .constant(Date()))
-    }
-}
+//struct NewSavingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NewSavingView(showSheet: .constant(true), todayDateComponent: .constant(Date()))
+//    }
+//}

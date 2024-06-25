@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Tabs: Int{
+enum PageEnum: Int{
     case summary = 0
     case expense = 1
     case tabungan = 2
